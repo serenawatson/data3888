@@ -1,0 +1,934 @@
+{
+    "Albania": {
+        "art_gallery": 3,
+        "food": 3,
+        "museum": 15,
+        "park": 15,
+        "restaurant": 3
+    },
+    "Algeria": {
+        "church": 3,
+        "mosque": 12,
+        "museum": 9,
+        "park": 12,
+        "place_of_worship": 15,
+        "zoo": 6
+    },
+    "Argentina": {
+        "museum": 6,
+        "park": 30,
+        "travel_agency": 3
+    },
+    "Armenia": {
+        "amusement_park": 3,
+        "church": 18,
+        "museum": 9,
+        "park": 9,
+        "place_of_worship": 24
+    },
+    "Australia": {
+        "amusement_park": 3,
+        "aquarium": 3,
+        "art_gallery": 6,
+        "cafe": 3,
+        "church": 3,
+        "food": 3,
+        "museum": 12,
+        "park": 12,
+        "place_of_worship": 3,
+        "store": 3,
+        "zoo": 6
+    },
+    "Austria": {
+        "amusement_park": 3,
+        "church": 6,
+        "food": 3,
+        "museum": 27,
+        "park": 9,
+        "place_of_worship": 6,
+        "restaurant": 3,
+        "store": 3
+    },
+    "Azerbaijan": {
+        "cemetery": 3,
+        "mosque": 9,
+        "museum": 21,
+        "park": 9,
+        "place_of_worship": 12
+    },
+    "Bahrain": {
+        "amusement_park": 3,
+        "hindu_temple": 3,
+        "mosque": 6,
+        "museum": 12,
+        "park": 6,
+        "place_of_worship": 9,
+        "zoo": 6
+    },
+    "Bangladesh": {
+        "hindu_temple": 3,
+        "mosque": 3,
+        "museum": 9,
+        "natural_feature": 3,
+        "park": 21,
+        "place_of_worship": 6
+    },
+    "Barbados": {
+        "art_gallery": 3,
+        "food": 3,
+        "museum": 15,
+        "park": 18,
+        "restaurant": 3,
+        "travel_agency": 3,
+        "zoo": 3
+    },
+    "Belgium": {
+        "amusement_park": 3,
+        "church": 6,
+        "library": 3,
+        "museum": 30,
+        "park": 6,
+        "place_of_worship": 6
+    },
+    "Bolivia": {
+        "church": 6,
+        "museum": 9,
+        "park": 27,
+        "place_of_worship": 6,
+        "store": 3
+    },
+    "Botswana": {
+        "amusement_park": 1,
+        "cafe": 3,
+        "campground": 1,
+        "church": 2,
+        "food": 7,
+        "hindu_temple": 3,
+        "lodging": 1,
+        "museum": 3,
+        "natural_feature": 3,
+        "park": 31,
+        "place_of_worship": 5,
+        "restaurant": 4,
+        "store": 3,
+        "travel_agency": 3,
+        "zoo": 3
+    },
+    "Brazil": {
+        "church": 6,
+        "museum": 9,
+        "park": 27,
+        "place_of_worship": 6
+    },
+    "Bulgaria": {
+        "church": 9,
+        "museum": 15,
+        "park": 18,
+        "place_of_worship": 9
+    },
+    "Cambodia": {
+        "casino": 3,
+        "cemetery": 3,
+        "hindu_temple": 21,
+        "lodging": 3,
+        "museum": 12,
+        "natural_feature": 3,
+        "park": 6,
+        "place_of_worship": 30
+    },
+    "Cameroon": {
+        "church": 6,
+        "museum": 18,
+        "park": 12,
+        "place_of_worship": 6,
+        "zoo": 3
+    },
+    "Canada": {
+        "amusement_park": 3,
+        "aquarium": 6,
+        "campground": 3,
+        "lodging": 3,
+        "museum": 3,
+        "park": 27
+    },
+    "Chile": {
+        "church": 3,
+        "local_government_office": 3,
+        "lodging": 2,
+        "museum": 12,
+        "park": 22,
+        "place_of_worship": 3
+    },
+    "China": {
+        "museum": 9,
+        "park": 9,
+        "place_of_worship": 9,
+        "zoo": 3
+    },
+    "Colombia": {
+        "art_gallery": 3,
+        "church": 9,
+        "museum": 15,
+        "natural_feature": 3,
+        "park": 21,
+        "place_of_worship": 9
+    },
+    "Costa Rica": {
+        "museum": 9,
+        "park": 42
+    },
+    "Croatia": {
+        "art_gallery": 3,
+        "church": 6,
+        "food": 3,
+        "museum": 12,
+        "park": 12,
+        "place_of_worship": 6,
+        "restaurant": 3,
+        "store": 3,
+        "travel_agency": 6
+    },
+    "Cyprus": {
+        "amusement_park": 3,
+        "church": 3,
+        "museum": 6,
+        "park": 3,
+        "place_of_worship": 12
+    },
+    "Denmark": {
+        "amusement_park": 6,
+        "aquarium": 3,
+        "church": 3,
+        "museum": 27,
+        "park": 12,
+        "place_of_worship": 3,
+        "zoo": 3
+    },
+    "Dominican Republic": {
+        "amusement_park": 3,
+        "aquarium": 3,
+        "church": 6,
+        "food": 3,
+        "liquor_store": 3,
+        "museum": 12,
+        "park": 12,
+        "place_of_worship": 6,
+        "restaurant": 3,
+        "store": 6,
+        "travel_agency": 3
+    },
+    "Ecuador": {
+        "church": 12,
+        "museum": 6,
+        "park": 27,
+        "place_of_worship": 12
+    },
+    "Egypt": {
+        "museum": 15,
+        "park": 6,
+        "place_of_worship": 6
+    },
+    "El Salvador": {
+        "church": 9,
+        "museum": 21,
+        "park": 12,
+        "place_of_worship": 9,
+        "store": 3
+    },
+    "Estonia": {
+        "church": 6,
+        "food": 3,
+        "museum": 30,
+        "park": 9,
+        "place_of_worship": 6,
+        "restaurant": 3,
+        "travel_agency": 3
+    },
+    "Ethiopia": {
+        "church": 9,
+        "museum": 21,
+        "park": 18,
+        "place_of_worship": 9,
+        "zoo": 3
+    },
+    "Finland": {
+        "amusement_park": 6,
+        "church": 9,
+        "museum": 18,
+        "park": 15,
+        "place_of_worship": 9
+    },
+    "France": {
+        "art_gallery": 3,
+        "church": 12,
+        "museum": 27,
+        "park": 12,
+        "place_of_worship": 12
+    },
+    "Georgia": {
+        "amusement_park": 6,
+        "aquarium": 3,
+        "museum": 9,
+        "park": 42,
+        "store": 6,
+        "travel_agency": 3
+    },
+    "Germany": {
+        "bar": 3,
+        "church": 9,
+        "food": 3,
+        "museum": 15,
+        "park": 12,
+        "place_of_worship": 9,
+        "restaurant": 3
+    },
+    "Ghana": {
+        "mosque": 5,
+        "museum": 16,
+        "park": 12,
+        "place_of_worship": 5,
+        "store": 3,
+        "zoo": 3
+    },
+    "Greece": {
+        "museum": 15,
+        "park": 3,
+        "place_of_worship": 6
+    },
+    "Guatemala": {
+        "amusement_park": 6,
+        "church": 6,
+        "food": 6,
+        "museum": 12,
+        "park": 12,
+        "place_of_worship": 9,
+        "restaurant": 3,
+        "shopping_mall": 3,
+        "store": 6,
+        "zoo": 3
+    },
+    "Honduras": {
+        "bar": 3,
+        "church": 3,
+        "food": 6,
+        "lodging": 3,
+        "museum": 9,
+        "park": 21,
+        "place_of_worship": 3,
+        "restaurant": 6,
+        "spa": 3,
+        "travel_agency": 3
+    },
+    "Hong Kong": {
+        "amusement_park": 6,
+        "art_gallery": 3,
+        "museum": 9,
+        "park": 9,
+        "place_of_worship": 3,
+        "transit_station": 3
+    },
+    "Hungary": {
+        "church": 6,
+        "food": 3,
+        "grocery_or_supermarket": 3,
+        "museum": 15,
+        "park": 15,
+        "place_of_worship": 9,
+        "store": 3,
+        "synagogue": 3,
+        "zoo": 3
+    },
+    "Iceland": {
+        "cafe": 6,
+        "food": 6,
+        "lodging": 3,
+        "museum": 18,
+        "natural_feature": 9,
+        "park": 8,
+        "restaurant": 3,
+        "store": 3
+    },
+    "India": {
+        "museum": 9,
+        "park": 6,
+        "place_of_worship": 6,
+        "travel_agency": 3
+    },
+    "Indonesia": {
+        "amusement_park": 6,
+        "hindu_temple": 12,
+        "museum": 6,
+        "natural_feature": 2,
+        "park": 16,
+        "place_of_worship": 15
+    },
+    "Iran": {
+        "church": 3,
+        "mosque": 3,
+        "museum": 21,
+        "park": 12,
+        "place_of_worship": 6
+    },
+    "Ireland": {
+        "art_gallery": 3,
+        "cafe": 3,
+        "church": 3,
+        "food": 9,
+        "museum": 12,
+        "park": 21,
+        "place_of_worship": 3,
+        "restaurant": 3,
+        "store": 9
+    },
+    "Israel": {
+        "church": 3,
+        "mosque": 3,
+        "museum": 21,
+        "park": 24,
+        "place_of_worship": 12
+    },
+    "Italy": {
+        "church": 6,
+        "museum": 18,
+        "park": 3,
+        "place_of_worship": 6,
+        "shopping_mall": 3
+    },
+    "Jamaica": {
+        "amusement_park": 6,
+        "aquarium": 3,
+        "food": 3,
+        "museum": 21,
+        "park": 18,
+        "restaurant": 3,
+        "store": 3
+    },
+    "Japan": {
+        "amusement_park": 3,
+        "park": 9,
+        "place_of_worship": 24,
+        "zoo": 3
+    },
+    "Jordan": {
+        "church": 3,
+        "museum": 9,
+        "park": 10,
+        "place_of_worship": 3
+    },
+    "Kazakhstan": {
+        "art_gallery": 3,
+        "cemetery": 3,
+        "church": 3,
+        "mosque": 6,
+        "museum": 9,
+        "park": 24,
+        "place_of_worship": 9,
+        "zoo": 3
+    },
+    "Kenya": {
+        "museum": 9,
+        "park": 36,
+        "zoo": 6
+    },
+    "Kuwait": {
+        "aquarium": 3,
+        "cafe": 3,
+        "church": 3,
+        "food": 3,
+        "mosque": 6,
+        "movie_theater": 3,
+        "museum": 30,
+        "park": 6,
+        "place_of_worship": 9,
+        "restaurant": 3,
+        "store": 3,
+        "zoo": 3
+    },
+    "Latvia": {
+        "church": 6,
+        "general_contractor": 3,
+        "museum": 27,
+        "park": 6,
+        "place_of_worship": 6,
+        "zoo": 3
+    },
+    "Lebanon": {
+        "museum": 1
+    },
+    "Lithuania": {
+        "church": 6,
+        "museum": 21,
+        "park": 15,
+        "place_of_worship": 12
+    },
+    "Luxembourg": {
+        "amusement_park": 3,
+        "cemetery": 3,
+        "church": 6,
+        "museum": 18,
+        "park": 6,
+        "place_of_worship": 6,
+        "zoo": 3
+    },
+    "Malaysia": {
+        "amusement_park": 6,
+        "aquarium": 3,
+        "lodging": 3,
+        "park": 21,
+        "place_of_worship": 6,
+        "zoo": 6
+    },
+    "Malta": {
+        "amusement_park": 3,
+        "aquarium": 3,
+        "church": 9,
+        "food": 3,
+        "museum": 27,
+        "park": 6,
+        "place_of_worship": 15,
+        "restaurant": 3
+    },
+    "Mauritius": {
+        "amusement_park": 3,
+        "museum": 9,
+        "natural_feature": 3,
+        "park": 27,
+        "zoo": 6
+    },
+    "Mexico": {
+        "amusement_park": 3,
+        "church": 3,
+        "museum": 15,
+        "park": 6,
+        "place_of_worship": 3
+    },
+    "Moldova": {
+        "church": 3,
+        "food": 3,
+        "museum": 18,
+        "park": 18,
+        "place_of_worship": 15
+    },
+    "Mongolia": {
+        "food": 3,
+        "museum": 18,
+        "park": 12,
+        "place_of_worship": 21,
+        "store": 3
+    },
+    "Montenegro": {
+        "church": 6,
+        "museum": 6,
+        "park": 6,
+        "place_of_worship": 12
+    },
+    "Morocco": {
+        "art_gallery": 3,
+        "library": 3,
+        "mosque": 3,
+        "museum": 15,
+        "park": 12,
+        "place_of_worship": 3
+    },
+    "Myanmar": {
+        "museum": 3,
+        "park": 3,
+        "place_of_worship": 54
+    },
+    "Nepal": {
+        "hindu_temple": 15,
+        "museum": 3,
+        "park": 15,
+        "place_of_worship": 30
+    },
+    "Netherlands": {
+        "amusement_park": 6,
+        "aquarium": 3,
+        "art_gallery": 3,
+        "museum": 36,
+        "park": 18,
+        "zoo": 3
+    },
+    "New Zealand": {
+        "aquarium": 2,
+        "museum": 5,
+        "park": 23
+    },
+    "Nicaragua": {
+        "amusement_park": 3,
+        "church": 12,
+        "museum": 9,
+        "natural_feature": 6,
+        "park": 21,
+        "place_of_worship": 12
+    },
+    "Nigeria": {
+        "amusement_park": 6,
+        "art_gallery": 3,
+        "lodging": 3,
+        "mosque": 3,
+        "museum": 6,
+        "park": 18,
+        "parking": 3,
+        "place_of_worship": 3,
+        "zoo": 3
+    },
+    "North Macedonia": {
+        "church": 6,
+        "museum": 9,
+        "park": 12,
+        "place_of_worship": 12
+    },
+    "Norway": {
+        "amusement_park": 3,
+        "church": 6,
+        "museum": 18,
+        "natural_feature": 3,
+        "park": 9,
+        "place_of_worship": 6
+    },
+    "Oman": {
+        "mosque": 3,
+        "museum": 9,
+        "place_of_worship": 3
+    },
+    "Pakistan": {
+        "mosque": 6,
+        "museum": 12,
+        "park": 13,
+        "place_of_worship": 6
+    },
+    "Panama": {
+        "book_store": 3,
+        "church": 6,
+        "hindu_temple": 3,
+        "museum": 12,
+        "park": 15,
+        "place_of_worship": 9,
+        "store": 3,
+        "travel_agency": 6
+    },
+    "Paraguay": {
+        "church": 3,
+        "local_government_office": 1,
+        "lodging": 4,
+        "museum": 3,
+        "park": 2,
+        "place_of_worship": 3,
+        "shopping_mall": 1,
+        "travel_agency": 1
+    },
+    "Peru": {
+        "church": 6,
+        "lodging": 3,
+        "museum": 15,
+        "park": 9,
+        "place_of_worship": 12,
+        "travel_agency": 3
+    },
+    "Philippines": {
+        "amusement_park": 6,
+        "church": 9,
+        "museum": 12,
+        "park": 14,
+        "place_of_worship": 9,
+        "travel_agency": 3
+    },
+    "Poland": {
+        "church": 6,
+        "museum": 30,
+        "park": 9,
+        "place_of_worship": 6
+    },
+    "Portugal": {
+        "aquarium": 3,
+        "church": 6,
+        "museum": 18,
+        "park": 9,
+        "place_of_worship": 12,
+        "travel_agency": 3
+    },
+    "Qatar": {
+        "amusement_park": 3,
+        "mosque": 3,
+        "museum": 21,
+        "park": 9,
+        "place_of_worship": 3
+    },
+    "Romania": {
+        "cemetery": 3,
+        "church": 9,
+        "museum": 18,
+        "park": 6,
+        "place_of_worship": 9,
+        "travel_agency": 3
+    },
+    "Russia": {
+        "art_gallery": 3,
+        "church": 16,
+        "museum": 47,
+        "park": 6,
+        "place_of_worship": 16
+    },
+    "Rwanda": {
+        "art_gallery": 3,
+        "cafe": 3,
+        "food": 3,
+        "museum": 27,
+        "park": 12,
+        "store": 3,
+        "travel_agency": 3
+    },
+    "Saudi Arabia": {
+        "aquarium": 3,
+        "food": 3,
+        "library": 3,
+        "mosque": 6,
+        "movie_theater": 3,
+        "museum": 18,
+        "park": 18,
+        "place_of_worship": 9,
+        "restaurant": 3,
+        "zoo": 3
+    },
+    "Senegal": {
+        "bar": 3,
+        "church": 3,
+        "food": 3,
+        "lodging": 3,
+        "mosque": 6,
+        "museum": 9,
+        "natural_feature": 3,
+        "night_club": 3,
+        "park": 24,
+        "place_of_worship": 12,
+        "restaurant": 3,
+        "store": 3
+    },
+    "Serbia": {
+        "art_gallery": 3,
+        "church": 6,
+        "museum": 18,
+        "natural_feature": 3,
+        "park": 15,
+        "place_of_worship": 9
+    },
+    "Seychelles": {
+        "food": 3,
+        "museum": 3,
+        "park": 36,
+        "restaurant": 3
+    },
+    "Singapore": {
+        "amusement_park": 6,
+        "museum": 6,
+        "park": 30,
+        "shopping_mall": 3,
+        "travel_agency": 3,
+        "zoo": 9
+    },
+    "Slovakia": {
+        "art_gallery": 3,
+        "church": 6,
+        "city_hall": 3,
+        "local_government_office": 3,
+        "museum": 15,
+        "park": 6,
+        "place_of_worship": 6
+    },
+    "Slovenia": {
+        "art_gallery": 3,
+        "museum": 12,
+        "park": 15
+    },
+    "South Africa": {
+        "amusement_park": 6,
+        "aquarium": 3,
+        "casino": 3,
+        "museum": 15,
+        "park": 39
+    },
+    "South Korea": {
+        "amusement_park": 6,
+        "museum": 15,
+        "park": 6,
+        "place_of_worship": 3
+    },
+    "Spain": {
+        "church": 9,
+        "museum": 18,
+        "park": 6,
+        "place_of_worship": 9
+    },
+    "Sri Lanka": {
+        "museum": 3,
+        "park": 30,
+        "place_of_worship": 12,
+        "travel_agency": 3,
+        "zoo": 9
+    },
+    "Suriname": {
+        "art_gallery": 1,
+        "church": 1,
+        "clothing_store": 1,
+        "department_store": 1,
+        "health": 1,
+        "hindu_temple": 1,
+        "hospital": 1,
+        "museum": 3,
+        "park": 4,
+        "place_of_worship": 3,
+        "shopping_mall": 1,
+        "store": 1,
+        "synagogue": 1,
+        "zoo": 1
+    },
+    "Sweden": {
+        "amusement_park": 6,
+        "aquarium": 3,
+        "art_gallery": 3,
+        "cafe": 3,
+        "church": 6,
+        "food": 3,
+        "museum": 33,
+        "park": 12,
+        "place_of_worship": 6,
+        "restaurant": 3,
+        "store": 3,
+        "zoo": 6
+    },
+    "Switzerland": {
+        "amusement_park": 3,
+        "aquarium": 3,
+        "church": 6,
+        "food": 3,
+        "museum": 21,
+        "park": 6,
+        "place_of_worship": 6,
+        "restaurant": 3,
+        "travel_agency": 3,
+        "zoo": 3
+    },
+    "Taiwan": {
+        "museum": 9,
+        "park": 21,
+        "place_of_worship": 12,
+        "store": 3,
+        "zoo": 3
+    },
+    "Tanzania": {
+        "lodging": 3,
+        "museum": 9,
+        "park": 42
+    },
+    "Thailand": {
+        "aquarium": 3,
+        "museum": 9,
+        "park": 15,
+        "place_of_worship": 18,
+        "travel_agency": 6
+    },
+    "Tunisia": {
+        "amusement_park": 3,
+        "mosque": 3,
+        "museum": 30,
+        "park": 3,
+        "place_of_worship": 3,
+        "zoo": 3
+    },
+    "Turkey": {
+        "park": 1
+    },
+    "Uganda": {
+        "campground": 3,
+        "church": 3,
+        "food": 3,
+        "lodging": 3,
+        "mosque": 3,
+        "museum": 6,
+        "park": 27,
+        "place_of_worship": 6,
+        "restaurant": 3,
+        "store": 3,
+        "zoo": 6
+    },
+    "Ukraine": {
+        "church": 18,
+        "museum": 27,
+        "park": 6,
+        "place_of_worship": 21
+    },
+    "United Arab Emirates": {
+        "amusement_park": 18,
+        "aquarium": 3,
+        "mosque": 3,
+        "museum": 6,
+        "park": 6,
+        "place_of_worship": 3
+    },
+    "United Kingdom": {
+        "amusement_park": 3,
+        "art_gallery": 6,
+        "cafe": 3,
+        "food": 3,
+        "museum": 24,
+        "park": 9,
+        "zoo": 3
+    },
+    "United States": {
+        "amusement_park": 3,
+        "bar": 3,
+        "cafe": 3,
+        "food": 3,
+        "museum": 3,
+        "natural_feature": 3,
+        "park": 42,
+        "store": 3
+    },
+    "Uruguay": {
+        "church": 3,
+        "library": 3,
+        "local_government_office": 3,
+        "museum": 24,
+        "park": 6,
+        "place_of_worship": 3
+    },
+    "Venezuela": {
+        "church": 3,
+        "museum": 6,
+        "park": 27,
+        "place_of_worship": 3,
+        "travel_agency": 3,
+        "zoo": 6
+    },
+    "Vietnam": {
+        "cemetery": 3,
+        "church": 3,
+        "food": 3,
+        "local_government_office": 3,
+        "museum": 12,
+        "park": 6,
+        "place_of_worship": 9
+    },
+    "Yemen": {
+        "mosque": 6,
+        "park": 1,
+        "place_of_worship": 6,
+        "shopping_mall": 1
+    },
+    "Zambia": {
+        "lodging": 3,
+        "museum": 3,
+        "park": 42
+    },
+    "Zimbabwe": {
+        "bar": 3,
+        "campground": 3,
+        "food": 6,
+        "lodging": 3,
+        "park": 39,
+        "restaurant": 6,
+        "store": 3,
+        "zoo": 3
+    }
+}
