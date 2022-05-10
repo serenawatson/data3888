@@ -16,7 +16,7 @@ random.seed(3888)
 def get_variable_groups():
     variable_groups = {}
     variable_groups["covid"] = ['new_cases_smoothed_per_million', 'stringency_index', 'positive_rate', 'new_vaccinations_smoothed_per_million']
-    variable_groups["infrastructure quality_and_availability"] = ['tourist_service', 'air_transport', 'ground_port']
+    variable_groups["infrastructure_quality_and_availability"] = ['tourist_service', 'air_transport', 'ground_port']
     variable_groups["health_and_safety"] = ['safety_security', 'health_hygiene']
     variable_groups["cost"] = ['price_competitiveness']
     variable_groups["food"] = ['food', 'restaurant', 'cafe']
