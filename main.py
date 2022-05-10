@@ -56,7 +56,7 @@ locations = ['Albania', 'Algeria', 'Argentina', 'Armenia', 'Australia',
 
 
 # read in continent file
-continent_dictionary = pd.read_csv("data/ContinentCountry.csv")
+continent_dictionary = pd.read_csv("data/ContinentLocation.csv")
 
 app = Dash(__name__)
 
@@ -131,7 +131,7 @@ app.layout = html.Div(children=[
                             html.Div(className="column", children=[
                                 html.Div(className="block", children=[
                                     html.P(
-                                        'Country 1', className='has-text-weight-bold is-size-5'),
+                                        'Destination 1', className='has-text-weight-bold is-size-6'),
                                     html.P(
                                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit.")
                                 ])
@@ -150,7 +150,7 @@ app.layout = html.Div(children=[
                                     ]),
                                     html.Div(className="block is-flex is-justify-content-right", children=[
                                         html.P(
-                                            'Country 2', className='has-text-weight-bold is-size-6 mx-0 my-0 px-0 py-0')
+                                            'Destination 2', className='has-text-weight-bold is-size-7 mx-0 my-0 px-0 py-0')
                                     ])
                                 ])
                             ]),
@@ -168,7 +168,7 @@ app.layout = html.Div(children=[
                                     ]),
                                     html.Div(className="block is-flex is-justify-content-right", children=[
                                         html.P(
-                                            'Country 3', className='has-text-weight-bold is-size-6 mx-0 my-0 px-0 py-0')
+                                            'Destination 3', className='has-text-weight-bold is-size-7 mx-0 my-0 px-0 py-0')
                                     ])
                                 ])
                             ]),
@@ -186,7 +186,7 @@ app.layout = html.Div(children=[
                                     ]),
                                     html.Div(className="block is-flex is-justify-content-right", children=[
                                         html.P(
-                                            'Country 4', className='has-text-weight-bold is-size-6 mx-0 my-0 px-0 py-0')
+                                            'Destination 4', className='has-text-weight-bold is-size-7 mx-0 my-0 px-0 py-0')
                                     ])
                                 ])
                             ]),
@@ -204,7 +204,7 @@ app.layout = html.Div(children=[
                                     ]),
                                     html.Div(className="block is-flex is-justify-content-right", children=[
                                         html.P(
-                                            'Country 5', className='has-text-weight-bold is-size-6 mx-0 my-0 px-0 py-0')
+                                            'Destination 5', className='has-text-weight-bold is-size-7 mx-0 my-0 px-0 py-0')
                                     ])
                                 ])
                             ])
@@ -229,7 +229,7 @@ app.layout = html.Div(children=[
 )
 def set_location_values(selected_location):
     if selected_location is not None:
-        return continent_dictionary[continent_dictionary['Country'] == selected_location]["Continent"].item()
+        return continent_dictionary[continent_dictionary['Location'] == selected_location]["Continent"].item()
 
 
 if __name__ == '__main__':
