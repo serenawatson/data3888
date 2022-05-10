@@ -15,6 +15,7 @@ def generate_country_df(countries_data: pd.DataFrame,
     """Generates a Pandas DataFrame containing information about a particular country, including its 5 nearest neighbours.
 
     Args:
+        countries_data (pd.DataFrame): DataFrame returned by integrate_all_data().
         country (str): Country selected by user.
         covid_concern (str): Can be one of the following values: {'low', 'medium', 'high'}.
         cost (str): Can be one of the following values: {'budget', 'mid-range', 'luxury'}.
