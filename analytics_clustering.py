@@ -49,7 +49,7 @@ def get_country_data(countries_data: pd.DataFrame, country: str) -> pd.Series:
 
     Args:
         countries_data (pd.DataFrame): DataFrame returned by integrate_all_data().
-        country (str): The country whose data you'd like to obtain.
+        country (str): The name of the country whose data you'd like to obtain.
 
     Returns:
         pd.Series: All data for a given country.
