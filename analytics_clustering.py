@@ -44,6 +44,22 @@ def generate_cluster(countries_data: pd.DataFrame,
 
     return generate_best_cluster(medians_scaled_pca, medians_scaled, interested)
 
+def get_country_data(countries_data: pd.DataFrame, country: str) -> pd.Series:
+    """Gets all data for a given country.
+
+    Args:
+        countries_data (pd.DataFrame): DataFrame returned by integrate_all_data().
+        country (str): The country whose data you'd like to obtain.
+
+    Returns:
+        pd.Series: All data for a given country.
+    """
+    iso_location = read_iso_loc_data()
+    medians = pd.DataFrame(compute_medians(countries_data))
+    all_data = pd.DataFrame(combine_medians_w_qualitative_cols(countries_data, medians))
+
+    return all_data.loc[loc_to_iso_code(country, iso_location)]
+
 def main():
     # Example usage of generate_cluster() function above
     interested = {}
@@ -62,6 +78,9 @@ def main():
 
     countries_data = integrate_all_data()
     print(generate_cluster(countries_data, interested, ['Asia-Pacific', 'Europe']))
+
+    # Example usage of get_country_data() function above
+    print(get_country_data(countries_data, "United States"))
 
 if __name__ == "__main__":
     main()
