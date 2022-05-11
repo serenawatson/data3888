@@ -76,6 +76,8 @@ def prepare_data_for_clustering(data, continents, weightings):
     return medians_scaled, medians, data[data_no_quant]
 
 def generate_best_cluster(medians_scaled, medians, interested):
+    variable_groups = get_variable_groups()
+
     clf = KMeansConstrained(
             n_clusters=medians_scaled.shape[0]//10,
             size_min=10,
@@ -106,10 +108,12 @@ def generate_best_cluster(medians_scaled, medians, interested):
         for col in cols_of_interest:
             cluster_col_vals = list(medians.loc[clusters[cluster_label]][col])
             for val in cluster_col_vals:
+                if col in variable_groups["covid"]:
+                    val = max(medians[col]) - val
                 all_ratings.append(val)
         
         cluster_rating[cluster_label] = mean(all_ratings)
         
-    best_cluster = sorted(cluster_rating, key=lambda x: cluster_rating[x], reverse = True)[0]
-        
+    best_cluster = sorted(cluster_rating, key=lambda x: cluster_rating[x], reverse = True)[0]    
+
     return clusters[best_cluster]
