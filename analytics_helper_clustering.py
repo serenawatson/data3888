@@ -15,6 +15,24 @@ from common import *
 
 random.seed(3888)
 
+def convert_regions_to_continents(regions):
+    regions_to_convert = {
+        'Asia-Pacific': ['Asia', 'Oceania'],
+        'Americas': ['North America', 'South America']
+    }
+
+    continents = []
+
+    for region in regions:
+        if not region in regions_to_convert:
+            continents.append(region)
+        else:
+            region_continents = regions_to_convert[region]
+            for continent in region_continents:
+                continents.append(continent)
+
+    return continents
+
 def convert_interest_level_to_weighting(interested):
     interested_mapping = {
         True: 100,
@@ -36,23 +54,25 @@ def convert_interests_to_col_weightings(interests):
             
     return col_weightings
 
-def prepare_data_for_clustering(data, continents, weightings):    
+def prepare_data_for_clustering(data, regions, weightings):
+    continents = convert_regions_to_continents(regions)
+
     # continents filtering
-    data = data[data["continent"].isin(continents)]
+    continent_data = data[data["continent"].isin(continents)]
+
+    medians = continent_data.groupby(["iso_code"]).median()
+
+    medians = medians.fillna(data.median())
+       
     data_no_quant = list(set(data.columns).difference(set(data.select_dtypes(include=[np.number]).columns)))
     data_no_quant.remove("date")
-
-    medians = data.groupby(["iso_code"]).median()
-    medians = medians.fillna(data.median())
-
-    if medians.shape[0] == 0:
-        return medians, medians, data[data_no_quant]
 
     iso_code = medians.index
 
     scaler = MinMaxScaler()
 
     medians_scaled = scaler.fit_transform(medians)
+    medians_scaled = pd.DataFrame(medians_scaled, index=medians.index, columns=medians.columns)
 
     cols = list(data.columns)
 
@@ -60,10 +80,6 @@ def prepare_data_for_clustering(data, continents, weightings):
 
     for col in to_remove:
         cols.remove(col)
-                
-    medians_scaled = pd.DataFrame(medians_scaled, 
-                                columns = cols, 
-                                index = iso_code)
 
     for col in medians_scaled.columns:
         medians_scaled[col] = medians_scaled[col].apply(lambda x: x * weightings[col])
@@ -71,21 +87,21 @@ def prepare_data_for_clustering(data, continents, weightings):
     if len(medians_scaled.columns) > 2:
         pca = PCA(n_components=2)
         pc = pca.fit_transform(medians_scaled)
-        medians_scaled = pd.DataFrame(data = pc, columns = ['PC1', 'PC2'], index = medians_scaled.index)
+        medians_scaled_pca = pd.DataFrame(data = pc, columns = ['PC1', 'PC2'], index = medians_scaled.index)
 
-    return medians_scaled, medians, data[data_no_quant]
+    return medians_scaled_pca, medians_scaled
 
-def generate_best_cluster(medians_scaled, medians, interested):
+def generate_best_cluster(medians_scaled_pca, medians_scaled, interested):
     variable_groups = get_variable_groups()
 
     clf = KMeansConstrained(
-            n_clusters=medians_scaled.shape[0]//10,
+            n_clusters=medians_scaled_pca.shape[0]//10,
             size_min=10,
             size_max=12,
             random_state=3888
     )
     
-    labels = clf.fit_predict(medians_scaled)
+    labels = clf.fit_predict(medians_scaled_pca)
     
     clusters = {}
     iso_location = read_iso_loc_data()
@@ -106,10 +122,10 @@ def generate_best_cluster(medians_scaled, medians, interested):
         all_ratings = []
         
         for col in cols_of_interest:
-            cluster_col_vals = list(medians.loc[clusters[cluster_label]][col])
+            cluster_col_vals = list(medians_scaled.loc[clusters[cluster_label]][col])
             for val in cluster_col_vals:
                 if col in variable_groups["covid"]:
-                    val = max(medians[col]) - val
+                    val = max(medians_scaled[col]) - val
                 all_ratings.append(val)
         
         cluster_rating[cluster_label] = mean(all_ratings)
