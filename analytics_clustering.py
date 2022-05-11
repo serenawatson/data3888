@@ -45,14 +45,14 @@ def generate_cluster(countries_data: pd.DataFrame,
     return generate_best_cluster(medians_scaled_pca, medians_scaled, interested)
 
 def get_country_data(countries_data: pd.DataFrame, country: str) -> pd.Series:
-    """Gets all data for a given country.
+    """Gets all data for the specified country.
 
     Args:
         countries_data (pd.DataFrame): DataFrame returned by integrate_all_data().
-        country (str): The name of the country whose data you'd like to obtain.
+        country (str): Country name.
 
     Returns:
-        pd.Series: All data for a given country.
+        pd.Series: All data for the specified country.
     """
     iso_location = read_iso_loc_data()
     medians = pd.DataFrame(compute_medians(countries_data))
