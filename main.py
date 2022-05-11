@@ -3,6 +3,7 @@ import plotly.graph_objects as go
 import pandas as pd
 from common import *
 from analytics import *
+from analytics_clustering import *
 
 countries_data = integrate_all_data()
 
