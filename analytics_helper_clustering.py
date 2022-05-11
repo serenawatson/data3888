@@ -54,18 +54,31 @@ def convert_interests_to_col_weightings(interests):
             
     return col_weightings
 
+def combine_medians_w_qualitative_cols(data, medians):
+    data_no_quant_cols = list(set(data.columns).difference(set(data.select_dtypes(include=[np.number]).columns)))
+    data_no_quant_cols.remove("date")
+
+    data_no_quant = data[data_no_quant_cols].drop_duplicates()
+
+    combined = pd.merge(data_no_quant, medians, on="iso_code")
+
+    combined = combined.set_index(combined["iso_code"]).drop(columns=["iso_code"])
+
+    return combined
+
+def compute_medians(data):
+    medians = data.groupby(["iso_code"]).median()
+    medians = medians.fillna(data.median())
+
+    return medians
+
 def prepare_data_for_clustering(data, regions, weightings):
     continents = convert_regions_to_continents(regions)
 
     # continents filtering
     continent_data = data[data["continent"].isin(continents)]
 
-    medians = continent_data.groupby(["iso_code"]).median()
-
-    medians = medians.fillna(data.median())
-       
-    data_no_quant = list(set(data.columns).difference(set(data.select_dtypes(include=[np.number]).columns)))
-    data_no_quant.remove("date")
+    medians = compute_medians(continent_data)
 
     iso_code = medians.index
 
