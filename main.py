@@ -1,7 +1,7 @@
 from dash import Dash, html, dcc, Input, Output
 import plotly.graph_objects as go
 import pandas as pd
-from analytics_helper import *
+from common import *
 from analytics import *
 
 countries_data = integrate_all_data()
