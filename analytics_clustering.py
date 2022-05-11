@@ -61,7 +61,7 @@ def main():
     interested["wildlife"] = False
 
     countries_data = integrate_all_data()
-    print(generate_cluster(countries_data, interested, ['Asia', 'Europe']))
+    print(generate_cluster(countries_data, interested, ['Asia-Pacific', 'Europe']))
 
 if __name__ == "__main__":
     main()
