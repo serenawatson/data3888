@@ -35,7 +35,7 @@ def convert_regions_to_continents(regions):
 
 def convert_interest_level_to_weighting(interested):
     interested_mapping = {
-        True: 100,
+        True: 1000,
         False: 1
     }
     
@@ -114,7 +114,7 @@ def generate_best_cluster(medians_scaled_pca, medians_scaled, interested):
             
     col_weightings = convert_interests_to_col_weightings(interested)
         
-    cols_of_interest = [col for col in col_weightings if col_weightings[col] == 100]
+    cols_of_interest = [col for col in col_weightings if col_weightings[col] == max(col_weightings.values())]
     
     cluster_rating = {}
 
