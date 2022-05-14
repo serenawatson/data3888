@@ -106,7 +106,7 @@ app.layout = html.Div(children=[
                     html.Div(className='block',
                          children=[
                              html.P('Holiday Planner',
-                                    className='has-text-weight-bold is-size-3'),
+                                    className='has-text-weight-bold is-size-3 has-text-link-dark'),
                              html.P(
                                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore "
                                  "et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut "
@@ -114,23 +114,26 @@ app.layout = html.Div(children=[
                          ]),
                     html.Div(className='block', children=[
                         html.Label(
-                            'What region(s) would you like to visit?', className='has-text-weight-medium is-size-5'),
+                            'What region(s) would you like to visit?', className='has-text-weight-semibold is-size-6'),
                         dcc.Dropdown(regions, multi=True, id="region_select")
                     ]),
                     html.Div(className='block', children=[
                         html.Div(className='block', children=[
                             html.Label(
-                                'What factor(s) are you most concerned about?', className='has-text-weight-semibold'),
+                                'What factor(s) are you most concerned about?', className='has-text-weight-semibold is-size-6'),
                             dcc.Dropdown(list(factors.keys()),
                                          multi=True, id="factor_select")
                         ]),
                         html.Div(className='block', children=[
                             html.Label(
-                                'What interests you the most?', className='has-text-weight-semibold'),
+                                'What interests you the most?', className='has-text-weight-semibold is-size-6'),
                             dcc.Dropdown(list(interests.keys()),
                                          multi=True, id="interest_select")
                         ])
                     ]),
+                    html.Div(className='block', children=[
+                        html.Button('Go!', className='button is-link is-light is-large is-fullwidth', id="submit")
+                    ])  
                 ])
             ]),
             html.Div(className='column is-two-thirds', children=[
