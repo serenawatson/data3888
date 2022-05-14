@@ -1,4 +1,4 @@
-from dash import Dash, html, dcc, Input, Output
+from dash import Dash, html, dcc, Input, Output, State
 import plotly.graph_objects as go
 import pandas as pd
 from common import *
@@ -26,38 +26,71 @@ world_map.update_layout(
     margin={"r": 0, "t": 0, "l": 0, "b": 0},
 )
 
+#region list
+regions = ['Asia-Pacific', 'Americas', 'Europe', 'Africa']
+
 # attraction types
-attraction_types = ['amusement_park', 'aquarium', 'art_gallery', 'bar', 'book_store', 'cafe',
-                    'campground', 'casino', 'cemetery', 'church', 'city_hall', 'clothing_store',
-                    'department_store', 'food', 'general_contractor', 'grocery_or_supermarket',
-                    'health', 'hindu_temple', 'hospital', 'library', 'liquor_store', 'local_government_office',
-                    'lodging', 'mosque', 'movie_theater', 'museum', 'natural_feature', 'night_club',
-                    'park', 'parking', 'place_of_worship', 'restaurant', 'shopping_mall', 'spa',
-                    'store', 'synagogue', 'transit_station', 'travel_agency', 'zoo']
+# attraction_types = ['amusement_park', 'aquarium', 'art_gallery', 'bar', 'book_store', 'cafe',
+#                     'campground', 'casino', 'cemetery', 'church', 'city_hall', 'clothing_store',
+#                     'department_store', 'food', 'general_contractor', 'grocery_or_supermarket',
+#                     'health', 'hindu_temple', 'hospital', 'library', 'liquor_store', 'local_government_office',
+#                     'lodging', 'mosque', 'movie_theater', 'museum', 'natural_feature', 'night_club',
+#                     'park', 'parking', 'place_of_worship', 'restaurant', 'shopping_mall', 'spa',
+#                     'store', 'synagogue', 'transit_station', 'travel_agency', 'zoo']
+
+#factors
+factors = { 'Covid': "covid", 
+            'Infrastructure Quality And Availability': "infrastructure_quality_and_availability",  
+            'Health Safety': "health_and_safety", 
+            'Cost': "cost"
+            }
+
+#poi
+interests = {'Fun': "fun", 
+            'Nature': "nature", 
+            'Food': "food", 
+            'Museums': "museums", 
+            'Shows/Theatres/Music': "showstheatresandmusic", 
+            'Wellness': "wellness", 
+            'Wildlife': "wildlife"}
+
+interested = {}
+
+interested["covid"] = False
+interested["infrastructure_quality_and_availability"] = False
+interested["health_and_safety"] = False
+interested["cost"] = False
+interested["fun"] = False
+interested["nature"] = False
+interested["food"] = False
+interested["museums"] = False
+interested["showstheatresandmusic"] = False
+interested["wellness"] = False
+interested["wildlife"] = False
 
 
-locations = ['Albania', 'Algeria', 'Argentina', 'Armenia', 'Australia',
-             'Austria', 'Azerbaijan', 'Bahrain', 'Bangladesh', 'Barbados',
-             'Belgium', 'Bolivia', 'Botswana', 'Brazil', 'Bulgaria', 'Cambodia',
-             'Cameroon', 'Canada', 'Chile', 'China', 'Colombia', 'Costa Rica',
-             'Croatia', 'Cyprus', 'Denmark', 'Dominican Republic', 'Ecuador',
-             'Egypt', 'El Salvador', 'Estonia', 'Ethiopia', 'Finland', 'France',
-             'Georgia', 'Germany', 'Ghana', 'Greece', 'Guatemala', 'Honduras',
-             'Hong Kong', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Iran',
-             'Ireland', 'Israel', 'Italy', 'Jamaica', 'Japan', 'Jordan',
-             'Kazakhstan', 'Kenya', 'Kuwait', 'Latvia', 'Lebanon', 'Lithuania',
-             'Luxembourg', 'Malaysia', 'Malta', 'Mauritius', 'Mexico',
-             'Moldova', 'Mongolia', 'Montenegro', 'Morocco', 'Myanmar', 'Nepal',
-             'Netherlands', 'New Zealand', 'Nicaragua', 'Nigeria',
-             'North Macedonia', 'Norway', 'Oman', 'Pakistan', 'Panama',
-             'Paraguay', 'Peru', 'Philippines', 'Poland', 'Portugal', 'Qatar',
-             'Romania', 'Russia', 'Rwanda', 'Saudi Arabia', 'Senegal', 'Serbia',
-             'Seychelles', 'Singapore', 'Slovakia', 'Slovenia', 'South Africa',
-             'South Korea', 'Spain', 'Sri Lanka', 'Suriname', 'Sweden',
-             'Switzerland', 'Taiwan', 'Tanzania', 'Thailand', 'Tunisia',
-             'Turkey', 'Uganda', 'Ukraine', 'United Arab Emirates',
-             'United Kingdom', 'United States', 'Uruguay', 'Venezuela',
-             'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe']
+# locations = ['Albania', 'Algeria', 'Argentina', 'Armenia', 'Australia',
+#              'Austria', 'Azerbaijan', 'Bahrain', 'Bangladesh', 'Barbados',
+#              'Belgium', 'Bolivia', 'Botswana', 'Brazil', 'Bulgaria', 'Cambodia',
+#              'Cameroon', 'Canada', 'Chile', 'China', 'Colombia', 'Costa Rica',
+#              'Croatia', 'Cyprus', 'Denmark', 'Dominican Republic', 'Ecuador',
+#              'Egypt', 'El Salvador', 'Estonia', 'Ethiopia', 'Finland', 'France',
+#              'Georgia', 'Germany', 'Ghana', 'Greece', 'Guatemala', 'Honduras',
+#              'Hong Kong', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Iran',
+#              'Ireland', 'Israel', 'Italy', 'Jamaica', 'Japan', 'Jordan',
+#              'Kazakhstan', 'Kenya', 'Kuwait', 'Latvia', 'Lebanon', 'Lithuania',
+#              'Luxembourg', 'Malaysia', 'Malta', 'Mauritius', 'Mexico',
+#              'Moldova', 'Mongolia', 'Montenegro', 'Morocco', 'Myanmar', 'Nepal',
+#              'Netherlands', 'New Zealand', 'Nicaragua', 'Nigeria',
+#              'North Macedonia', 'Norway', 'Oman', 'Pakistan', 'Panama',
+#              'Paraguay', 'Peru', 'Philippines', 'Poland', 'Portugal', 'Qatar',
+#              'Romania', 'Russia', 'Rwanda', 'Saudi Arabia', 'Senegal', 'Serbia',
+#              'Seychelles', 'Singapore', 'Slovakia', 'Slovenia', 'South Africa',
+#              'South Korea', 'Spain', 'Sri Lanka', 'Suriname', 'Sweden',
+#              'Switzerland', 'Taiwan', 'Tanzania', 'Thailand', 'Tunisia',
+#              'Turkey', 'Uganda', 'Ukraine', 'United Arab Emirates',
+#              'United Kingdom', 'United States', 'Uruguay', 'Venezuela',
+#              'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe']
 
 
 # read in continent file
@@ -72,7 +105,7 @@ app.layout = html.Div(children=[
                 html.Div(className='box', children=[
                     html.Div(className='block',
                          children=[
-                             html.P('HolidayPlanner',
+                             html.P('Holiday Planner',
                                     className='has-text-weight-bold is-size-3'),
                              html.P(
                                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore "
@@ -81,44 +114,21 @@ app.layout = html.Div(children=[
                          ]),
                     html.Div(className='block', children=[
                         html.Label(
-                            'Where would you like to go?', className='has-text-weight-medium is-size-5'),
-                        dcc.Dropdown(locations, multi=False, id="location_select")
+                            'What region(s) would you like to visit?', className='has-text-weight-medium is-size-5'),
+                        dcc.Dropdown(regions, multi=True, id="region_select")
                     ]),
                     html.Div(className='block', children=[
                         html.Div(className='block', children=[
                             html.Label(
-                                'Continents', className='has-text-weight-semibold'),
-                            dcc.Dropdown(['Asia', 'Africa', 'Oceania', 'Europe', 'North America', 'South America'],
-                                         multi=True, id="continent_select")
+                                'What factor(s) are you most concerned about?', className='has-text-weight-semibold'),
+                            dcc.Dropdown(list(factors.keys()),
+                                         multi=True, id="factor_select")
                         ]),
                         html.Div(className='block', children=[
                             html.Label(
-                                'Interests', className='has-text-weight-semibold'),
-                            html.Label(''),
-                            dcc.Dropdown(attraction_types,
-                                         multi=True)
-                        ]),
-                        html.Div(className='block', children=[
-                            html.Label('Covid Concern',
-                                       className='has-text-weight-semibold'),
-                            dcc.Slider(0, 2, 1, value=1,
-                                       marks={
-                                           0: {'label': 'Low'},
-                                           1: {'label': 'Medium'},
-                                           2: {'label': 'High'}
-                                       },
-                                       included=False)
-                        ]),
-                        html.Div(className='block', children=[
-                            html.Label(
-                                'Cost', className='has-text-weight-semibold'),
-                            dcc.Slider(0, 2, 1, value=1,
-                                       marks={
-                                           0: {'label': 'Budget'},
-                                           1: {'label': 'Mid Range'},
-                                           2: {'label': 'Luxury'}
-                                       },
-                                       included=False)
+                                'What interests you the most?', className='has-text-weight-semibold'),
+                            dcc.Dropdown(list(interests.keys()),
+                                         multi=True, id="interest_select")
                         ])
                     ]),
                 ])
@@ -228,13 +238,42 @@ app.layout = html.Div(children=[
     ])
 ])
 
-@app.callback(
-    Output('continent_select', 'value'),
-    Input('location_select', 'value')
-)
-def set_location_values(selected_location):
-    if selected_location is not None:
-        return continent_dictionary[continent_dictionary['Location'] == selected_location]["Continent"].item()
+
+# TOOK THIS OUT FOR NOW BECAUSE STORYBOARD DIDN'T HAVE THIS
+# @app.callback(
+#     Output('continent_select', 'value'),
+#     Input('location_select', 'value')
+# )
+# def set_location_values(selected_location):
+#     if selected_location is not None:
+#         return continent_dictionary[continent_dictionary['Location'] == selected_location]["Continent"].item()
+
+# @app.callback(
+#     Input('region_select', 'value'),
+#     Input('factor_select', 'value'),
+#     Input('interest_select', 'value')
+#     # State(), # WHEN THE BUTTON IS PRESSED
+#     # Output() #Something to do with descriptions
+# )
+# def get_recommended_countries(regions: list, factors: list, poi_interests: list):
+#     iso_loc = read_iso_loc_data()
+#     rec_countries = []
+#     rec_countries_data = []
+#     interests = factors + poi_interests
+#     interested_filtered = interested.copy()
+#     for poi in interests:
+#         if interests[poi] in interested_filtered:
+#             interested_filtered[interests[poi]] = True
+#     rec_list = generate_cluster(countries_data, interested_filtered, regions)
+#     #for now i'm just implementing the first five countries
+#     if len(rec_list) > 5:
+#         rec_list = rec_list[0:5]
+#     for iso_code in rec_list:
+#         country = iso_loc.loc[iso_loc['iso_code'] == iso_code, 'location'].iloc[0]
+#         rec_countries.append(country)
+#     for country in rec_countries:
+#         series = get_country_data(countries_data, country)
+#         rec_countries_data.append(series)
 
 
 if __name__ == '__main__':
