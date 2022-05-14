@@ -1,4 +1,5 @@
 from dash import Dash, html, dcc, Input, Output, State
+from numpy import empty
 import plotly.graph_objects as go
 import pandas as pd
 from common import *
@@ -6,6 +7,7 @@ from analytics import *
 from analytics_clustering import *
 
 countries_data = integrate_all_data()
+
 
 # blank map
 df = pd.read_csv("data/data.txt")
@@ -146,7 +148,7 @@ app.layout = html.Div(className="block mx-4 my-4", children=[
             html.Div(className='box is-fullheight', children=[
                 html.Div(className="block", children=[
                     html.Div(className="block mb-4", children=[
-                        dcc.Graph(figure=world_map, style={'width': '100%', 'height': '55vh'})])
+                        dcc.Graph(figure=world_map, style={'width': '100%', 'height': '55vh'}, id="graph")])
                 ]),
                 html.Div(className="block", children=[
                     html.Div(className="tile is-ancestor is-vertical", children=[
@@ -158,7 +160,7 @@ app.layout = html.Div(className="block mx-4 my-4", children=[
                                             className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
                                         html.Div(className="content has-text-centered", children=[
                                             html.P(
-                                                "Destination 1", className="has-text-weight-semibold is-size-7")
+                                                "Destination 1", className="has-text-weight-semibold is-size-7", id="1")
                                         ])
                                     ])
                                 ]),
@@ -169,7 +171,7 @@ app.layout = html.Div(className="block mx-4 my-4", children=[
                                             className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
                                         html.Div(className="content has-text-centered", children=[
                                             html.P(
-                                                "Destination 2", className="has-text-weight-semibold is-size-7")
+                                                "Destination 2", className="has-text-weight-semibold is-size-7", id="2")
                                         ])
                                     ])
                                 ]),
@@ -180,7 +182,7 @@ app.layout = html.Div(className="block mx-4 my-4", children=[
                                             className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
                                         html.Div(className="content has-text-centered", children=[
                                             html.P(
-                                                "Destination 3", className="has-text-weight-semibold is-size-7")
+                                                "Destination 3", className="has-text-weight-semibold is-size-7", id="3")
                                         ])
                                     ])
                                 ]),
@@ -191,7 +193,7 @@ app.layout = html.Div(className="block mx-4 my-4", children=[
                                             className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
                                         html.Div(className="content has-text-centered", children=[
                                             html.P(
-                                                "Destination 4", className="has-text-weight-semibold is-size-7")
+                                                "Destination 4", className="has-text-weight-semibold is-size-7", id="4")
                                         ])
                                     ])
                                 ]),
@@ -202,7 +204,7 @@ app.layout = html.Div(className="block mx-4 my-4", children=[
                                             className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
                                         html.Div(className="content has-text-centered", children=[
                                             html.P(
-                                                "Destination 5", className="has-text-weight-semibold is-size-7")
+                                                "Destination 5", className="has-text-weight-semibold is-size-7", id="5")
                                         ])
                                     ])
                                 ]),
@@ -213,7 +215,7 @@ app.layout = html.Div(className="block mx-4 my-4", children=[
                                             className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
                                         html.Div(className="content has-text-centered", children=[
                                             html.P(
-                                                "Destination 6", className="has-text-weight-semibold is-size-7")
+                                                "Destination 6", className="has-text-weight-semibold is-size-7", id="6")
                                         ])
                                     ])
                                 ])
@@ -226,7 +228,7 @@ app.layout = html.Div(className="block mx-4 my-4", children=[
                                             className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
                                         html.Div(className="content has-text-centered", children=[
                                             html.P(
-                                                "Destination 7", className="has-text-weight-semibold is-size-7")
+                                                "Destination 7", className="has-text-weight-semibold is-size-7", id="7")
                                         ])
                                     ])
                                 ]),
@@ -237,7 +239,7 @@ app.layout = html.Div(className="block mx-4 my-4", children=[
                                             className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
                                         html.Div(className="content has-text-centered", children=[
                                             html.P(
-                                                "Destination 8", className="has-text-weight-semibold is-size-7")
+                                                "Destination 8", className="has-text-weight-semibold is-size-7", id="8")
                                         ])
                                     ])
                                 ]),
@@ -248,7 +250,7 @@ app.layout = html.Div(className="block mx-4 my-4", children=[
                                             className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
                                         html.Div(className="content has-text-centered", children=[
                                             html.P(
-                                                "Destination 9", className="has-text-weight-semibold is-size-7")
+                                                "Destination 9", className="has-text-weight-semibold is-size-7", id="9")
                                         ])
                                     ])
                                 ]),
@@ -259,7 +261,7 @@ app.layout = html.Div(className="block mx-4 my-4", children=[
                                             className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
                                         html.Div(className="content has-text-centered", children=[
                                             html.P(
-                                                "Destination 10", className="has-text-weight-semibold is-size-7")
+                                                "Destination 10", className="has-text-weight-semibold is-size-7", id="10")
                                         ])
                                     ])
                                 ]),
@@ -270,7 +272,8 @@ app.layout = html.Div(className="block mx-4 my-4", children=[
                                             className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
                                         html.Div(className="content has-text-centered", children=[
                                             html.P(
-                                                "Destination 11", className="has-text-weight-semibold is-size-7")
+                                                "Destination 11", className="has-text-weight-semibold is-size-7", id="11")
+
                                         ])
                                     ])
                                 ]),
@@ -281,7 +284,7 @@ app.layout = html.Div(className="block mx-4 my-4", children=[
                                             className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
                                         html.Div(className="content has-text-centered", children=[
                                             html.P(
-                                                "Destination 12", className="has-text-weight-semibold is-size-7")
+                                                "Destination 12", className="has-text-weight-semibold is-size-7", id="12")
                                         ])
                                     ])
                                 ])
@@ -306,42 +309,63 @@ def set_location_values(selected_location):
      if selected_location is not None:
         return continent_dictionary[continent_dictionary['Location'] == selected_location]["Region"].item()
 
-
-# TOOK THIS OUT FOR NOW BECAUSE STORYBOARD DIDN'T HAVE THIS
-# @app.callback(
-#     Output('continent_select', 'value'),
-#     Input('location_select', 'value')
-# )
-# def set_location_values(selected_location):
-#     if selected_location is not None:
-#         return continent_dictionary[continent_dictionary['Location'] == selected_location]["Continent"].item()
-
-# @app.callback(
-#     Input('region_select', 'value'),
-#     Input('factor_select', 'value'),
-#     Input('interest_select', 'value')
-#     # State(), # WHEN THE BUTTON IS PRESSED
-#     # Output() #Something to do with descriptions
-# )
-# def get_recommended_countries(regions: list, factors: list, poi_interests: list):
-#     iso_loc = read_iso_loc_data()
-#     rec_countries = []
-#     rec_countries_data = []
-#     interests = factors + poi_interests
-#     interested_filtered = interested.copy()
-#     for poi in interests:
-#         if interests[poi] in interested_filtered:
-#             interested_filtered[interests[poi]] = True
-#     rec_list = generate_cluster(countries_data, interested_filtered, regions)
-#     #for now i'm just implementing the first five countries
-#     if len(rec_list) > 5:
-#         rec_list = rec_list[0:5]
-#     for iso_code in rec_list:
-#         country = iso_loc.loc[iso_loc['iso_code'] == iso_code, 'location'].iloc[0]
-#         rec_countries.append(country)
-#     for country in rec_countries:
-#         series = get_country_data(countries_data, country)
-#         rec_countries_data.append(series)
+@app.callback(
+    [Output('1', 'children'),
+    Output('2', 'children'),
+    Output('3', 'children'),
+    Output('4', 'children'),
+    Output('5', 'children'),
+    Output('6', 'children'),
+    Output('7', 'children'),
+    Output('8', 'children'),
+    Output('9', 'children'),
+    Output('10', 'children'),
+    Output('11', 'children'),
+    Output('12', 'children'),
+    Output('graph', 'figure')],
+    Input('region_select', 'value'),
+    Input('factor_select', 'value'),
+    Input('interest_select', 'value'),
+    State('submit', 'value')
+)
+def get_recommended_countries(regions: list, chosen_factors: list, chosen_interests: list, submit):
+    iso_loc = read_iso_loc_data()
+    rec_countries = []
+    rec_list = None
+    if regions is not None and chosen_factors is not None and chosen_interests is not None:
+        interested_filtered = interested.copy()
+        for poi in chosen_factors:
+            interested_filtered[factors[poi]] = True
+        for poi in chosen_interests:
+            interested_filtered[interests[poi]] = True
+        rec_list = generate_cluster(countries_data, interested_filtered, regions)
+        for iso in rec_list:
+            country = iso_loc.loc[iso_loc['iso_code'] == iso, 'location'].iloc[0]
+            rec_countries.append(country)
+    # if recommended countries list is not len 12, it will pad with empty strings for output purposes
+    while len(rec_countries) != 12:
+        rec_countries.append("")
+    
+    # checks if recommended list is None, if true, sets rec_list to a list of iso_codes
+    if rec_list is None:
+        rec_list = df['iso_code']
+    else:
+        print(rec_list)
+    world_map = go.Figure(data=go.Choropleth(
+    locations=rec_list,
+    colorscale='Earth',
+    autocolorscale=True,
+    marker_line_color='red'
+    ))
+    world_map.update_layout(
+    geo=dict(
+        showcoastlines=True,
+        showframe=False
+    ),
+    margin={"r": 0, "t": 0, "l": 0, "b": 0},
+    )
+    rec_countries.append(world_map)
+    return rec_countries
 
 
 if __name__ == '__main__':
