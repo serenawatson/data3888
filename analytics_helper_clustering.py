@@ -1,16 +1,18 @@
-import pandas as pd
 import numpy as np
-from datetime import datetime, timedelta
-import requests
-from requests_html import HTML
-from requests_html import HTMLSession
-from bs4 import BeautifulSoup
-from sklearn.preprocessing import MinMaxScaler
-from sklearn.decomposition import PCA
-from sklearn.neighbors import NearestNeighbors
+import pandas as pd
 import random
+import requests
+
+from bs4 import BeautifulSoup
+from datetime import datetime, timedelta
 from k_means_constrained import KMeansConstrained
+from requests_html import HTMLSession
+from requests_html import HTML
+from sklearn.decomposition import PCA
+from sklearn.metrics import silhouette_score
+from sklearn.preprocessing import MinMaxScaler
 from statistics import mean
+
 from common import *
 
 random.seed(3888)
@@ -18,7 +20,8 @@ random.seed(3888)
 def convert_regions_to_continents(regions):
     regions_to_convert = {
         'Asia-Pacific': ['Asia', 'Oceania'],
-        'Americas': ['North America', 'South America']
+        'Americas': ['North America', 'South America'],
+        'Europe and Africa': ['Europe', 'Africa']
     }
 
     continents = []
@@ -104,17 +107,29 @@ def prepare_data_for_clustering(data, regions, weightings):
 
     return medians_scaled_pca, medians_scaled
 
-def generate_best_cluster(medians_scaled_pca, medians_scaled, interested):
+def generate_cluster_labels(data):
     variable_groups = get_variable_groups()
 
     clf = KMeansConstrained(
-            n_clusters=medians_scaled_pca.shape[0]//10,
+            n_clusters=data.shape[0]//10,
             size_min=10,
-            size_max=12,
             random_state=3888
     )
     
-    labels = clf.fit_predict(medians_scaled_pca)
+    labels = clf.fit_predict(data)
+    
+    return labels
+
+def compute_silhouette_score(data):
+    labels = generate_cluster_labels(data)
+    
+    return silhouette_score(data, labels)
+
+def generate_best_cluster(medians_scaled_pca, medians_scaled, interested):
+    
+    variable_groups = get_variable_groups()
+    
+    labels = generate_cluster_labels(medians_scaled_pca)
     
     clusters = {}
     iso_location = read_iso_loc_data()
