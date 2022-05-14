@@ -1,4 +1,5 @@
-from dash import Dash, html, dcc, Input, Output
+from dash import Dash, html, dcc, Input, Output, State
+from numpy import empty
 import plotly.graph_objects as go
 import pandas as pd
 from common import *
@@ -6,6 +7,7 @@ from analytics import *
 from analytics_clustering import *
 
 countries_data = integrate_all_data()
+
 
 # blank map
 df = pd.read_csv("data/data.txt")
@@ -19,21 +21,53 @@ world_map = go.Figure(data=go.Choropleth(
 
 world_map.update_layout(
     geo=dict(
-        showframe=False,
         showcoastlines=False,
-        projection_type='equirectangular'
+        showframe=False
     ),
     margin={"r": 0, "t": 0, "l": 0, "b": 0},
 )
 
+# region list
+regions = ['APAC', 'Americas', 'EMEA']
+
 # attraction types
-attraction_types = ['amusement_park', 'aquarium', 'art_gallery', 'bar', 'book_store', 'cafe',
-                    'campground', 'casino', 'cemetery', 'church', 'city_hall', 'clothing_store',
-                    'department_store', 'food', 'general_contractor', 'grocery_or_supermarket',
-                    'health', 'hindu_temple', 'hospital', 'library', 'liquor_store', 'local_government_office',
-                    'lodging', 'mosque', 'movie_theater', 'museum', 'natural_feature', 'night_club',
-                    'park', 'parking', 'place_of_worship', 'restaurant', 'shopping_mall', 'spa',
-                    'store', 'synagogue', 'transit_station', 'travel_agency', 'zoo']
+# attraction_types = ['amusement_park', 'aquarium', 'art_gallery', 'bar', 'book_store', 'cafe',
+#                     'campground', 'casino', 'cemetery', 'church', 'city_hall', 'clothing_store',
+#                     'department_store', 'food', 'general_contractor', 'grocery_or_supermarket',
+#                     'health', 'hindu_temple', 'hospital', 'library', 'liquor_store', 'local_government_office',
+#                     'lodging', 'mosque', 'movie_theater', 'museum', 'natural_feature', 'night_club',
+#                     'park', 'parking', 'place_of_worship', 'restaurant', 'shopping_mall', 'spa',
+#                     'store', 'synagogue', 'transit_station', 'travel_agency', 'zoo']
+
+# factors
+factors = {'Covid': "covid",
+           'Infrastructure Quality And Availability': "infrastructure_quality_and_availability",
+           'Health Safety': "health_and_safety",
+           'Cost': "cost"
+           }
+
+# poi
+interests = {'Fun': "fun",
+             'Nature': "nature",
+             'Food': "food",
+             'Museums': "museums",
+             'Shows/Theatres/Music': "showstheatresandmusic",
+             'Wellness': "wellness",
+             'Wildlife': "wildlife"}
+
+interested = {}
+
+interested["covid"] = False
+interested["infrastructure_quality_and_availability"] = False
+interested["health_and_safety"] = False
+interested["cost"] = False
+interested["fun"] = False
+interested["nature"] = False
+interested["food"] = False
+interested["museums"] = False
+interested["showstheatresandmusic"] = False
+interested["wellness"] = False
+interested["wildlife"] = False
 
 
 locations = ['Albania', 'Algeria', 'Argentina', 'Armenia', 'Australia',
@@ -65,176 +99,273 @@ continent_dictionary = pd.read_csv("data/ContinentLocation.csv")
 
 app = Dash(__name__)
 
-app.layout = html.Div(children=[
-    html.Div(className='block mx-4 mt-4', children=[
-        html.Div(className='columns', children=[
-            html.Div(className='column is-one-third is-flex ', children=[
-                html.Div(className='box', children=[
-                    html.Div(className='block',
+app.layout = html.Div(className="block mx-4 my-4", children=[
+    html.Div(className='columns', children=[
+        html.Div(className='column is-one-third is-flex is-align-content-center', children=[
+            html.Div(className='box is-fullheight', children=[
+                html.Div(className='block',
                          children=[
-                             html.P('HolidayPlanner',
-                                    className='has-text-weight-bold is-size-3'),
+                             html.P('Holiday Planner',
+                                    className='is-size-2 has-text-link-dark'),
                              html.P(
                                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore "
                                  "et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut "
                                  "aliquip ex ea commodo consequat.")
                          ]),
+                html.Div(className='block', children=[
+                    html.Label(
+                        'Have you got a destination in mind?', className='has-text-weight-semibold is-size-6'),
+                    dcc.Dropdown(locations, multi=False,
+                                 id="location_select", placeholder="Choose, or leave blank to let us decide for you...")
+                ]),
+                html.Div(className='block', children=[
+                    html.Label(
+                        'What region(s) would you like to visit?', className='has-text-weight-semibold is-size-6'),
+                    dcc.Dropdown(regions, multi=True,
+                                 id="region_select")
+                ]),
+                html.Div(className='block', children=[
                     html.Div(className='block', children=[
                         html.Label(
-                            'Where would you like to go?', className='has-text-weight-medium is-size-5'),
-                        dcc.Dropdown(locations, multi=False, id="location_select")
+                            'What factor(s) are you most concerned about?', className='has-text-weight-semibold is-size-6'),
+                        dcc.Dropdown(list(factors.keys()),
+                                     multi=True, id="factor_select")
                     ]),
                     html.Div(className='block', children=[
-                        html.Div(className='block', children=[
-                            html.Label(
-                                'Continents', className='has-text-weight-semibold'),
-                            dcc.Dropdown(['Asia', 'Africa', 'Oceania', 'Europe', 'North America', 'South America'],
-                                         multi=True, id="continent_select")
-                        ]),
-                        html.Div(className='block', children=[
-                            html.Label(
-                                'Interests', className='has-text-weight-semibold'),
-                            html.Label(''),
-                            dcc.Dropdown(attraction_types,
-                                         multi=True)
-                        ]),
-                        html.Div(className='block', children=[
-                            html.Label('Covid Concern',
-                                       className='has-text-weight-semibold'),
-                            dcc.Slider(0, 2, 1, value=1,
-                                       marks={
-                                           0: {'label': 'Low'},
-                                           1: {'label': 'Medium'},
-                                           2: {'label': 'High'}
-                                       },
-                                       included=False)
-                        ]),
-                        html.Div(className='block', children=[
-                            html.Label(
-                                'Cost', className='has-text-weight-semibold'),
-                            dcc.Slider(0, 2, 1, value=1,
-                                       marks={
-                                           0: {'label': 'Budget'},
-                                           1: {'label': 'Mid Range'},
-                                           2: {'label': 'Luxury'}
-                                       },
-                                       included=False)
-                        ])
-                    ]),
-                ])
-            ]),
-            html.Div(className='column is-two-thirds', children=[
-                html.Div(className='box', children=[
-                    html.Div(className="block", children=[
-                         dcc.Graph(figure=world_map)]),
-                    html.Div(className="box", children=[
-                        html.Div(className="columns", children=[
-                            html.Div(className="column is-two-fifth", children=[
-                                html.Img(src="https://picsum.photos/128",
-                                     className="image is-128x128")
-                            ]),
-                            html.Div(className="column", children=[
-                                html.Div(className="block", children=[
-                                    html.P(
-                                        'Destination 1', className='has-text-weight-bold is-size-6'),
-                                    html.P(
-                                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.")
-                                ])
-                            ]),
-                            html.Div(className="column pb-0 mb-0", children=[
-                                html.Div(className="block pb-0 mb-0", children=[
-                                    html.Div(className="columns pb-0 mb-0", children=[
-                                        html.Div(className="column is-one-fifth is-flex is-align-content-flex-start pb-0 mb-0", children=[
-                                            html.P(
-                                                '2', className='has-text-weight-bold is-size-4')
-                                        ]),
-                                        html.Div(className="column pb-0 mb-0", children=[
-                                            html.Img(src="https://picsum.photos/96",
-                                                 className="image is-96x96"),
-                                        ]),
-                                    ]),
-                                    html.Div(className="block is-flex is-justify-content-right", children=[
-                                        html.P(
-                                            'Destination 2', className='has-text-weight-bold is-size-7 mx-0 my-0 px-0 py-0')
-                                    ])
-                                ])
-                            ]),
-                            html.Div(className="column pb-0 mb-0", children=[
-                                html.Div(className="block pb-0 mb-0", children=[
-                                    html.Div(className="columns pb-0 mb-0", children=[
-                                        html.Div(className="column is-one-fifth is-flex is-align-content-flex-start pb-0 mb-0", children=[
-                                            html.P(
-                                                '3', className='has-text-weight-bold is-size-4')
-                                        ]),
-                                        html.Div(className="column pb-0 mb-0", children=[
-                                            html.Img(src="https://picsum.photos/96",
-                                                 className="image is-96x96"),
-                                        ]),
-                                    ]),
-                                    html.Div(className="block is-flex is-justify-content-right", children=[
-                                        html.P(
-                                            'Destination 3', className='has-text-weight-bold is-size-7 mx-0 my-0 px-0 py-0')
-                                    ])
-                                ])
-                            ]),
-                            html.Div(className="column pb-0 mb-0", children=[
-                                html.Div(className="block pb-0 mb-0", children=[
-                                    html.Div(className="columns pb-0 mb-0", children=[
-                                        html.Div(className="column is-one-fifth is-flex is-align-content-flex-start pb-0 mb-0", children=[
-                                            html.P(
-                                                '4', className='has-text-weight-bold is-size-4')
-                                        ]),
-                                        html.Div(className="column pb-0 mb-0", children=[
-                                            html.Img(src="https://picsum.photos/96",
-                                                 className="image is-96x96"),
-                                        ]),
-                                    ]),
-                                    html.Div(className="block is-flex is-justify-content-right", children=[
-                                        html.P(
-                                            'Destination 4', className='has-text-weight-bold is-size-7 mx-0 my-0 px-0 py-0')
-                                    ])
-                                ])
-                            ]),
-                            html.Div(className="column pb-0 mb-0", children=[
-                                html.Div(className="block pb-0 mb-0", children=[
-                                    html.Div(className="columns pb-0 mb-0", children=[
-                                        html.Div(className="column is-one-fifth is-flex is-align-content-flex-start pb-0 mb-0", children=[
-                                            html.P(
-                                                '5', className='has-text-weight-bold is-size-4')
-                                        ]),
-                                        html.Div(className="column pb-0 mb-0", children=[
-                                            html.Img(src="https://picsum.photos/96",
-                                                 className="image is-96x96"),
-                                        ]),
-                                    ]),
-                                    html.Div(className="block is-flex is-justify-content-right", children=[
-                                        html.P(
-                                            'Destination 5', className='has-text-weight-bold is-size-7 mx-0 my-0 px-0 py-0')
-                                    ])
-                                ])
-                            ])
-                        ])
-
-                    ]),
+                        html.Label(
+                            'What interests you the most?', className='has-text-weight-semibold is-size-6'),
+                        dcc.Dropdown(list(interests.keys()),
+                                     multi=True, id="interest_select")
+                    ])
                 ]),
+                html.Div(className='block', children=[
+                    html.Button(
+                        'Go!', className='button is-link is-light is-large is-fullwidth', id="submit")
+                ])
             ])
         ]),
-    ]),
+        html.Div(className='column is-two-thirds', children=[
+            html.Div(className='box is-fullheight', children=[
+                html.Div(className="block", children=[
+                    html.Div(className="block mb-4", children=[
+                        dcc.Graph(figure=world_map, style={'width': '100%', 'height': '55vh'}, id="graph")])
+                ]),
+                html.Div(className="block", children=[
+                    html.Div(className="tile is-ancestor is-vertical", children=[
+                        html.Div(className="tile is-parent is-12", children=[
+                            html.Div(
+                                className="tile is-child is-2", children=[
+                                    html.Div(className="block px-2", children=[
+                                        html.Img(
+                                            className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
+                                        html.Div(className="content has-text-centered", children=[
+                                            html.P(
+                                                "Destination 1", className="has-text-weight-semibold is-size-7", id="1")
+                                        ])
+                                    ])
+                                ]),
+                            html.Div(
+                                className="tile is-child is-2", children=[
+                                    html.Div(className="block px-2", children=[
+                                        html.Img(
+                                            className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
+                                        html.Div(className="content has-text-centered", children=[
+                                            html.P(
+                                                "Destination 2", className="has-text-weight-semibold is-size-7", id="2")
+                                        ])
+                                    ])
+                                ]),
+                            html.Div(
+                                className="tile is-child is-2", children=[
+                                    html.Div(className="block px-2", children=[
+                                        html.Img(
+                                            className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
+                                        html.Div(className="content has-text-centered", children=[
+                                            html.P(
+                                                "Destination 3", className="has-text-weight-semibold is-size-7", id="3")
+                                        ])
+                                    ])
+                                ]),
+                            html.Div(
+                                className="tile is-child is-2", children=[
+                                    html.Div(className="block px-2", children=[
+                                        html.Img(
+                                            className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
+                                        html.Div(className="content has-text-centered", children=[
+                                            html.P(
+                                                "Destination 4", className="has-text-weight-semibold is-size-7", id="4")
+                                        ])
+                                    ])
+                                ]),
+                            html.Div(
+                                className="tile is-child is-2", children=[
+                                    html.Div(className="block px-2", children=[
+                                        html.Img(
+                                            className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
+                                        html.Div(className="content has-text-centered", children=[
+                                            html.P(
+                                                "Destination 5", className="has-text-weight-semibold is-size-7", id="5")
+                                        ])
+                                    ])
+                                ]),
+                            html.Div(
+                                className="tile is-child is-2", children=[
+                                    html.Div(className="block px-2", children=[
+                                        html.Img(
+                                            className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
+                                        html.Div(className="content has-text-centered", children=[
+                                            html.P(
+                                                "Destination 6", className="has-text-weight-semibold is-size-7", id="6")
+                                        ])
+                                    ])
+                                ])
+                        ]),
+                        html.Div(className="tile is-parent is-12", children=[
+                            html.Div(
+                                className="tile is-child is-2", children=[
+                                    html.Div(className="block px-2", children=[
+                                        html.Img(
+                                            className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
+                                        html.Div(className="content has-text-centered", children=[
+                                            html.P(
+                                                "Destination 7", className="has-text-weight-semibold is-size-7", id="7")
+                                        ])
+                                    ])
+                                ]),
+                            html.Div(
+                                className="tile is-child is-2", children=[
+                                    html.Div(className="block px-2", children=[
+                                        html.Img(
+                                            className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
+                                        html.Div(className="content has-text-centered", children=[
+                                            html.P(
+                                                "Destination 8", className="has-text-weight-semibold is-size-7", id="8")
+                                        ])
+                                    ])
+                                ]),
+                            html.Div(
+                                className="tile is-child is-2", children=[
+                                    html.Div(className="block px-2", children=[
+                                        html.Img(
+                                            className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
+                                        html.Div(className="content has-text-centered", children=[
+                                            html.P(
+                                                "Destination 9", className="has-text-weight-semibold is-size-7", id="9")
+                                        ])
+                                    ])
+                                ]),
+                            html.Div(
+                                className="tile is-child is-2", children=[
+                                    html.Div(className="block px-2", children=[
+                                        html.Img(
+                                            className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
+                                        html.Div(className="content has-text-centered", children=[
+                                            html.P(
+                                                "Destination 10", className="has-text-weight-semibold is-size-7", id="10")
+                                        ])
+                                    ])
+                                ]),
+                            html.Div(
+                                className="tile is-child is-2", children=[
+                                    html.Div(className="block px-2", children=[
+                                        html.Img(
+                                            className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
+                                        html.Div(className="content has-text-centered", children=[
+                                            html.P(
+                                                "Destination 11", className="has-text-weight-semibold is-size-7", id="11")
 
-    html.Footer(className="footer my-0 py-4", children=[
+                                        ])
+                                    ])
+                                ]),
+                            html.Div(
+                                className="tile is-child is-2", children=[
+                                    html.Div(className="block px-2", children=[
+                                        html.Img(
+                                            className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
+                                        html.Div(className="content has-text-centered", children=[
+                                            html.P(
+                                                "Destination 12", className="has-text-weight-semibold is-size-7", id="12")
+                                        ])
+                                    ])
+                                ])
+                        ])
+                    ])
+                ])
+            ]),
+        ])
+    ]),
+    html.Div(className="footer py-4 mx-0", children=[
         html.Div(className="content has-text-centered", children=[
-            html.P("DATA3888 Pty. Ltd.")
+            html.P("HolidayPlanning Inc. 2022")
         ])
     ])
 ])
 
 @app.callback(
-    Output('continent_select', 'value'),
-    Input('location_select', 'value')
+     Output('region_select', 'value'),
+     Input('location_select', 'value')
 )
 def set_location_values(selected_location):
-    if selected_location is not None:
-        return continent_dictionary[continent_dictionary['Location'] == selected_location]["Continent"].item()
+     if selected_location is not None:
+        return continent_dictionary[continent_dictionary['Location'] == selected_location]["Region"].item()
+
+@app.callback(
+    [Output('1', 'children'),
+    Output('2', 'children'),
+    Output('3', 'children'),
+    Output('4', 'children'),
+    Output('5', 'children'),
+    Output('6', 'children'),
+    Output('7', 'children'),
+    Output('8', 'children'),
+    Output('9', 'children'),
+    Output('10', 'children'),
+    Output('11', 'children'),
+    Output('12', 'children'),
+    Output('graph', 'figure')],
+    Input('region_select', 'value'),
+    Input('factor_select', 'value'),
+    Input('interest_select', 'value'),
+    State('submit', 'value')
+)
+def get_recommended_countries(regions: list, chosen_factors: list, chosen_interests: list, submit):
+    iso_loc = read_iso_loc_data()
+    rec_countries = []
+    rec_list = None
+    if regions is not None and chosen_factors is not None and chosen_interests is not None:
+        interested_filtered = interested.copy()
+        for poi in chosen_factors:
+            interested_filtered[factors[poi]] = True
+        for poi in chosen_interests:
+            interested_filtered[interests[poi]] = True
+        rec_list = generate_cluster(countries_data, interested_filtered, regions)
+        for iso in rec_list:
+            country = iso_loc.loc[iso_loc['iso_code'] == iso, 'location'].iloc[0]
+            rec_countries.append(country)
+    # if recommended countries list is not len 12, it will pad with empty strings for output purposes
+    while len(rec_countries) != 12:
+        rec_countries.append("")
+    
+    # checks if recommended list is None, if true, sets rec_list to a list of iso_codes
+    if rec_list is None:
+        rec_list = df['iso_code']
+    else:
+        print(rec_list)
+    world_map = go.Figure(data=go.Choropleth(
+    locations=rec_list,
+    colorscale='Earth',
+    autocolorscale=True,
+    marker_line_color='red'
+    ))
+    world_map.update_layout(
+    geo=dict(
+        showcoastlines=True,
+        showframe=False
+    ),
+    margin={"r": 0, "t": 0, "l": 0, "b": 0},
+    )
+    rec_countries.append(world_map)
+    return rec_countries
 
 
 if __name__ == '__main__':
