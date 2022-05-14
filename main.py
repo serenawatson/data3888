@@ -26,7 +26,7 @@ world_map.update_layout(
 )
 
 # region list
-regions = ['Asia-Pacific', 'Americas', 'Europe', 'Africa']
+regions = ['APAC', 'Americas', 'EMEA']
 
 # attraction types
 # attraction_types = ['amusement_park', 'aquarium', 'art_gallery', 'bar', 'book_store', 'cafe',
@@ -146,7 +146,7 @@ app.layout = html.Div(className="block mx-4 my-4", children=[
             html.Div(className='box is-fullheight', children=[
                 html.Div(className="block", children=[
                     html.Div(className="block mb-4", children=[
-                        dcc.Graph(figure=world_map, style={'width': '100%', 'height': '50vh'})])
+                        dcc.Graph(figure=world_map, style={'width': '100%', 'height': '55vh'})])
                 ]),
                 html.Div(className="block", children=[
                     html.Div(className="tile is-ancestor is-vertical", children=[
@@ -297,6 +297,14 @@ app.layout = html.Div(className="block mx-4 my-4", children=[
         ])
     ])
 ])
+
+@app.callback(
+     Output('region_select', 'value'),
+     Input('location_select', 'value')
+)
+def set_location_values(selected_location):
+     if selected_location is not None:
+        return continent_dictionary[continent_dictionary['Location'] == selected_location]["Region"].item()
 
 
 # TOOK THIS OUT FOR NOW BECAUSE STORYBOARD DIDN'T HAVE THIS
