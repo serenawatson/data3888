@@ -1,9 +1,11 @@
-from analytics_helper import *
-from common import *
+import pandas as pd
 import random
+
 from datetime import datetime
 from typing import List
-import pandas as pd
+
+from analytics_helper import *
+from common import *
 
 random.seed(3888)
 

@@ -1,14 +1,16 @@
-import pandas as pd
 import numpy as np
-from datetime import datetime, timedelta
+import pandas as pd
+import random
 import requests
-from requests_html import HTML
-from requests_html import HTMLSession
+
 from bs4 import BeautifulSoup
-from sklearn.preprocessing import MinMaxScaler
+from datetime import datetime, timedelta
+from requests_html import HTMLSession
+from requests_html import HTML
 from sklearn.decomposition import PCA
 from sklearn.neighbors import NearestNeighbors
-import random
+from sklearn.preprocessing import MinMaxScaler
+
 from common import *
 
 random.seed(3888)

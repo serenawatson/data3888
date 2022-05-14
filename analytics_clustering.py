@@ -1,8 +1,11 @@
-from analytics_helper_clustering import *
+import pandas as pd
 import random
+
 from datetime import datetime
 from typing import List, Dict
-import pandas as pd
+
+from analytics_helper_clustering import *
+
 
 def generate_cluster(countries_data: pd.DataFrame, 
                 interested: Dict[str, bool], 
