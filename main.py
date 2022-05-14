@@ -99,7 +99,7 @@ app = Dash(__name__)
 
 app.layout = html.Div(className="block mx-4 my-4", children=[
     html.Div(className='columns', children=[
-        html.Div(className='column is-one-third', children=[
+        html.Div(className='column is-one-third is-flex is-align-content-center', children=[
             html.Div(className='box is-fullheight', children=[
                 html.Div(className='block',
                          children=[
@@ -146,10 +146,6 @@ app.layout = html.Div(className="block mx-4 my-4", children=[
             html.Div(className='box is-fullheight', children=[
                 html.Div(className="block", children=[
                     html.Div(className="block mb-4", children=[
-                        html.Div(className="", children=[
-                            html.P('Countries you may like',
-                                       className='is-size-3')
-                        ]),
                         dcc.Graph(figure=world_map, style={'width': '100%', 'height': '50vh'})])
                 ]),
                 html.Div(className="block", children=[
@@ -158,110 +154,134 @@ app.layout = html.Div(className="block mx-4 my-4", children=[
                             html.Div(
                                 className="tile is-child is-2", children=[
                                     html.Div(className="block px-2", children=[
-                                        html.Img(className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
+                                        html.Img(
+                                            className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
                                         html.Div(className="content has-text-centered", children=[
-                                            html.P("Destination 1", className="has-text-weight-semibold is-size-7")
+                                            html.P(
+                                                "Destination 1", className="has-text-weight-semibold is-size-7")
                                         ])
                                     ])
                                 ]),
                             html.Div(
                                 className="tile is-child is-2", children=[
                                     html.Div(className="block px-2", children=[
-                                        html.Img(className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
+                                        html.Img(
+                                            className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
                                         html.Div(className="content has-text-centered", children=[
-                                            html.P("Destination 2", className="has-text-weight-semibold is-size-7")
+                                            html.P(
+                                                "Destination 2", className="has-text-weight-semibold is-size-7")
                                         ])
                                     ])
                                 ]),
                             html.Div(
                                 className="tile is-child is-2", children=[
                                     html.Div(className="block px-2", children=[
-                                        html.Img(className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
+                                        html.Img(
+                                            className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
                                         html.Div(className="content has-text-centered", children=[
-                                            html.P("Destination 3", className="has-text-weight-semibold is-size-7")
+                                            html.P(
+                                                "Destination 3", className="has-text-weight-semibold is-size-7")
                                         ])
                                     ])
                                 ]),
                             html.Div(
                                 className="tile is-child is-2", children=[
                                     html.Div(className="block px-2", children=[
-                                        html.Img(className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
+                                        html.Img(
+                                            className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
                                         html.Div(className="content has-text-centered", children=[
-                                            html.P("Destination 4", className="has-text-weight-semibold is-size-7")
+                                            html.P(
+                                                "Destination 4", className="has-text-weight-semibold is-size-7")
                                         ])
                                     ])
                                 ]),
                             html.Div(
                                 className="tile is-child is-2", children=[
                                     html.Div(className="block px-2", children=[
-                                        html.Img(className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
+                                        html.Img(
+                                            className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
                                         html.Div(className="content has-text-centered", children=[
-                                            html.P("Destination 5", className="has-text-weight-semibold is-size-7")
+                                            html.P(
+                                                "Destination 5", className="has-text-weight-semibold is-size-7")
                                         ])
                                     ])
                                 ]),
                             html.Div(
                                 className="tile is-child is-2", children=[
                                     html.Div(className="block px-2", children=[
-                                        html.Img(className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
+                                        html.Img(
+                                            className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
                                         html.Div(className="content has-text-centered", children=[
-                                            html.P("Destination 6", className="has-text-weight-semibold is-size-7")
+                                            html.P(
+                                                "Destination 6", className="has-text-weight-semibold is-size-7")
                                         ])
                                     ])
                                 ])
                         ]),
                         html.Div(className="tile is-parent is-12", children=[
-                        html.Div(
+                            html.Div(
                                 className="tile is-child is-2", children=[
                                     html.Div(className="block px-2", children=[
-                                        html.Img(className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
+                                        html.Img(
+                                            className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
                                         html.Div(className="content has-text-centered", children=[
-                                            html.P("Destination 7", className="has-text-weight-semibold is-size-7")
+                                            html.P(
+                                                "Destination 7", className="has-text-weight-semibold is-size-7")
                                         ])
                                     ])
                                 ]),
                             html.Div(
                                 className="tile is-child is-2", children=[
                                     html.Div(className="block px-2", children=[
-                                        html.Img(className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
+                                        html.Img(
+                                            className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
                                         html.Div(className="content has-text-centered", children=[
-                                            html.P("Destination 8", className="has-text-weight-semibold is-size-7")
+                                            html.P(
+                                                "Destination 8", className="has-text-weight-semibold is-size-7")
                                         ])
                                     ])
                                 ]),
                             html.Div(
                                 className="tile is-child is-2", children=[
                                     html.Div(className="block px-2", children=[
-                                        html.Img(className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
+                                        html.Img(
+                                            className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
                                         html.Div(className="content has-text-centered", children=[
-                                            html.P("Destination 9", className="has-text-weight-semibold is-size-7")
+                                            html.P(
+                                                "Destination 9", className="has-text-weight-semibold is-size-7")
                                         ])
                                     ])
                                 ]),
                             html.Div(
                                 className="tile is-child is-2", children=[
                                     html.Div(className="block px-2", children=[
-                                        html.Img(className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
+                                        html.Img(
+                                            className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
                                         html.Div(className="content has-text-centered", children=[
-                                            html.P("Destination 10", className="has-text-weight-semibold is-size-7")
+                                            html.P(
+                                                "Destination 10", className="has-text-weight-semibold is-size-7")
                                         ])
                                     ])
                                 ]),
                             html.Div(
                                 className="tile is-child is-2", children=[
                                     html.Div(className="block px-2", children=[
-                                        html.Img(className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
+                                        html.Img(
+                                            className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
                                         html.Div(className="content has-text-centered", children=[
-                                            html.P("Destination 11", className="has-text-weight-semibold is-size-7")
+                                            html.P(
+                                                "Destination 11", className="has-text-weight-semibold is-size-7")
                                         ])
                                     ])
                                 ]),
                             html.Div(
                                 className="tile is-child is-2", children=[
                                     html.Div(className="block px-2", children=[
-                                        html.Img(className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
+                                        html.Img(
+                                            className="image is-2by1 pt-0", src="https://bulma.io/images/placeholders/640x320.png"),
                                         html.Div(className="content has-text-centered", children=[
-                                            html.P("Destination 12", className="has-text-weight-semibold is-size-7")
+                                            html.P(
+                                                "Destination 12", className="has-text-weight-semibold is-size-7")
                                         ])
                                     ])
                                 ])
@@ -269,6 +289,11 @@ app.layout = html.Div(className="block mx-4 my-4", children=[
                     ])
                 ])
             ]),
+        ])
+    ]),
+    html.Div(className="footer py-4 mx-0", children=[
+        html.Div(className="content has-text-centered", children=[
+            html.P("HolidayPlanning Inc. 2022")
         ])
     ])
 ])
