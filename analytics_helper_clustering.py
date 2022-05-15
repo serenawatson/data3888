@@ -17,25 +17,6 @@ from common import *
 
 random.seed(3888)
 
-def convert_regions_to_continents(regions):
-    regions_to_convert = {
-        'Asia-Pacific': ['Asia', 'Oceania'],
-        'Americas': ['North America', 'South America'],
-        'Europe and Africa': ['Europe', 'Africa']
-    }
-
-    continents = []
-
-    for region in regions:
-        if not region in regions_to_convert:
-            continents.append(region)
-        else:
-            region_continents = regions_to_convert[region]
-            for continent in region_continents:
-                continents.append(continent)
-
-    return continents
-
 def convert_interest_level_to_weighting(interested):
     interested_mapping = {
         True: 1000,

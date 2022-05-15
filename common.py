@@ -13,6 +13,25 @@ from sklearn.neighbors import NearestNeighbors
 from sklearn.preprocessing import MinMaxScaler
 from statistics import mean
 
+def convert_regions_to_continents(regions):
+    regions_to_convert = {
+        'Asia-Pacific': ['Asia', 'Oceania'],
+        'Americas': ['North America', 'South America'],
+        'Europe and Africa': ['Europe', 'Africa']
+    }
+
+    continents = []
+
+    for region in regions:
+        if not region in regions_to_convert:
+            continents.append(region)
+        else:
+            region_continents = regions_to_convert[region]
+            for continent in region_continents:
+                continents.append(continent)
+
+    return continents
+
 def get_variable_groups():
     variable_groups = {}
     variable_groups["covid"] = ['new_cases_smoothed_per_million', 'new_deaths_smoothed_per_million']
