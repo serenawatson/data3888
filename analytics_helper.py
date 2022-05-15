@@ -81,7 +81,7 @@ def prepare_data_for_nn(data, country, continents, weightings):
 
     return medians_scaled, medians, data[data_no_quant]
 
-def find_top_neighbours(country, location_neighbours_df, num_neighbours=5):
+def find_top_neighbours(country, location_neighbours_df, num_neighbours):
     d = {}
     lists = location_neighbours_df.loc[country].tolist()
     for ls in lists:
@@ -96,11 +96,8 @@ def find_top_neighbours(country, location_neighbours_df, num_neighbours=5):
         top.append(k)
     return top
 
-def generate_location_neighbours_df(country, medians_scaled, num_neighbours):
+def generate_location_neighbours_df(country, medians_scaled, num_neighbours, dist_metrics):
     iso_location = read_iso_loc_data()
-
-    dist_metrics = ['euclidean', 'manhattan', 'chebyshev', 'cosine', 'cityblock', 'braycurtis', 'canberra',
-               'correlation', 'minkowski']
 
     location_neighbours = {}
 
@@ -132,18 +129,23 @@ def generate_location_neighbours_df(country, medians_scaled, num_neighbours):
 
     return location_neighbours_df
 
-def generate_final_df_w_nn(country, medians_scaled, medians, data_no_quant, num_neighbours = 5):
+def generate_final_df_w_nn(country, medians_scaled, medians, data_no_quant, num_neighbours = 10,
+                           dist_metrics = ['euclidean', 'manhattan', 'chebyshev', 
+                                           'cosine', 'cityblock', 'braycurtis', 'canberra',
+                                           'correlation', 'minkowski']):
     iso_location = read_iso_loc_data()
     
-    location_neighbours_df = generate_location_neighbours_df(country, medians_scaled, num_neighbours)
+    location_neighbours_df = generate_location_neighbours_df(country, medians_scaled, num_neighbours, dist_metrics)
 
     top_neighbours = {}
 
-    top_neighbours[country] = find_top_neighbours(country, location_neighbours_df)
+    top_neighbours[country] = find_top_neighbours(country, location_neighbours_df, num_neighbours)
 
     final_df = pd.merge(medians, data_no_quant, on="iso_code").drop_duplicates()
     final_df = final_df.set_index(final_df["iso_code"]).drop(columns=["iso_code"])
     final_df = final_df[final_df["location"] == country]
+
+    print([top_neighbours[iso_code_to_loc(iso_code, iso_location)] for iso_code in final_df.index])
 
     final_df['5NN'] = [top_neighbours[iso_code_to_loc(iso_code, iso_location)] for iso_code in final_df.index]
 
