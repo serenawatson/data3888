@@ -28,7 +28,7 @@ world_map.update_layout(
 )
 
 # region list
-regions = ['APAC', 'Americas', 'EMEA']
+regions = ['Asia-Pacific', 'Americas', 'Europe and Africa']
 
 # attraction types
 # attraction_types = ['amusement_park', 'aquarium', 'art_gallery', 'bar', 'book_store', 'cafe',
@@ -70,27 +70,24 @@ interested["wellness"] = False
 interested["wildlife"] = False
 
 
-locations = ['Albania', 'Algeria', 'Argentina', 'Armenia', 'Australia',
-             'Austria', 'Azerbaijan', 'Bahrain', 'Bangladesh', 'Barbados',
-             'Belgium', 'Bolivia', 'Botswana', 'Brazil', 'Bulgaria', 'Cambodia',
-             'Cameroon', 'Canada', 'Chile', 'China', 'Colombia', 'Costa Rica',
-             'Croatia', 'Cyprus', 'Denmark', 'Dominican Republic', 'Ecuador',
-             'Egypt', 'El Salvador', 'Estonia', 'Ethiopia', 'Finland', 'France',
-             'Georgia', 'Germany', 'Ghana', 'Greece', 'Guatemala', 'Honduras',
-             'Hong Kong', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Iran',
-             'Ireland', 'Israel', 'Italy', 'Jamaica', 'Japan', 'Jordan',
-             'Kazakhstan', 'Kenya', 'Kuwait', 'Latvia', 'Lebanon', 'Lithuania',
-             'Luxembourg', 'Malaysia', 'Malta', 'Mauritius', 'Mexico',
-             'Moldova', 'Mongolia', 'Montenegro', 'Morocco', 'Myanmar', 'Nepal',
-             'Netherlands', 'New Zealand', 'Nicaragua', 'Nigeria',
-             'North Macedonia', 'Norway', 'Oman', 'Pakistan', 'Panama',
-             'Paraguay', 'Peru', 'Philippines', 'Poland', 'Portugal', 'Qatar',
-             'Romania', 'Russia', 'Rwanda', 'Saudi Arabia', 'Senegal', 'Serbia',
-             'Seychelles', 'Singapore', 'Slovakia', 'Slovenia', 'South Africa',
-             'South Korea', 'Spain', 'Sri Lanka', 'Suriname', 'Sweden',
-             'Switzerland', 'Taiwan', 'Tanzania', 'Thailand', 'Tunisia',
-             'Turkey', 'Uganda', 'Ukraine', 'United Arab Emirates',
-             'United Kingdom', 'United States', 'Uruguay', 'Venezuela',
+locations = ['Albania', 'Algeria', 'Argentina', 'Armenia', 'Austria', 
+             'Azerbaijan', 'Bahrain', 'Bangladesh', 'Belgium', 'Bolivia', 
+             'Botswana', 'Brazil', 'Bulgaria', 'Cambodia', 'Cameroon', 
+             'Canada', 'Chile', 'China', 'Colombia', 'Costa Rica', 
+             'Croatia', 'Cyprus', 'Denmark', 'Dominican Republic', 'Ecuador', 
+             'Egypt', 'El Salvador', 'Estonia', 'Ethiopia', 'Finland', 'France', 
+             'Germany', 'Ghana', 'Greece', 'Guatemala', 'Honduras', 'Hungary', 
+             'Iceland', 'India', 'Indonesia', 'Iran', 'Israel', 'Italy', 'Jamaica', 
+             'Japan', 'Jordan', 'Kazakhstan', 'Kenya', 'Kuwait', 'Latvia', 'Lebanon', 
+             'Lithuania', 'Malaysia', 'Malta', 'Mauritius', 'Mexico', 'Moldova', 
+             'Mongolia', 'Montenegro', 'Morocco', 'Myanmar', 'Nepal', 'Netherlands', 
+             'New Zealand', 'Nicaragua', 'Nigeria', 'North Macedonia', 'Norway', 'Oman', 
+             'Pakistan', 'Panama', 'Paraguay', 'Peru', 'Philippines', 'Poland', 
+             'Portugal', 'Qatar', 'Romania', 'Russia', 'Rwanda', 'Saudi Arabia', 
+             'Senegal', 'Serbia', 'Seychelles', 'Slovakia', 'Slovenia', 'South Africa', 
+             'South Korea', 'Spain', 'Sri Lanka', 'Sweden', 'Switzerland', 'Taiwan', 
+             'Tanzania', 'Thailand', 'Tunisia', 'Turkey', 'Uganda', 'Ukraine', 
+             'United Arab Emirates', 'United Kingdom', 'United States', 'Uruguay', 'Venezuela', 
              'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe']
 
 

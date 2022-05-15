@@ -1,152 +1,152 @@
 Region,Continent,Location
-EMEA,Africa,Algeria
-EMEA,Africa,Angola
-EMEA,Africa,Benin
-EMEA,Africa,Botswana
-EMEA,Africa,Burkina
-EMEA,Africa,Burundi
-EMEA,Africa,Cameroon
-EMEA,Africa,Cape Verde
-EMEA,Africa,Central African Republic
-EMEA,Africa,Chad
-EMEA,Africa,Comoros
-EMEA,Africa,Congo
-EMEA,Africa,"Congo, Democratic Republic of"
-EMEA,Africa,Djibouti
-EMEA,Africa,Egypt
-EMEA,Africa,Equatorial Guinea
-EMEA,Africa,Eritrea
-EMEA,Africa,Ethiopia
-EMEA,Africa,Gabon
-EMEA,Africa,Gambia
-EMEA,Africa,Ghana
-EMEA,Africa,Guinea
-EMEA,Africa,Guinea-Bissau
-EMEA,Africa,Ivory Coast
-EMEA,Africa,Kenya
-EMEA,Africa,Lesotho
-EMEA,Africa,Liberia
-EMEA,Africa,Libya
-EMEA,Africa,Madagascar
-EMEA,Africa,Malawi
-EMEA,Africa,Mali
-EMEA,Africa,Mauritania
-EMEA,Africa,Mauritius
-EMEA,Africa,Morocco
-EMEA,Africa,Mozambique
-EMEA,Africa,Namibia
-EMEA,Africa,Niger
-EMEA,Africa,Nigeria
-EMEA,Africa,Rwanda
-EMEA,Africa,Sao Tome and Principe
-EMEA,Africa,Senegal
-EMEA,Africa,Seychelles
-EMEA,Africa,Sierra Leone
-EMEA,Africa,Somalia
-EMEA,Africa,South Africa
-EMEA,Africa,South Sudan
-EMEA,Africa,Sudan
-EMEA,Africa,Swaziland
-EMEA,Africa,Tanzania
-EMEA,Africa,Togo
-EMEA,Africa,Tunisia
-EMEA,Africa,Uganda
-EMEA,Africa,Zambia
-EMEA,Africa,Zimbabwe
-APAC,Asia,Afghanistan
-APAC,Asia,Bahrain
-APAC,Asia,Bangladesh
-APAC,Asia,Bhutan
-APAC,Asia,Brunei
-APAC,Asia,Burma (Myanmar)
-APAC,Asia,Cambodia
-APAC,Asia,China
-APAC,Asia,East Timor
-APAC,Asia,India
-APAC,Asia,Indonesia
-APAC,Asia,Iran
-APAC,Asia,Iraq
-APAC,Asia,Israel
-APAC,Asia,Japan
-APAC,Asia,Jordan
-APAC,Asia,Kazakhstan
-APAC,Asia,"Korea, North"
-APAC,Asia,"Korea, South"
-APAC,Asia,Kuwait
-APAC,Asia,Kyrgyzstan
-APAC,Asia,Laos
-APAC,Asia,Lebanon
-APAC,Asia,Malaysia
-APAC,Asia,Maldives
-APAC,Asia,Mongolia
-APAC,Asia,Nepal
-APAC,Asia,Oman
-APAC,Asia,Pakistan
-APAC,Asia,Philippines
-APAC,Asia,Qatar
-APAC,Asia,Russia
-APAC,Asia,Saudi Arabia
-APAC,Asia,Singapore
-APAC,Asia,South Korea
-APAC,Asia,Sri Lanka
-APAC,Asia,Syria
-APAC,Asia,Taiwan
-APAC,Asia,Tajikistan
-APAC,Asia,Thailand
-APAC,Asia,Turkey
-APAC,Asia,Turkmenistan
-APAC,Asia,United Arab Emirates
-APAC,Asia,Uzbekistan
-APAC,Asia,Vietnam
-APAC,Asia,Yemen
-EMEA,Europe,Albania
-EMEA,Europe,Andorra
-EMEA,Europe,Armenia
-EMEA,Europe,Austria
-EMEA,Europe,Azerbaijan
-EMEA,Europe,Belarus
-EMEA,Europe,Belgium
-EMEA,Europe,Bosnia and Herzegovina
-EMEA,Europe,Bulgaria
-EMEA,Europe,Croatia
-EMEA,Europe,Cyprus
-EMEA,Europe,CZ
-EMEA,Europe,Denmark
-EMEA,Europe,Estonia
-EMEA,Europe,Finland
-EMEA,Europe,France
-EMEA,Europe,Georgia
-EMEA,Europe,Germany
-EMEA,Europe,Greece
-EMEA,Europe,Hungary
-EMEA,Europe,Iceland
-EMEA,Europe,Ireland
-EMEA,Europe,Italy
-EMEA,Europe,Latvia
-EMEA,Europe,Liechtenstein
-EMEA,Europe,Lithuania
-EMEA,Europe,Luxembourg
-EMEA,Europe,Macedonia
-EMEA,Europe,Malta
-EMEA,Europe,Moldova
-EMEA,Europe,Monaco
-EMEA,Europe,Montenegro
-EMEA,Europe,Netherlands
-EMEA,Europe,North Macedonia
-EMEA,Europe,Norway
-EMEA,Europe,Poland
-EMEA,Europe,Portugal
-EMEA,Europe,Romania
-EMEA,Europe,San Marino
-EMEA,Europe,Serbia
-EMEA,Europe,Slovakia
-EMEA,Europe,Slovenia
-EMEA,Europe,Spain
-EMEA,Europe,Sweden
-EMEA,Europe,Switzerland
-EMEA,Europe,Ukraine
-EMEA,Europe,United Kingdom
-EMEA,Europe,Vatican City
+"Europe and Africa",Africa,Algeria
+"Europe and Africa",Africa,Angola
+"Europe and Africa",Africa,Benin
+"Europe and Africa",Africa,Botswana
+"Europe and Africa",Africa,Burkina
+"Europe and Africa",Africa,Burundi
+"Europe and Africa",Africa,Cameroon
+"Europe and Africa",Africa,Cape Verde
+"Europe and Africa",Africa,Central African Republic
+"Europe and Africa",Africa,Chad
+"Europe and Africa",Africa,Comoros
+"Europe and Africa",Africa,Congo
+"Europe and Africa",Africa,"Congo, Democratic Republic of"
+"Europe and Africa",Africa,Djibouti
+"Europe and Africa",Africa,Egypt
+"Europe and Africa",Africa,Equatorial Guinea
+"Europe and Africa",Africa,Eritrea
+"Europe and Africa",Africa,Ethiopia
+"Europe and Africa",Africa,Gabon
+"Europe and Africa",Africa,Gambia
+"Europe and Africa",Africa,Ghana
+"Europe and Africa",Africa,Guinea
+"Europe and Africa",Africa,Guinea-Bissau
+"Europe and Africa",Africa,Ivory Coast
+"Europe and Africa",Africa,Kenya
+"Europe and Africa",Africa,Lesotho
+"Europe and Africa",Africa,Liberia
+"Europe and Africa",Africa,Libya
+"Europe and Africa",Africa,Madagascar
+"Europe and Africa",Africa,Malawi
+"Europe and Africa",Africa,Mali
+"Europe and Africa",Africa,Mauritania
+"Europe and Africa",Africa,Mauritius
+"Europe and Africa",Africa,Morocco
+"Europe and Africa",Africa,Mozambique
+"Europe and Africa",Africa,Namibia
+"Europe and Africa",Africa,Niger
+"Europe and Africa",Africa,Nigeria
+"Europe and Africa",Africa,Rwanda
+"Europe and Africa",Africa,Sao Tome and Principe
+"Europe and Africa",Africa,Senegal
+"Europe and Africa",Africa,Seychelles
+"Europe and Africa",Africa,Sierra Leone
+"Europe and Africa",Africa,Somalia
+"Europe and Africa",Africa,South Africa
+"Europe and Africa",Africa,South Sudan
+"Europe and Africa",Africa,Sudan
+"Europe and Africa",Africa,Swaziland
+"Europe and Africa",Africa,Tanzania
+"Europe and Africa",Africa,Togo
+"Europe and Africa",Africa,Tunisia
+"Europe and Africa",Africa,Uganda
+"Europe and Africa",Africa,Zambia
+"Europe and Africa",Africa,Zimbabwe
+"Asia-Pacific",Asia,Afghanistan
+"Asia-Pacific",Asia,Bahrain
+"Asia-Pacific",Asia,Bangladesh
+"Asia-Pacific",Asia,Bhutan
+"Asia-Pacific",Asia,Brunei
+"Asia-Pacific",Asia,Burma (Myanmar)
+"Asia-Pacific",Asia,Cambodia
+"Asia-Pacific",Asia,China
+"Asia-Pacific",Asia,East Timor
+"Asia-Pacific",Asia,India
+"Asia-Pacific",Asia,Indonesia
+"Asia-Pacific",Asia,Iran
+"Asia-Pacific",Asia,Iraq
+"Asia-Pacific",Asia,Israel
+"Asia-Pacific",Asia,Japan
+"Asia-Pacific",Asia,Jordan
+"Asia-Pacific",Asia,Kazakhstan
+"Asia-Pacific",Asia,"Korea, North"
+"Asia-Pacific",Asia,"Korea, South"
+"Asia-Pacific",Asia,Kuwait
+"Asia-Pacific",Asia,Kyrgyzstan
+"Asia-Pacific",Asia,Laos
+"Asia-Pacific",Asia,Lebanon
+"Asia-Pacific",Asia,Malaysia
+"Asia-Pacific",Asia,Maldives
+"Asia-Pacific",Asia,Mongolia
+"Asia-Pacific",Asia,Nepal
+"Asia-Pacific",Asia,Oman
+"Asia-Pacific",Asia,Pakistan
+"Asia-Pacific",Asia,Philippines
+"Asia-Pacific",Asia,Qatar
+"Asia-Pacific",Asia,Russia
+"Asia-Pacific",Asia,Saudi Arabia
+"Asia-Pacific",Asia,Singapore
+"Asia-Pacific",Asia,South Korea
+"Asia-Pacific",Asia,Sri Lanka
+"Asia-Pacific",Asia,Syria
+"Asia-Pacific",Asia,Taiwan
+"Asia-Pacific",Asia,Tajikistan
+"Asia-Pacific",Asia,Thailand
+"Asia-Pacific",Asia,Turkey
+"Asia-Pacific",Asia,Turkmenistan
+"Asia-Pacific",Asia,United Arab Emirates
+"Asia-Pacific",Asia,Uzbekistan
+"Asia-Pacific",Asia,Vietnam
+"Asia-Pacific",Asia,Yemen
+"Europe and Africa",Europe,Albania
+"Europe and Africa",Europe,Andorra
+"Europe and Africa",Europe,Armenia
+"Europe and Africa",Europe,Austria
+"Europe and Africa",Europe,Azerbaijan
+"Europe and Africa",Europe,Belarus
+"Europe and Africa",Europe,Belgium
+"Europe and Africa",Europe,Bosnia and Herzegovina
+"Europe and Africa",Europe,Bulgaria
+"Europe and Africa",Europe,Croatia
+"Europe and Africa",Europe,Cyprus
+"Europe and Africa",Europe,CZ
+"Europe and Africa",Europe,Denmark
+"Europe and Africa",Europe,Estonia
+"Europe and Africa",Europe,Finland
+"Europe and Africa",Europe,France
+"Europe and Africa",Europe,Georgia
+"Europe and Africa",Europe,Germany
+"Europe and Africa",Europe,Greece
+"Europe and Africa",Europe,Hungary
+"Europe and Africa",Europe,Iceland
+"Europe and Africa",Europe,Ireland
+"Europe and Africa",Europe,Italy
+"Europe and Africa",Europe,Latvia
+"Europe and Africa",Europe,Liechtenstein
+"Europe and Africa",Europe,Lithuania
+"Europe and Africa",Europe,Luxembourg
+"Europe and Africa",Europe,Macedonia
+"Europe and Africa",Europe,Malta
+"Europe and Africa",Europe,Moldova
+"Europe and Africa",Europe,Monaco
+"Europe and Africa",Europe,Montenegro
+"Europe and Africa",Europe,Netherlands
+"Europe and Africa",Europe,North Macedonia
+"Europe and Africa",Europe,Norway
+"Europe and Africa",Europe,Poland
+"Europe and Africa",Europe,Portugal
+"Europe and Africa",Europe,Romania
+"Europe and Africa",Europe,San Marino
+"Europe and Africa",Europe,Serbia
+"Europe and Africa",Europe,Slovakia
+"Europe and Africa",Europe,Slovenia
+"Europe and Africa",Europe,Spain
+"Europe and Africa",Europe,Sweden
+"Europe and Africa",Europe,Switzerland
+"Europe and Africa",Europe,Ukraine
+"Europe and Africa",Europe,United Kingdom
+"Europe and Africa",Europe,Vatican City
 Americas,North America,Antigua and Barbuda
 Americas,North America,Bahamas
 Americas,North America,Barbados
@@ -170,20 +170,20 @@ Americas,North America,Saint Lucia
 Americas,North America,Saint Vincent and the Grenadines
 Americas,North America,Trinidad and Tobago
 Americas,North America,United States
-APAC,Oceania,Australia
-APAC,Oceania,Fiji
-APAC,Oceania,Kiribati
-APAC,Oceania,Marshall Islands
-APAC,Oceania,Micronesia
-APAC,Oceania,Nauru
-APAC,Oceania,New Zealand
-APAC,Oceania,Palau
-APAC,Oceania,Papua New Guinea
-APAC,Oceania,Samoa
-APAC,Oceania,Solomon Islands
-APAC,Oceania,Tonga
-APAC,Oceania,Tuvalu
-APAC,Oceania,Vanuatu
+"Asia-Pacific",Oceania,Australia
+"Asia-Pacific",Oceania,Fiji
+"Asia-Pacific",Oceania,Kiribati
+"Asia-Pacific",Oceania,Marshall Islands
+"Asia-Pacific",Oceania,Micronesia
+"Asia-Pacific",Oceania,Nauru
+"Asia-Pacific",Oceania,New Zealand
+"Asia-Pacific",Oceania,Palau
+"Asia-Pacific",Oceania,Papua New Guinea
+"Asia-Pacific",Oceania,Samoa
+"Asia-Pacific",Oceania,Solomon Islands
+"Asia-Pacific",Oceania,Tonga
+"Asia-Pacific",Oceania,Tuvalu
+"Asia-Pacific",Oceania,Vanuatu
 Americas,South America,Argentina
 Americas,South America,Bolivia
 Americas,South America,Brazil
