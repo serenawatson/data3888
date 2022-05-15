@@ -137,7 +137,7 @@ app.layout = html.Div(className="block mx-4 my-4", children=[
                 ]),
                 html.Div(className='block', children=[
                     html.Button(
-                        'Go!', className='button is-link is-light is-large is-fullwidth', id="submit")
+                        'Go!', className='button is-link is-light is-large is-fullwidth', id="submit", n_clicks=0)
                 ])
             ])
         ]),
@@ -304,7 +304,8 @@ app.layout = html.Div(className="block mx-4 my-4", children=[
 )
 def set_location_values(selected_location):
      if selected_location is not None:
-        return continent_dictionary[continent_dictionary['Location'] == selected_location]["Region"].item()
+        region_area =  continent_dictionary[continent_dictionary['Location'] == selected_location]["Region"].item()
+        return [region_area]
 
 @app.callback(
     [Output('1', 'children'),
@@ -323,9 +324,9 @@ def set_location_values(selected_location):
     Input('region_select', 'value'),
     Input('factor_select', 'value'),
     Input('interest_select', 'value'),
-    State('submit', 'value')
+    Input('submit', 'n_clicks')
 )
-def get_recommended_countries(regions: list, chosen_factors: list, chosen_interests: list, submit):
+def get_recommended_countries(regions: list, chosen_factors: list, chosen_interests: list, submit: int):
     iso_loc = read_iso_loc_data()
     rec_countries = []
     rec_list = None
