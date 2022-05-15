@@ -344,7 +344,7 @@ def get_recommended_countries(location: str, regions: list, chosen_factors: list
                 chosen_interests[i] = val
             combined = chosen_factors + chosen_interests
             df = generate_country_df(countries_data, location, regions, combined)
-            rec_countries = df['5NN'].tolist()[0].copy()
+            rec_countries = df['10NN'].tolist()[0].copy()
         else:
             rec_countries.clear()
             interested_filtered = interested.copy()
