@@ -1,3 +1,4 @@
+import re
 from dash import Dash, html, dcc, Input, Output, State
 from numpy import empty
 import plotly.graph_objects as go
@@ -7,6 +8,7 @@ from analytics import *
 from analytics_clustering import *
 
 countries_data = integrate_all_data()
+rec_countries = []
 
 
 # blank map
@@ -94,7 +96,7 @@ locations = ['Albania', 'Algeria', 'Argentina', 'Armenia', 'Austria',
 # read in continent file
 continent_dictionary = pd.read_csv("data/ContinentLocation.csv")
 
-app = Dash(__name__)
+app = Dash(__name__, prevent_initial_callbacks=True)
 
 app.layout = html.Div(className="block mx-4 my-4", children=[
     html.Div(className='columns', children=[
@@ -320,49 +322,48 @@ def set_location_values(selected_location):
     Output('10', 'children'),
     Output('11', 'children'),
     Output('12', 'children'),
-    Output('graph', 'figure')],
+    Output('submit', 'n_clicks')],
+    Input('location_select', 'value'),
     Input('region_select', 'value'),
     Input('factor_select', 'value'),
     Input('interest_select', 'value'),
     Input('submit', 'n_clicks')
 )
-def get_recommended_countries(regions: list, chosen_factors: list, chosen_interests: list, submit: int):
+def get_recommended_countries(location: str, regions: list, chosen_factors: list, chosen_interests: list, submit: int):
+    global rec_countries
     iso_loc = read_iso_loc_data()
-    rec_countries = []
     rec_list = None
-    if regions is not None and chosen_factors is not None and chosen_interests is not None:
-        interested_filtered = interested.copy()
-        for poi in chosen_factors:
-            interested_filtered[factors[poi]] = True
-        for poi in chosen_interests:
-            interested_filtered[interests[poi]] = True
-        rec_list = generate_cluster(countries_data, interested_filtered, regions)
-        for iso in rec_list:
-            country = iso_loc.loc[iso_loc['iso_code'] == iso, 'location'].iloc[0]
-            rec_countries.append(country)
+    if regions is not None and chosen_factors is not None and chosen_interests is not None and submit != 0:
+        if location is not None and location != "":
+            rec_countries.clear()
+            for i in range(len(chosen_factors)):
+                val = factors[chosen_factors[i]]
+                chosen_factors[i] = val
+            for i in range(len(chosen_interests)):
+                val = interests[chosen_interests[i]]
+                chosen_interests[i] = val
+            combined = chosen_factors + chosen_interests
+            df = generate_country_df(countries_data, location, regions, combined)
+            rec_countries = df['5NN'].tolist()[0].copy()
+        else:
+            rec_countries.clear()
+            interested_filtered = interested.copy()
+            for poi in chosen_factors:
+                interested_filtered[factors[poi]] = True
+            for poi in chosen_interests:
+                interested_filtered[interests[poi]] = True
+            rec_list = generate_cluster(countries_data, interested_filtered, regions)
+            if rec_list is not None:
+                rec_list = rec_list[0:12]
+                for iso in rec_list:
+                    country = iso_loc.loc[iso_loc['iso_code'] == iso, 'location'].iloc[0]
+                    rec_countries.append(country)
     # if recommended countries list is not len 12, it will pad with empty strings for output purposes
-    while len(rec_countries) != 12:
+    while len(rec_countries) < 12:
         rec_countries.append("")
-    
-    # checks if recommended list is None, if true, sets rec_list to a list of iso_codes
-    if rec_list is None:
-        rec_list = df['iso_code']
-    else:
-        print(rec_list)
-    world_map = go.Figure(data=go.Choropleth(
-    locations=rec_list,
-    colorscale='Earth',
-    autocolorscale=True,
-    marker_line_color='red'
-    ))
-    world_map.update_layout(
-    geo=dict(
-        showcoastlines=True,
-        showframe=False
-    ),
-    margin={"r": 0, "t": 0, "l": 0, "b": 0},
-    )
-    rec_countries.append(world_map)
+    # defaults n_clicks back to 0 clicks
+    if rec_countries[-1] != 0:
+        rec_countries.append(0)
     return rec_countries
 
 
