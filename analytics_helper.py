@@ -145,6 +145,6 @@ def generate_final_df_w_nn(country, medians_scaled, medians, data_no_quant, num_
     final_df = final_df.set_index(final_df["iso_code"]).drop(columns=["iso_code"])
     final_df = final_df[final_df["location"] == country]
 
-    final_df['5NN'] = [top_neighbours[iso_code_to_loc(iso_code, iso_location)] for iso_code in final_df.index]
+    final_df['10NN'] = [top_neighbours[iso_code_to_loc(iso_code, iso_location)] for iso_code in final_df.index]
 
     return final_df
