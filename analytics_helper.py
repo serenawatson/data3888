@@ -35,7 +35,7 @@ def generate_feature_weightings_dict(cols_of_interest):
 
     for feature in all_features:
         if feature in cols_of_interest:
-            feature_weightings[feature] = 100
+            feature_weightings[feature] = 1000
         else:
             feature_weightings[feature] = 1
 
@@ -96,7 +96,7 @@ def find_top_neighbours(country, location_neighbours_df, num_neighbours=5):
         top.append(k)
     return top
 
-def generate_final_df_w_nn(country, medians_scaled, medians, data_no_quant, num_neighbours = 5):
+def generate_location_neighbours_df(country, medians_scaled, num_neighbours):
     iso_location = read_iso_loc_data()
 
     dist_metrics = ['euclidean', 'manhattan', 'chebyshev', 'cosine', 'cityblock', 'braycurtis', 'canberra',
@@ -129,6 +129,13 @@ def generate_final_df_w_nn(country, medians_scaled, medians, data_no_quant, num_
                 location_neighbours[current_location][metric] = neighbours
 
     location_neighbours_df = pd.DataFrame(location_neighbours).transpose()
+
+    return location_neighbours_df
+
+def generate_final_df_w_nn(country, medians_scaled, medians, data_no_quant, num_neighbours = 5):
+    iso_location = read_iso_loc_data()
+    
+    location_neighbours_df = generate_location_neighbours_df(country, medians_scaled, num_neighbours)
 
     top_neighbours = {}
 
