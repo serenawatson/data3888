@@ -357,6 +357,9 @@ def get_recommended_countries(location: str, chosen_regions: list, chosen_factor
             combined = chosen_factors + chosen_interests
             df = generate_country_df(countries_data, location, chosen_regions, combined)
             rec_countries = df['10NN'].tolist()[0].copy()
+            if location not in rec_countries:
+                rec_countries.insert(0, location)
+            rec_countries = rec_countries[0:10]
         else:
             rec_countries.clear()
             interested_filtered = interested.copy()
