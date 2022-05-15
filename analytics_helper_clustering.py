@@ -94,6 +94,7 @@ def generate_cluster_labels(data):
     clf = KMeansConstrained(
             n_clusters=data.shape[0]//10,
             size_min=10,
+            size_max=12,
             random_state=3888
     )
     
