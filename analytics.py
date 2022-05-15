@@ -55,7 +55,8 @@ def generate_country_df(countries_data: pd.DataFrame,
 def main():
     # Example usage of function above
     countries_data = integrate_all_data()
-    print(generate_country_df(countries_data, "France", ['Asia-Pacific'], ['covid']))
+    df = generate_country_df(countries_data, "Argentina", ['Americas'], [])
+    print(df['5NN'])
 
 if __name__ == "__main__":
     main()

@@ -64,12 +64,12 @@ def main():
     # Example usage of generate_cluster() function above
     interested = {}
 
-    interested["covid"] = True
+    interested["covid"] = False
     interested["infrastructure_quality_and_availability"] = True
     interested["health_and_safety"] = False
     interested["cost"] = False
     interested["fun"] = False
-    interested["nature"] = False
+    interested["nature"] = True
     interested["food"] = False
     interested["museums"] = False
     interested["showstheatresandmusic"] = False
@@ -78,6 +78,7 @@ def main():
 
     countries_data = integrate_all_data()
     print(generate_cluster(countries_data, interested, ['Europe and Africa', 'Asia-Pacific']))
+
 
     # Example usage of get_country_data() function above
     print(get_country_data(countries_data, "United States"))

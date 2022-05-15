@@ -333,12 +333,20 @@ def set_location_values(selected_location):
     Input('interest_select', 'value'),
     Input('submit', 'n_clicks')
 )
-def get_recommended_countries(location: str, regions: list, chosen_factors: list, chosen_interests: list, submit: int):
+def get_recommended_countries(location: str, chosen_regions: list, chosen_factors: list, chosen_interests: list, submit: int):
     global rec_countries
     iso_loc = read_iso_loc_data()
     rec_list = None
-    if regions is not None and chosen_factors is not None and chosen_interests is not None and submit != 0:
-        if location is not None and location != "":
+    if location is None:
+        location = ""
+    if chosen_regions is None:
+        chosen_regions = ['Asia-Pacific', 'Americas', 'Europe and Africa']
+    if chosen_factors is None:
+        chosen_factors = []
+    if chosen_interests is None:
+        chosen_interests = []
+    if submit != 0:
+        if location != "":
             rec_countries.clear()
             for i in range(len(chosen_factors)):
                 val = factors[chosen_factors[i]]
@@ -347,7 +355,7 @@ def get_recommended_countries(location: str, regions: list, chosen_factors: list
                 val = interests[chosen_interests[i]]
                 chosen_interests[i] = val
             combined = chosen_factors + chosen_interests
-            df = generate_country_df(countries_data, location, regions, combined)
+            df = generate_country_df(countries_data, location, chosen_regions, combined)
             rec_countries = df['10NN'].tolist()[0].copy()
         else:
             rec_countries.clear()
@@ -356,7 +364,7 @@ def get_recommended_countries(location: str, regions: list, chosen_factors: list
                 interested_filtered[factors[poi]] = True
             for poi in chosen_interests:
                 interested_filtered[interests[poi]] = True
-            rec_list = generate_cluster(countries_data, interested_filtered, regions)
+            rec_list = generate_cluster(countries_data, interested_filtered, chosen_regions)
             if rec_list is not None:
                 rec_list = rec_list[0:12]
                 for iso in rec_list:
@@ -369,6 +377,7 @@ def get_recommended_countries(location: str, regions: list, chosen_factors: list
     if rec_countries[-1] != 0:
         rec_countries.append(0)
     return rec_countries
+
 
 @app.callback(
     [Output('p1', 'src'),
