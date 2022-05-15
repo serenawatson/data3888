@@ -19,7 +19,6 @@
         - First arg to `generate_cluster()` should just be `countries_data`.
         - Other args should come from user inputs in UI.
         - i.e., your call to this function should look something like `generate_cluster(countries_data, ...)`
-        - **Important note: Prior to calling `generate_cluster()`, ensure that the user has selected at least 1 variable group/interest, and at least 1 region.**
     2. `get_country_data()` will give you all the data (including description, travel advice, COVID cases/deaths, etc.) for a given country.
         - First arg to `get_country_data()` should just be `countries_data`.
         - Second arg should be a (valid) country name.

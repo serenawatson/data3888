@@ -28,18 +28,16 @@ def generate_cluster(countries_data: pd.DataFrame,
             - showstheatresandmusic
             - wellness
             - wildlife
-        regions (List[str]): A list containing 1 or more regions (see list below).
+        regions (List[str]): A list containing 0 or more regions (see list below).
             Region names:
             - Asia-Pacific
             - Americas
             - Europe and Africa
     Returns:
-        List[str]: List of countries recommended to the user. Returns None if
-            - the user hasn't selected any interests/variable groups, or
-            - the user hasn't selected any regions.
+        List[str]: List of countries recommended to the user.
     """
-    if list(interested.values()).count(True) == 0 or len(regions) == 0:
-        return None
+    if len(regions) == 0:
+        regions = ['Asia-Pacific', 'Americas', 'Europe and Africa']
 
     weightings = convert_interests_to_col_weightings(interested)
     medians_scaled_pca, medians_scaled = prepare_data_for_clustering(countries_data, regions, weightings)
@@ -79,7 +77,7 @@ def main():
     interested["wildlife"] = False
 
     countries_data = integrate_all_data()
-    print(generate_cluster(countries_data, interested, ['Asia-Pacific', 'Europe']))
+    print(generate_cluster(countries_data, interested, ['Europe and Africa', 'Asia-Pacific']))
 
     # Example usage of get_country_data() function above
     print(get_country_data(countries_data, "United States"))

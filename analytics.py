@@ -18,7 +18,7 @@ def generate_country_df(countries_data: pd.DataFrame,
     Args:
         countries_data (pd.DataFrame): DataFrame returned by integrate_all_data().
         country (str): Country selected by user.
-        regions (List[str]): A list containing 1 or more regions (see list below).
+        regions (List[str]): A list containing 0 or more regions (see list below).
             Region names:
             - Asia-Pacific
             - Americas
@@ -38,12 +38,10 @@ def generate_country_df(countries_data: pd.DataFrame,
                                - wildlife
 
     Returns:
-        pandas.DataFrame: DataFrame containing information about a particular country, including its 5 nearest neighbours. Returns None if
-            - the user hasn't selected any interests/variable groups, or
-            - the user hasn't selected any regions.
+        pandas.DataFrame: DataFrame containing information about a particular country, including its 5 nearest neighbours.
     """
-    if len(interests) == 0 or len(regions) == 0:
-        return None
+    if len(regions) == 0:
+        regions = ['Asia-Pacific', 'Americas', 'Europe and Africa']
 
     continents = convert_regions_to_continents(regions)
 
