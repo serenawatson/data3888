@@ -22,8 +22,7 @@ def generate_country_df(countries_data: pd.DataFrame,
             Region names:
             - Asia-Pacific
             - Americas
-            - Europe
-            - Africa
+            - Europe and Africa
         interests (List[str]): Interest(s) selected by user in UI. (These are weighted more in 5-NN.)
                                Interest options:
                                - covid

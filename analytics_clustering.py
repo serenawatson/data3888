@@ -32,8 +32,7 @@ def generate_cluster(countries_data: pd.DataFrame,
             Region names:
             - Asia-Pacific
             - Americas
-            - Europe
-            - Africa
+            - Europe and Africa
     Returns:
         List[str]: List of countries recommended to the user. Returns None if
             - the user hasn't selected any interests/variable groups, or
