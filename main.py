@@ -395,23 +395,69 @@ def get_recommended_countries(location: str, chosen_regions: list, chosen_factor
     Output('p10', 'src'),
     Output('p11', 'src'),
     Output('p12', 'src')],
-    [Input(component_id='1', component_property='children'),
-     Input(component_id='2', component_property='children'),
-     Input(component_id='3', component_property='children'),
-     Input(component_id='4', component_property='children'),
-     Input(component_id='5', component_property='children'),
-     Input(component_id='6', component_property='children'),
-     Input(component_id='7', component_property='children'),
-     Input(component_id='8', component_property='children'),
-     Input(component_id='9', component_property='children'),
-     Input(component_id='10', component_property='children'),
-     Input(component_id='11', component_property='children'),
-     Input(component_id='12', component_property='children')]
+    Input(component_id='1', component_property='children'),
+    Input(component_id='2', component_property='children'),
+    Input(component_id='3', component_property='children'),
+    Input(component_id='4', component_property='children'),
+    Input(component_id='5', component_property='children'),
+    Input(component_id='6', component_property='children'),
+    Input(component_id='7', component_property='children'),
+    Input(component_id='8', component_property='children'),
+    Input(component_id='9', component_property='children'),
+    Input(component_id='10', component_property='children'),
+    Input(component_id='11', component_property='children'),
+    Input(component_id='12', component_property='children')
 )
-def update_desinaions_div(destinations: list):
+def update_desinaions_div(destination1: str,destination2: str,destination3: str,destination4: str,destination5: str,destination6: str,destination7: str,destination8: str,destination9: str,destination10: str,destination11: str,destination12: str):
      src = []
-     for destination in destinations:
-          src.append(urls[destination])
+     if destination1 in locations:
+          src.append(urls[destination1])
+     else:
+          src.append("https://bulma.io/images/placeholders/640x320.png")
+     if destination2 in locations:
+          src.append(urls[destination2])
+     else:
+          src.append("https://bulma.io/images/placeholders/640x320.png")
+     if destination3 in locations:
+          src.append(urls[destination3])
+     else:
+          src.append("https://bulma.io/images/placeholders/640x320.png")
+     if destination4 in locations:
+          src.append(urls[destination4])
+     else:
+          src.append("https://bulma.io/images/placeholders/640x320.png")
+     if destination5 in locations:
+          src.append(urls[destination5])
+     else:
+          src.append("https://bulma.io/images/placeholders/640x320.png")
+     if destination6 in locations:
+          src.append(urls[destination6])
+     else:
+          src.append("https://bulma.io/images/placeholders/640x320.png")
+     if destination7 in locations:
+          src.append(urls[destination7])
+     else:
+          src.append("https://bulma.io/images/placeholders/640x320.png")
+     if destination8 in locations:
+          src.append(urls[destination8])
+     else:
+          src.append("https://bulma.io/images/placeholders/640x320.png")
+     if destination9 in locations:
+          src.append(urls[destination9])
+     else:
+          src.append("https://bulma.io/images/placeholders/640x320.png")
+     if destination10 in locations:
+          src.append(urls[destination10])
+     else:
+          src.append("https://bulma.io/images/placeholders/640x320.png")
+     if destination11 in locations:
+          src.append(urls[destination11])
+     else:
+          src.append("https://bulma.io/images/placeholders/640x320.png")
+     if destination12 in locations:
+          src.append(urls[destination12])
+     else:
+          src.append("https://bulma.io/images/placeholders/640x320.png")
      return src
 
 
