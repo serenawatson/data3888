@@ -192,7 +192,7 @@ def read_smartraveller_data():
 
             for item in items:        
 
-                title = item.find('title', first=True).text
+                title = item.find('title', first=True).text.split("\n")[0]
                 pubDate = item.find('pubDate', first=True).text
                 guid = item.find('guid', first=True).text
                 description = item.find('description', first=True).text
@@ -235,6 +235,10 @@ def integrate_all_data():
     covid = read_live_covid_data()
     poi = read_poi_data()
     smartraveller = read_smartraveller_data()
+
+    print("Smartraveller location column:")
+    print(smartraveller["location"])
+
     triposo = read_triposo_data()
 
     # merging
