@@ -11,7 +11,7 @@ def fetch_mapping_df(df, recommended_countries):
     
     return mapping_df
 
-def update_map(world_map, df, recommended_countries):
+def update_map(world_map, df, recommended_countries = [""]):
     mapping_df = fetch_mapping_df(df, recommended_countries)
     
     world_map.update_traces(locations = mapping_df["iso_code"],

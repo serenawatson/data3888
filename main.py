@@ -6,6 +6,7 @@ import pandas as pd
 from common import *
 from analytics import *
 from analytics_clustering import *
+from mapping import *
 import json
 
 countries_data = integrate_all_data()
@@ -326,6 +327,7 @@ def set_location_values(selected_location):
     Output('10', 'children'),
     Output('11', 'children'),
     Output('12', 'children'),
+    Output('graph', 'figure'),
     Output('submit', 'n_clicks')],
     Input('location_select', 'value'),
     Input('region_select', 'value'),
@@ -335,6 +337,7 @@ def set_location_values(selected_location):
 )
 def get_recommended_countries(location: str, chosen_regions: list, chosen_factors: list, chosen_interests: list, submit: int):
     global rec_countries
+    global world_map
     iso_loc = read_iso_loc_data()
     rec_list = None
     if location is None:
@@ -377,6 +380,8 @@ def get_recommended_countries(location: str, chosen_regions: list, chosen_factor
     while len(rec_countries) < 12:
         rec_countries.append("")
     # defaults n_clicks back to 0 clicks
+    world_map = update_map(world_map, countries_data, rec_countries)
+    rec_countries.append(world_map)
     if rec_countries[-1] != 0:
         rec_countries.append(0)
     return rec_countries
