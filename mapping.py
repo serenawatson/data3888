@@ -1,23 +1,34 @@
-import plotly.graph_objects as go
-import pandas as pd
-
-
 def fetch_mapping_df(df, recommended_countries):
     recommended_countries_dict = {"location" : recommended_countries}
     recommended_countries_df = pd.DataFrame(recommended_countries_dict)
 
     mapping_df = pd.merge(recommended_countries_df, df, on = "location")
-    mapping_df["recommended"] = [1 for location in df["location"] if location in recommended_countries]
+    mapping_df["recommended"] = [1 for location in mapping_df["location"]]
     
     return mapping_df
 
-def update_map(world_map, df, recommended_countries = [""]):
+def update_map(world_map, df, recommended_countries):
     mapping_df = fetch_mapping_df(df, recommended_countries)
     
     world_map.update_traces(locations = mapping_df["iso_code"],
                             autocolorscale = False,
                             marker_line_color = "white",
-                            colorscale = ["#6baed6", "#08306b"],
+                            colorscale = ["#3069bf", "#3069bf"],
+                            hovertext = mapping_df["location"],
+                            hovertemplate = "%{hovertext}<extra></extra>",
+                            z = mapping_df["recommended"],
+                            showscale = False)
+    
+    return world_map
+
+def update_map_on_click(world_map, df, recommended_countries, location_string):
+    mapping_df = fetch_mapping_df(df, recommended_countries)
+    mapping_df.loc[mapping_df["location"] == location_string,"recommended"] = 2
+    
+    world_map.update_traces(locations = mapping_df["iso_code"],
+                            autocolorscale = False,
+                            marker_line_color = "white",
+                            colorscale = ["#3069bf", "#ff0000"],
                             hovertext = mapping_df["location"],
                             hovertemplate = "%{hovertext}<extra></extra>",
                             z = mapping_df["recommended"],
