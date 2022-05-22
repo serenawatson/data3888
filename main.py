@@ -13,14 +13,8 @@ from mapping import *
 import json
 import re
 
-<<<<<<< HEAD
-countries_data = integrate_all_data()
-=======
 covid = read_live_covid_data()
 countries_data = integrate_all_data(covid)
-rec_countries = []
-
->>>>>>> main
 
 # blank map
 df = pd.read_csv("data/data.txt")
@@ -501,6 +495,78 @@ def generate_info_panel(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12,
 
     return left, right, [d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12]
 
+"""
+@app.callback(
+    Output('graph', 'figure'),
+    Input('graph', 'figure'),
+    Input('a1', 'n_clicks'),
+    Input('a2', 'n_clicks'),
+    Input('a3', 'n_clicks'),
+    Input('a4', 'n_clicks'),
+    Input('a5', 'n_clicks'),
+    Input('a6', 'n_clicks'),
+    Input('a7', 'n_clicks'),
+    Input('a8', 'n_clicks'),
+    Input('a9', 'n_clicks'),
+    Input('a10', 'n_clicks'),
+    Input('a11', 'n_clicks'),
+    Input('a12', 'n_clicks'),
+    Input(component_id='1', component_property='children'),
+    Input(component_id='2', component_property='children'),
+    Input(component_id='3', component_property='children'),
+    Input(component_id='4', component_property='children'),
+    Input(component_id='5', component_property='children'),
+    Input(component_id='6', component_property='children'),
+    Input(component_id='7', component_property='children'),
+    Input(component_id='8', component_property='children'),
+    Input(component_id='9', component_property='children'),
+    Input(component_id='10', component_property='children'),
+    Input(component_id='11', component_property='children'),
+    Input(component_id='12', component_property='children'),
+    State('countries', 'data')
+)
+def update_map_with_colour(world_map, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12,
+                           d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, countries):
+
+    a_dict = {
+        'a1': a1,
+        'a2': a2,
+        'a3': a3,
+        'a4': a4,
+        'a5': a5,
+        'a6': a6,
+        'a7': a7,
+        'a8': a8,
+        'a9': a9,
+        'a10': a10,
+        'a11': a11,
+        'a12': a12
+    }
+
+    destination_dict = {
+        'a1': d1,
+        'a2': d2,
+        'a3': d3,
+        'a4': d4,
+        'a5': d5,
+        'a6': d6,
+        'a7': d7,
+        'a8': d8,
+        'a9': d9,
+        'a10': d10,
+        'a11': d11,
+        'a12': d12
+    }
+
+    triggered_id = list(ctx.triggered_prop_ids.values())[0]
+    if triggered_id in ['a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8', 'a9', 'a10', 'a11', 'a12']:
+        if a_dict[triggered_id] == 0:
+            raise PreventUpdate
+    elif triggered_id not in ['a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8', 'a9', 'a10', 'a11', 'a12']:
+        raise PreventUpdate
+
+    return update_map_on_click(world_map, countries_data, countries, destination_dict[triggered_id])
+"""
 
 @app.callback(
     [Output('advice_div', 'style'),
@@ -631,6 +697,9 @@ def get_recommended_countries(location: str, chosen_regions: list, chosen_factor
     # if recommended countries list is not len 12, it will pad with empty strings for output purposes
     while len(rec_countries) < 12:
         rec_countries.append("")
+    
+    print(rec_countries)
+
     # defaults n_clicks back to 0 clicks
     output_list = list(rec_countries)
     world_map = update_map(world_map, countries_data, rec_countries)

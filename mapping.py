@@ -1,3 +1,5 @@
+import pandas as pd
+
 def fetch_mapping_df(df, recommended_countries):
     recommended_countries_dict = {"location" : recommended_countries}
     recommended_countries_df = pd.DataFrame(recommended_countries_dict)
