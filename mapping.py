@@ -35,3 +35,14 @@ def update_map_on_click(world_map, df, recommended_countries, location_string):
                             showscale = False)
     
     return world_map
+
+def covid_graph(df, location_string):
+    country_data = df[df.location == location_string]
+    figure = px.line(country_data, 
+                     x = "date", 
+                     y = "new_cases_smoothed_per_million", 
+                     labels={"date": "Date",
+                             "new_cases_smoothed_per_million": "New cases per million (smoothed)"},
+                     title = "Covid cases in " + location_string)
+    
+    return figure
