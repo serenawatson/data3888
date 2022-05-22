@@ -9,7 +9,8 @@ from analytics_clustering import *
 from mapping import *
 import json
 
-countries_data = integrate_all_data()
+covid = read_live_covid_data()
+countries_data = integrate_all_data(covid)
 rec_countries = []
 
 
