@@ -1,5 +1,6 @@
 import re
-from dash import Dash, html, dcc, Input, Output, State
+from dash import Dash, html, dcc, Input, Output, State, ctx
+from dash.exceptions import PreventUpdate
 from numpy import empty
 import plotly.graph_objects as go
 import pandas as pd
@@ -104,6 +105,8 @@ continent_dictionary = pd.read_csv("data/ContinentLocation.csv")
 app = Dash(__name__, prevent_initial_callbacks=True)
 
 app.layout = html.Div(className="block mx-4 my-4", children=[
+    dcc.Store(id="store_left", storage_type="session"),
+    dcc.Store(id="store_right", storage_type="session"),
     html.Div(className='columns', children=[
         html.Div(className='column is-one-third is-flex is-align-content-center', children=[
             html.Div(id="left_panel", className='box is-fullheight is-fullwidth', children=[
@@ -327,8 +330,62 @@ app.layout = html.Div(className="block mx-4 my-4", children=[
         ])
     ])
 ])
+# save left and right panels on submit
+@app.callback(
+    Output('store_left', 'data'),
+    Output('store_right', 'data'),
+    Input('submit', 'n_clicks'),
+    Input('left_panel', 'children'),
+    Input('right_panel', 'children')
+)
+def store_initial_input(submit_clicks, left, right):
+    triggered_id = list(ctx.triggered_prop_ids.values())[0]
+    if triggered_id != 'submit':
+        PreventUpdate
+    return left, right
+
+"""
+# make info panel
+@app.callback(
+    Output('left_panel', 'children'),
+    Input('a1', 'n_clicks'),
+    Input('a2', 'n_clicks'),
+    Input('a3', 'n_clicks'),
+    Input('a4', 'n_clicks'),
+    Input('a5', 'n_clicks'),
+    Input('a6', 'n_clicks'),
+    Input('a7', 'n_clicks'),
+    Input('a8', 'n_clicks'),
+    Input('a9', 'n_clicks'),
+    Input('a10', 'n_clicks'),
+    Input('a11', 'n_clicks'),
+    Input('a12', 'n_clicks'),
+    Input(component_id='1', component_property='children'),
+    Input(component_id='2', component_property='children'),
+    Input(component_id='3', component_property='children'),
+    Input(component_id='4', component_property='children'),
+    Input(component_id='5', component_property='children'),
+    Input(component_id='6', component_property='children'),
+    Input(component_id='7', component_property='children'),
+    Input(component_id='8', component_property='children'),
+    Input(component_id='9', component_property='children'),
+    Input(component_id='10', component_property='children'),
+    Input(component_id='11', component_property='children'),
+    Input(component_id='12', component_property='children'),
+    Input('store_left', 'data')
+)
+def generate_info_panel(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12,
+                        d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, 
+                        store_left):
+    triggered_id = list(ctx.triggered_prop_ids.values())[0]
+    if triggered_id not in ['a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8', 'a9', 'a10',
+     'a11', 'a12'] or None in [a1, a2, a3, a4, a5, a6 ,a7, a8, a9, a10, a11, a12]:
+        PreventUpdate
+    return 
+"""    
 
 
+# auto fill regions
 @app.callback(
     Output('region_select', 'value'),
     Input('location_select', 'value')
