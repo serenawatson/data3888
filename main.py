@@ -112,7 +112,6 @@ app.layout = html.Div(className="block mx-4 my-4", children=[
     dcc.Store(id="store_right", storage_type="session"),
     dcc.Store(id='countries', storage_type='session'),
     # hidden button to stop callback errors
-    html.Button(id='back', style={'display':'none'}),
     html.Div(className='columns', children=[
         html.Div(className='column is-one-third is-flex is-align-content-center', children=[
             html.Div(id="left_panel", className='box is-fullheight is-fullwidth', children=[
