@@ -1,6 +1,7 @@
 import re
-from dash import Dash, html, dcc, Input, Output, State, ctx
+from dash import Dash, html, dcc, State, ctx
 from dash.exceptions import PreventUpdate
+from dash_extensions.enrich import Output, DashProxy, Input, MultiplexerTransform
 from numpy import empty
 import plotly.graph_objects as go
 import pandas as pd
@@ -102,11 +103,14 @@ locations = ['Albania', 'Algeria', 'Argentina', 'Armenia', 'Austria',
 # read in continent file
 continent_dictionary = pd.read_csv("data/ContinentLocation.csv")
 
-app = Dash(__name__, prevent_initial_callbacks=True)
+app = DashProxy(__name__, prevent_initial_callbacks=True, transforms=[MultiplexerTransform()])
 
 app.layout = html.Div(className="block mx-4 my-4", children=[
+    #cache data
     dcc.Store(id="store_left", storage_type="session"),
     dcc.Store(id="store_right", storage_type="session"),
+    # hidden button to stop callback errors
+    html.Button(id='back', style={'display':'none'}),
     html.Div(className='columns', children=[
         html.Div(className='column is-one-third is-flex is-align-content-center', children=[
             html.Div(id="left_panel", className='box is-fullheight is-fullwidth', children=[
@@ -341,13 +345,20 @@ app.layout = html.Div(className="block mx-4 my-4", children=[
 def store_initial_input(submit_clicks, left, right):
     triggered_id = list(ctx.triggered_prop_ids.values())[0]
     if triggered_id != 'submit':
-        PreventUpdate
+        raise PreventUpdate
     return left, right
 
-"""
 # make info panel
+dummy_divs = [html.Button(id='submit', style={'display':'none'}), 
+              html.Div(id='location_select', style={'display':'none'}),
+              html.Div(id='region_select', style={'display':'none'}),
+              html.Div(id='factor_select', style={'display':'none'}),
+              html.Div(id='interest_select', style={'display':'none'})
+             ]
+
 @app.callback(
     Output('left_panel', 'children'),
+    Output('right_panel', 'children'),
     Input('a1', 'n_clicks'),
     Input('a2', 'n_clicks'),
     Input('a3', 'n_clicks'),
@@ -372,18 +383,37 @@ def store_initial_input(submit_clicks, left, right):
     Input(component_id='10', component_property='children'),
     Input(component_id='11', component_property='children'),
     Input(component_id='12', component_property='children'),
-    Input('store_left', 'data')
+    Input('store_left', 'data'),
+    Input('store_right', 'data')
 )
 def generate_info_panel(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12,
-                        d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, 
-                        store_left):
+                        d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12,
+                        store_left, store_right):
+    print([d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12])
+    left = store_left
+    right = store_right
     triggered_id = list(ctx.triggered_prop_ids.values())[0]
-    if triggered_id not in ['a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8', 'a9', 'a10',
-     'a11', 'a12'] or None in [a1, a2, a3, a4, a5, a6 ,a7, a8, a9, a10, a11, a12]:
-        PreventUpdate
-    return 
-"""    
+    
+    if '' in [d1, d2, d3, d4, d5, d6, d7, d8, d9, d10]:
+        raise PreventUpdate
+    
+    if triggered_id in ['a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8', 'a9', 'a10', 'a11', 'a12']:
+        left = html.Div(children=[
+            html.Button('back', id='back'),
+            *dummy_divs
+            ])
+    return left, right
 
+@app.callback(
+Output('left_panel', 'children'),
+Input('back', 'n_clicks'),
+Input('store_left', 'data')
+)
+def restore_stored_data(back_clicks, store_left):
+    if back_clicks == 0 or back_clicks == None:
+        raise PreventUpdate
+    
+    return store_left
 
 # auto fill regions
 @app.callback(
