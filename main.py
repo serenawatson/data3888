@@ -119,6 +119,7 @@ dummy_divs_left = [
 ]
 
 app.layout = html.Div(className="block mx-4 my-4", children=[
+    html.Div(id='location_title', style={'display': 'none'}),
     # cache data
     dcc.Store(id="store_left", storage_type="session"),
     dcc.Store(id="store_right", storage_type="session"),
@@ -392,12 +393,14 @@ def find_advice_class(advice_levels, advice):
         if bool(re.search(level.lower(), advice.lower())):
             return [className_dict[level], level]
 
-interest_and_factor_levels ={
-    range(0,3): "is-danger",
-    range(3,6): "is-warning",
-    range(7,8): "is-success",
-    range(9,10): "is-primary"
+
+interest_and_factor_levels = {
+    range(0, 3): "is-danger",
+    range(3, 6): "is-warning",
+    range(7, 8): "is-success",
+    range(9, 10): "is-primary"
 }
+
 
 @app.callback(
     Output('left_panel', 'children'),
@@ -436,7 +439,6 @@ def generate_info_panel(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12,
                         d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12,
                         store_left, store_right, factor, interest):
 
-    print(factor, interest)
     destination_dict = {
         'a1': d1,
         'a2': d2,
@@ -478,7 +480,7 @@ def generate_info_panel(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12,
                              ]),
                              html.Div(className="column is-two-thirds", children=[
                                  html.P(
-                                     destination, className="is-size-3 has-text-link-dark")])
+                                     destination, className="is-size-3 has-text-link-dark", id="location_title")])
                          ]),
                 html.Div(id="advice_div", className=advice_class, children=[
                     html.Button(className="delete", id="hide_advice_btn"),
@@ -495,78 +497,40 @@ def generate_info_panel(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12,
 
     return left, right, [d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12]
 
-"""
+
 @app.callback(
     Output('graph', 'figure'),
-    Input('graph', 'figure'),
-    Input('a1', 'n_clicks'),
-    Input('a2', 'n_clicks'),
-    Input('a3', 'n_clicks'),
-    Input('a4', 'n_clicks'),
-    Input('a5', 'n_clicks'),
-    Input('a6', 'n_clicks'),
-    Input('a7', 'n_clicks'),
-    Input('a8', 'n_clicks'),
-    Input('a9', 'n_clicks'),
-    Input('a10', 'n_clicks'),
-    Input('a11', 'n_clicks'),
-    Input('a12', 'n_clicks'),
-    Input(component_id='1', component_property='children'),
-    Input(component_id='2', component_property='children'),
-    Input(component_id='3', component_property='children'),
-    Input(component_id='4', component_property='children'),
-    Input(component_id='5', component_property='children'),
-    Input(component_id='6', component_property='children'),
-    Input(component_id='7', component_property='children'),
-    Input(component_id='8', component_property='children'),
-    Input(component_id='9', component_property='children'),
-    Input(component_id='10', component_property='children'),
-    Input(component_id='11', component_property='children'),
-    Input(component_id='12', component_property='children'),
-    State('countries', 'data')
+    Input(component_id='location_title', component_property='children'),
+    State('countries', 'data'),
+    State('back', 'style'),
+    
 )
-def update_map_with_colour(world_map, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12,
-                           d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, countries):
+def update_map_with_colour(location, countries, back):
 
-    a_dict = {
-        'a1': a1,
-        'a2': a2,
-        'a3': a3,
-        'a4': a4,
-        'a5': a5,
-        'a6': a6,
-        'a7': a7,
-        'a8': a8,
-        'a9': a9,
-        'a10': a10,
-        'a11': a11,
-        'a12': a12
-    }
+    print(location)
+    df = pd.read_csv("data/data.txt")
+    df = df.drop(columns='Unnamed: 0')
 
-    destination_dict = {
-        'a1': d1,
-        'a2': d2,
-        'a3': d3,
-        'a4': d4,
-        'a5': d5,
-        'a6': d6,
-        'a7': d7,
-        'a8': d8,
-        'a9': d9,
-        'a10': d10,
-        'a11': d11,
-        'a12': d12
-    }
+    world_map = go.Figure(data=go.Choropleth(
+        locations=df['iso_code'],
+        colorscale='Reds',
+        autocolorscale=False,
+        marker_line_color='darkgray'
+    ))
 
-    triggered_id = list(ctx.triggered_prop_ids.values())[0]
-    if triggered_id in ['a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8', 'a9', 'a10', 'a11', 'a12']:
-        if a_dict[triggered_id] == 0:
+    world_map.update_layout(
+        geo=dict(
+            showcoastlines=False,
+            showframe=False
+        ),
+        margin={"r": 0, "t": 0, "l": 0, "b": 0},
+    )
+
+    if back is not None:
+        if dict(back)['display'] == 'none':
             raise PreventUpdate
-    elif triggered_id not in ['a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8', 'a9', 'a10', 'a11', 'a12']:
-        raise PreventUpdate
 
-    return update_map_on_click(world_map, countries_data, countries, destination_dict[triggered_id])
-"""
+    return update_map_on_click(world_map, countries_data, countries, location)
 
 @app.callback(
     [Output('advice_div', 'style'),
@@ -697,8 +661,6 @@ def get_recommended_countries(location: str, chosen_regions: list, chosen_factor
     # if recommended countries list is not len 12, it will pad with empty strings for output purposes
     while len(rec_countries) < 12:
         rec_countries.append("")
-    
-    print(rec_countries)
 
     # defaults n_clicks back to 0 clicks
     output_list = list(rec_countries)
