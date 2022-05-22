@@ -12,17 +12,16 @@ from mapping import *
 import json
 
 countries_data = integrate_all_data()
-rec_countries = []
 
 # blank map
 df = pd.read_csv("data/data.txt")
 df = df.drop(columns='Unnamed: 0')
 
 world_map = go.Figure(data=go.Choropleth(
-    locations=df['iso_code'],
-    colorscale='Reds',
-    autocolorscale=False,
-    marker_line_color='darkgray'
+        locations=df['iso_code'],
+        colorscale='Reds',
+        autocolorscale=False,
+        marker_line_color='darkgray'
 ))
 
 world_map.update_layout(
@@ -32,6 +31,7 @@ world_map.update_layout(
     ),
     margin={"r": 0, "t": 0, "l": 0, "b": 0},
 )
+
 # read in place photos url
 with open("place_photos_url.json") as f:
     urls = json.load(f)
@@ -110,6 +110,9 @@ app.layout = html.Div(className="block mx-4 my-4", children=[
     # cache data
     dcc.Store(id="store_left", storage_type="session"),
     dcc.Store(id="store_right", storage_type="session"),
+    dcc.Store(id='countries', storage_type='session'),
+    # hidden button to stop callback errors
+    html.Button(id='back', style={'display':'none'}),
     html.Div(className='columns', children=[
         html.Div(className='column is-one-third is-flex is-align-content-center', children=[
             html.Div(id="left_panel", className='box is-fullheight is-fullwidth', children=[
@@ -364,6 +367,7 @@ dummy_divs = [html.Button(id='submit', style={'display': 'none'}),
 @app.callback(
     Output('left_panel', 'children'),
     Output('right_panel', 'children'),
+    Output('countries', 'data'),
     Input('a1', 'n_clicks'),
     Input('a2', 'n_clicks'),
     Input('a3', 'n_clicks'),
@@ -437,7 +441,7 @@ def generate_info_panel(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12,
                 *dummy_divs
             ])
 
-    return left, right
+    return left, right, [d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12]
 
 
 @app.callback(
@@ -464,7 +468,6 @@ def set_location_values(selected_location):
                                            == selected_location]["Region"].item()
         return [region_area]
 
-
 @app.callback(
     [Output('1', 'children'),
      Output('2', 'children'),
@@ -484,11 +487,32 @@ def set_location_values(selected_location):
     Input('region_select', 'value'),
     Input('factor_select', 'value'),
     Input('interest_select', 'value'),
-    Input('submit', 'n_clicks')
+    Input('submit', 'n_clicks'),
+    Input('countries', 'data')
 )
-def get_recommended_countries(location: str, chosen_regions: list, chosen_factors: list, chosen_interests: list, submit: int):
-    global rec_countries
-    global world_map
+def get_recommended_countries(location: str, chosen_regions: list, chosen_factors: list, chosen_interests: list, submit: int, countries: list):
+    df = pd.read_csv("data/data.txt")
+    df = df.drop(columns='Unnamed: 0')
+
+    rec_countries = []
+    world_map = go.Figure(data=go.Choropleth(
+        locations=df['iso_code'],
+        colorscale='Reds',
+        autocolorscale=False,
+        marker_line_color='darkgray'
+    ))
+
+    world_map.update_layout(
+        geo=dict(
+            showcoastlines=False,
+            showframe=False
+        ),
+        margin={"r": 0, "t": 0, "l": 0, "b": 0},
+    )
+
+    if not countries is None and len(countries) > 0:
+        rec_countries = countries
+    
     iso_loc = read_iso_loc_data()
     rec_list = None
     if location is None:
@@ -499,7 +523,8 @@ def get_recommended_countries(location: str, chosen_regions: list, chosen_factor
         chosen_factors = []
     if chosen_interests is None:
         chosen_interests = []
-    if submit != 0:
+
+    if submit != 0 and not submit is None:
         if location != "":
             rec_countries.clear()
             for i in range(len(chosen_factors)):
