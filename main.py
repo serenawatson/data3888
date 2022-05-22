@@ -3,7 +3,7 @@ import textwrap
 from dash import Dash, html, dcc, State, ctx
 from dash.exceptions import PreventUpdate
 from dash_extensions.enrich import Output, DashProxy, Input, MultiplexerTransform
-from numpy import empty
+from numpy import empty, mean, array, arange
 import plotly.graph_objects as go
 import pandas as pd
 from common import *
@@ -115,7 +115,8 @@ dummy_divs_left = [
     html.Div(id="hide_advice_btn", style={'display': 'none'}),
     html.Div(id="advice", style={'display': 'none'}),
     html.Div(id="advice_summary", style={'display': 'none'}),
-    html.Div(id="advice_div", style={'display': 'none'})
+    html.Div(id="advice_div", style={'display': 'none'}),
+    html.Div(id='user_choices', style={'display': 'none'})
 ]
 
 app.layout = html.Div(className="block mx-4 my-4", children=[
@@ -394,12 +395,37 @@ def find_advice_class(advice_levels, advice):
             return [className_dict[level], level]
 
 
-interest_and_factor_levels = {
-    range(0, 3): "is-danger",
-    range(3, 6): "is-warning",
-    range(7, 8): "is-success",
-    range(9, 10): "is-primary"
-}
+variable_groups = get_variable_groups()
+
+
+def generate_factor_interest_scores(type, user_list, iso_code, variable_groups, df):
+    print(user_list)
+    names = []
+    values = []
+    for factor in user_list:
+        if factor != 'Covid':
+            names.append(factor)
+            mean_arr = []
+            for group in variable_groups[type[factor]]:
+                mean_arr.append(
+                    df.loc[df['iso_code'] == iso_code, [group]].iloc[0].item())
+            mean_arr = array(mean_arr)
+            values.append(round(mean_arr.mean(), 2))
+    return names, values
+
+
+def get_tag_colours(values):
+    colours = []
+    for value in values:
+        if 0 <= float(value) < 3:
+            colours.append("tag is-rounded is-danger")
+        elif 3 <= float(value) < 6:
+            colours.append("tag is-rounded is-warning")
+        elif 6 <= float(value) < 8:
+            colours.append("tag is-rounded is-success")
+        else:
+            colours.append("tag is-rounded is-primary")
+    return colours
 
 
 @app.callback(
@@ -479,9 +505,36 @@ def generate_info_panel(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12,
         new_deaths = countries_data.loc[countries_data['iso_code'] == destination_code, [
             'new_deaths_smoothed_per_million']].iloc[0].item()
 
+        iso_loc = read_iso_loc_data()
+        destination_code = loc_to_iso_code(destination, iso_loc)
+
+        print(factor, destination_code)
+
+        factor_names, factor_scores = generate_factor_interest_scores(factors,
+                                                                      factor, destination_code, variable_groups, countries_data)
+        factor_colours = get_tag_colours(factor_scores)
+
+        if len(factor_names) < 3:
+            to_append = 3 - len(factor_names)
+            for i in range(to_append):
+                factor_names.append(None)
+                factor_scores.append(None)
+                factor_colours.append(None)
+
+        interest_names, interest_scores = generate_factor_interest_scores(interests,
+                                                                          interest, destination_code, variable_groups, countries_data)
+
+        interest_colours = get_tag_colours(interest_scores)
+        if len(interest_names) < 7:
+            to_append = 7 - len(interest_names)
+            for i in range(to_append):
+                interest_names.append(None)
+                interest_scores.append(None)
+                interest_colours.append(None)
+
         left = html.Div(
             children=[
-                html.Div(className='columns',
+                html.Div(className='columns', id="user_choices",
                          children=[
                              html.Div(className="column is-one-third", children=[
                                  html.Button(
@@ -516,6 +569,65 @@ def generate_info_panel(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12,
                             html.P(new_deaths, className='has-text-right')
                         ])
                     ])
+                ]), html.Div(className='block', children=[
+                    html.P('Factors',
+                           className="has-text-weight-bold"),
+                    html.Div(className="columns", children=[
+                        html.Div(className="column is-four-fifths", children=[
+                            html.P(
+                                factor_names[0], className="has-text-weight-semibold"),
+                            html.P(
+                                factor_names[1], className="has-text-weight-semibold"),
+                            html.P(
+                                factor_names[2], className="has-text-weight-semibold"),
+                        ]),
+                        html.Div(className="column", children=[
+                            html.Div(factor_scores[0],
+                                     className=factor_colours[0]),
+                            html.Div(factor_scores[1],
+                                     className=factor_colours[1]),
+                            html.Div(factor_scores[2],
+                                     className=factor_colours[2]),
+                        ])
+                    ])
+                ]),
+                html.Div(className='block', children=[
+                    html.P('Interests',
+                           className="has-text-weight-bold"),
+                    html.Div(className="columns", children=[
+                        html.Div(className="column is-four-fifths", children=[
+                            html.P(
+                                interest_names[0], className="has-text-weight-semibold"),
+                            html.P(
+                                interest_names[1], className="has-text-weight-semibold"),
+                            html.P(
+                                interest_names[2], className="has-text-weight-semibold"),
+                            html.P(
+                                interest_names[3], className="has-text-weight-semibold"),
+                            html.P(
+                                interest_names[4], className="has-text-weight-semibold"),
+                            html.P(
+                                interest_names[5], className="has-text-weight-semibold"),
+                            html.P(
+                                interest_names[6], className="has-text-weight-semibold")
+                        ]),
+                        html.Div(className="column", children=[
+                            html.Div(
+                                interest_scores[0], className=interest_colours[0]),
+                            html.Div(
+                                interest_scores[1], className=interest_colours[1]),
+                            html.Div(
+                                interest_scores[2], className=interest_colours[2]),
+                            html.Div(
+                                interest_scores[3], className=interest_colours[3]),
+                            html.Div(
+                                interest_scores[4], className=interest_colours[4]),
+                            html.Div(
+                                interest_scores[5], className=interest_colours[5]),
+                            html.Div(
+                                interest_scores[6], className=interest_colours[6])
+                        ])
+                    ])
                 ]),
                 *dummy_divs
             ])
@@ -532,7 +644,6 @@ def generate_info_panel(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12,
 )
 def update_map_with_colour(location, countries, back):
 
-    print(location)
     df = pd.read_csv("data/data.txt")
     df = df.drop(columns='Unnamed: 0')
 
@@ -614,12 +725,12 @@ def set_location_values(selected_location):
      Output('submit', 'n_clicks')],
     Input('location_select', 'value'),
     Input('region_select', 'value'),
-    Input('factor_select', 'value'),
-    Input('interest_select', 'value'),
     Input('submit', 'n_clicks'),
-    Input('countries', 'data')
+    Input('countries', 'data'),
+    State('factor_select', 'value'),
+    State('interest_select', 'value'),
 )
-def get_recommended_countries(location: str, chosen_regions: list, chosen_factors: list, chosen_interests: list, submit: int, countries: list):
+def get_recommended_countries(location: str, chosen_regions: list, submit: int, countries: list, chosen_factors: list, chosen_interests: list):
     df = pd.read_csv("data/data.txt")
     df = df.drop(columns='Unnamed: 0')
 
