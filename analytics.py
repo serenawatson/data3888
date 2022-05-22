@@ -54,7 +54,8 @@ def generate_country_df(countries_data: pd.DataFrame,
 
 def main():
     # Example usage of function above
-    countries_data = integrate_all_data()
+    covid = read_live_covid_data()
+    countries_data = integrate_all_data(covid)
     df = generate_country_df(countries_data, "Argentina", ['Americas'], [])
     print(df['5NN'])
 

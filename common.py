@@ -228,17 +228,12 @@ def read_triposo_data():
 
     return descriptions
 
-def integrate_all_data():
+def integrate_all_data(covid):
     # reading in all data
     original = read_original_data()
     tourism = read_tourism_data()
-    covid = read_live_covid_data()
     poi = read_poi_data()
     smartraveller = read_smartraveller_data()
-
-    print("Smartraveller location column:")
-    print(smartraveller["location"])
-
     triposo = read_triposo_data()
 
     # merging
