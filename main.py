@@ -462,21 +462,30 @@ def generate_info_panel(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12,
         raise PreventUpdate
 
     if triggered_id in ['a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8', 'a9', 'a10', 'a11', 'a12']:
+
         iso_loc = read_iso_loc_data()
         destination = destination_dict[triggered_id]
         destination_code = loc_to_iso_code(destination, iso_loc)
+
         description = countries_data.loc[countries_data['iso_code'] == destination_code, [
             'description']].iloc[0].item()
+
         advice = countries_data.loc[countries_data['iso_code']
                                     == destination_code, ['advice']].iloc[0].item()
         advice_class, advice_summary = find_advice_class(advice_levels, advice)
+
+        new_cases = countries_data.loc[countries_data['iso_code'] == destination_code, [
+            'new_cases_smoothed_per_million']].iloc[0].item()
+        new_deaths = countries_data.loc[countries_data['iso_code'] == destination_code, [
+            'new_deaths_smoothed_per_million']].iloc[0].item()
+
         left = html.Div(
             children=[
                 html.Div(className='columns',
                          children=[
                              html.Div(className="column is-one-third", children=[
                                  html.Button(
-                                     'Back', className="button is-medium", id="back")
+                                     'Back', className="button is-medium is-link is-light", id="back")
                              ]),
                              html.Div(className="column is-two-thirds", children=[
                                  html.P(
@@ -492,6 +501,22 @@ def generate_info_panel(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12,
                     html.P(textwrap.shorten(description,
                                             width=250, placeholder="..."))
                 ]),
+                html.Div(className='block', children=[
+                    html.P('Covid Statistics',
+                           className="has-text-weight-bold"),
+                    html.Div(className="columns", children=[
+                        html.Div(className="column", children=[
+                            html.P("New Cases Per Million:",
+                                   className="has-text-weight-semibold is-flex"),
+                            html.P("New Deaths Per Million:",
+                                   className="has-text-weight-semibold is-flex")
+                        ]),
+                        html.Div(className="column", children=[
+                            html.P(new_cases, className='has-text-right'),
+                            html.P(new_deaths, className='has-text-right')
+                        ])
+                    ])
+                ]),
                 *dummy_divs
             ])
 
@@ -503,7 +528,7 @@ def generate_info_panel(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12,
     Input(component_id='location_title', component_property='children'),
     State('countries', 'data'),
     State('back', 'style'),
-    
+
 )
 def update_map_with_colour(location, countries, back):
 
@@ -531,6 +556,7 @@ def update_map_with_colour(location, countries, back):
             raise PreventUpdate
 
     return update_map_on_click(world_map, countries_data, countries, location)
+
 
 @app.callback(
     [Output('advice_div', 'style'),
