@@ -380,11 +380,13 @@ def get_recommended_countries(location: str, chosen_regions: list, chosen_factor
     while len(rec_countries) < 12:
         rec_countries.append("")
     # defaults n_clicks back to 0 clicks
+    output_list = list(rec_countries)
     world_map = update_map(world_map, countries_data, rec_countries)
-    rec_countries.append(world_map)
-    if rec_countries[-1] != 0:
-        rec_countries.append(0)
-    return rec_countries
+    output_list.append(world_map)
+    if output_list[-1] != 0:
+        output_list.append(0)
+    
+    return output_list
 
 
 @app.callback(
