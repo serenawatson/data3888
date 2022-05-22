@@ -125,6 +125,8 @@ app.layout = html.Div(className="block mx-4 my-4", children=[
     dcc.Store(id="store_left", storage_type="session"),
     dcc.Store(id="store_right", storage_type="session"),
     dcc.Store(id='countries', storage_type='session'),
+    dcc.Store(id='factor_store', storage_type='session'),
+    dcc.Store(id='interest_store', storage_type='session'),
     # hidden button to stop callback errors
     html.Div(className='columns', children=[
         html.Div(className='column is-one-third is-flex is-align-content-center', children=[
@@ -354,8 +356,6 @@ app.layout = html.Div(className="block mx-4 my-4", children=[
     ])
 ])
 # save left and right panels on submit
-
-
 @app.callback(
     Output('store_left', 'data'),
     Output('store_right', 'data'),
@@ -368,6 +368,26 @@ def store_initial_input(submit_clicks, left, right):
     if triggered_id != 'submit':
         raise PreventUpdate
     return left, right
+
+@app.callback(
+    Output('factor_store', 'data'),
+    Output('interest_store', 'data'),
+    Input('submit', 'n_clicks'),
+    State('factor_select', 'value'),
+    State('interest_select', 'value'),
+    State('submit', 'style')
+)
+def store_factors_and_interests(submit, factor, interest, submit_style):
+    triggered_id = list(ctx.triggered_prop_ids.values())[0]
+    if triggered_id != 'submit':
+        raise PreventUpdate
+
+    if submit_style is not None:
+        if dict(submit_style)['display'] == 'none':
+            raise PreventUpdate
+
+    print(factor, interest)
+    return factor, interest
 
 
 # make info panel
@@ -399,7 +419,6 @@ variable_groups = get_variable_groups()
 
 
 def generate_factor_interest_scores(type, user_list, iso_code, variable_groups, df):
-    print(user_list)
     names = []
     values = []
     for factor in user_list:
@@ -458,12 +477,12 @@ def get_tag_colours(values):
     Input(component_id='12', component_property='children'),
     Input('store_left', 'data'),
     Input('store_right', 'data'),
-    State('factor_select', 'value'),
-    State('interest_select', 'value'),
+    State('factor_store', 'data'),
+    State('interest_store', 'data'),
 )
 def generate_info_panel(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12,
                         d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12,
-                        store_left, store_right, factor, interest):
+                        store_left, store_right, factor_store, interest_store):
 
     destination_dict = {
         'a1': d1,
@@ -508,10 +527,8 @@ def generate_info_panel(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12,
         iso_loc = read_iso_loc_data()
         destination_code = loc_to_iso_code(destination, iso_loc)
 
-        print(factor, destination_code)
-
         factor_names, factor_scores = generate_factor_interest_scores(factors,
-                                                                      factor, destination_code, variable_groups, countries_data)
+                                                                      factor_store, destination_code, variable_groups, countries_data)
         factor_colours = get_tag_colours(factor_scores)
 
         if len(factor_names) < 3:
@@ -522,7 +539,7 @@ def generate_info_panel(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12,
                 factor_colours.append(None)
 
         interest_names, interest_scores = generate_factor_interest_scores(interests,
-                                                                          interest, destination_code, variable_groups, countries_data)
+                                                                          interest_store, destination_code, variable_groups, countries_data)
 
         interest_colours = get_tag_colours(interest_scores)
         if len(interest_names) < 7:
@@ -889,4 +906,4 @@ def update_desinaions_div(destination1: str, destination2: str, destination3: st
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=False)
