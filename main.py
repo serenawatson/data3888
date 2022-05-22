@@ -1,4 +1,5 @@
 import re
+import textwrap
 from dash import Dash, html, dcc, State, ctx
 from dash.exceptions import PreventUpdate
 from dash_extensions.enrich import Output, DashProxy, Input, MultiplexerTransform
@@ -10,6 +11,7 @@ from analytics import *
 from analytics_clustering import *
 from mapping import *
 import json
+import re
 
 countries_data = integrate_all_data()
 
@@ -18,10 +20,10 @@ df = pd.read_csv("data/data.txt")
 df = df.drop(columns='Unnamed: 0')
 
 world_map = go.Figure(data=go.Choropleth(
-        locations=df['iso_code'],
-        colorscale='Reds',
-        autocolorscale=False,
-        marker_line_color='darkgray'
+    locations=df['iso_code'],
+    colorscale='Reds',
+    autocolorscale=False,
+    marker_line_color='darkgray'
 ))
 
 world_map.update_layout(
@@ -106,6 +108,15 @@ continent_dictionary = pd.read_csv("data/ContinentLocation.csv")
 app = DashProxy(__name__, prevent_initial_callbacks=True,
                 transforms=[MultiplexerTransform()])
 
+
+dummy_divs_left = [
+    html.Button(id='back', style={'display': 'none'}),
+    html.Div(id="hide_advice_btn", style={'display': 'none'}),
+    html.Div(id="advice", style={'display': 'none'}),
+    html.Div(id="advice_summary", style={'display': 'none'}),
+    html.Div(id="advice_div", style={'display': 'none'})
+]
+
 app.layout = html.Div(className="block mx-4 my-4", children=[
     # cache data
     dcc.Store(id="store_left", storage_type="session"),
@@ -116,15 +127,17 @@ app.layout = html.Div(className="block mx-4 my-4", children=[
         html.Div(className='column is-one-third is-flex is-align-content-center', children=[
             html.Div(id="left_panel", className='box is-fullheight is-fullwidth', children=[
                 # hidden button to stop callback errors
-                html.Button(id='back', style={'display': 'none'}),
+                *dummy_divs_left,
                 html.Div(className='block',
                          children=[
                              html.P('Holiday Planner',
                                     className='is-size-2 has-text-link-dark'),
                              html.P(
-                                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore "
-                                 "et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut "
-                                 "aliquip ex ea commodo consequat.")
+                                 """If you would like to have a wonderful trip outside Australia,
+                                  we can help you.""", className="is-size-6 has-text-justified"),
+                             html.P("""Whether or not you already have a destination in mind, or if you're looking for the best local food,
+                                   landmarks, or you're just concerned about COVID cases; this application can give you multiple recommendations with relevant
+                                    information.""", className="is-size-6 has-text-justified")
                          ]),
                 html.Div(className='block', children=[
                     html.Label(
@@ -362,6 +375,28 @@ dummy_divs = [html.Button(id='submit', style={'display': 'none'}),
               html.Div(id='interest_select', style={'display': 'none'})
               ]
 
+advice_levels = ["Exercise normal safety precautions",
+                 "Exercise a high degree of caution", "Reconsider your need to travel",
+                 "Do not travel"]
+
+
+def find_advice_class(advice_levels, advice):
+    className_dict = {
+        "Exercise normal safety precautions": "notification is-primary",
+        "Exercise a high degree of caution": "notification is-warning",
+        "Reconsider your need to travel": "notification is-danger",
+        "Do not travel": "notification"
+    }
+    for level in advice_levels:
+        if bool(re.search(level.lower(), advice.lower())):
+            return [className_dict[level], level]
+
+interest_and_factor_levels ={
+    range(0,3): "is-danger",
+    range(3,6): "is-warning",
+    range(7,8): "is-success",
+    range(9,10): "is-primary"
+}
 
 @app.callback(
     Output('left_panel', 'children'),
@@ -392,12 +427,15 @@ dummy_divs = [html.Button(id='submit', style={'display': 'none'}),
     Input(component_id='11', component_property='children'),
     Input(component_id='12', component_property='children'),
     Input('store_left', 'data'),
-    Input('store_right', 'data')
+    Input('store_right', 'data'),
+    State('factor_select', 'value'),
+    State('interest_select', 'value'),
 )
 def generate_info_panel(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12,
                         d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12,
-                        store_left, store_right):
+                        store_left, store_right, factor, interest):
 
+    print(factor, interest)
     destination_dict = {
         'a1': d1,
         'a2': d2,
@@ -424,7 +462,11 @@ def generate_info_panel(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12,
         iso_loc = read_iso_loc_data()
         destination = destination_dict[triggered_id]
         destination_code = loc_to_iso_code(destination, iso_loc)
-        #description = df.loc[df['iso_code'] == dest, ['description']].iloc[0].item()
+        description = countries_data.loc[countries_data['iso_code'] == destination_code, [
+            'description']].iloc[0].item()
+        advice = countries_data.loc[countries_data['iso_code']
+                                    == destination_code, ['advice']].iloc[0].item()
+        advice_class, advice_summary = find_advice_class(advice_levels, advice)
         left = html.Div(
             children=[
                 html.Div(className='columns',
@@ -435,12 +477,36 @@ def generate_info_panel(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12,
                              ]),
                              html.Div(className="column is-two-thirds", children=[
                                  html.P(
-                                     destination, className="is-size-2 has-text-link-dark")])
+                                     destination, className="is-size-3 has-text-link-dark")])
                          ]),
+                html.Div(id="advice_div", className=advice_class, children=[
+                    html.Button(className="delete", id="hide_advice_btn"),
+                    html.P(advice_summary, className="has-text-weight-bold",
+                           id="advice_summary"),
+                    html.P(advice, id="advice")
+                ]),
+                html.Div(className='block', children=[
+                    html.P(textwrap.shorten(description,
+                                            width=250, placeholder="..."))
+                ]),
                 *dummy_divs
             ])
 
     return left, right, [d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12]
+
+
+@app.callback(
+    [Output('advice_div', 'style'),
+     Output('hide_advice_btn', 'style'),
+     Output('advice_summary', 'style'),
+     Output('advice', 'style')],
+    Input('hide_advice_btn', 'n_clicks')
+)
+def hide_advice_div(n_clicks):
+    triggered_id = list(ctx.triggered_prop_ids.values())[0]
+    if triggered_id != 'hide_advice_btn':
+        raise PreventUpdate
+    return [{'display': 'none'}] * 4
 
 
 @app.callback(
@@ -466,6 +532,7 @@ def set_location_values(selected_location):
         region_area = continent_dictionary[continent_dictionary['Location']
                                            == selected_location]["Region"].item()
         return [region_area]
+
 
 @app.callback(
     [Output('1', 'children'),
@@ -511,7 +578,7 @@ def get_recommended_countries(location: str, chosen_regions: list, chosen_factor
 
     if not countries is None and len(countries) > 0:
         rec_countries = countries
-    
+
     iso_loc = read_iso_loc_data()
     rec_list = None
     if location is None:
