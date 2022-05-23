@@ -421,15 +421,16 @@ variable_groups = get_variable_groups()
 def generate_factor_interest_scores(type, user_list, iso_code, variable_groups, df):
     names = []
     values = []
-    for factor in user_list:
-        if factor != 'Covid':
-            names.append(factor)
-            mean_arr = []
-            for group in variable_groups[type[factor]]:
-                mean_arr.append(
-                    df.loc[df['iso_code'] == iso_code, [group]].iloc[0].item())
-            mean_arr = array(mean_arr)
-            values.append(round(mean_arr.mean(), 2))
+    if not user_list is None:
+        for factor in user_list:
+            if factor != 'Covid':
+                names.append(factor)
+                mean_arr = []
+                for group in variable_groups[type[factor]]:
+                    mean_arr.append(
+                        df.loc[df['iso_code'] == iso_code, [group]].iloc[0].item())
+                mean_arr = array(mean_arr)
+                values.append(round(mean_arr.mean(), 2))
     return names, values
 
 
