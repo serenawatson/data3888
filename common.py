@@ -224,7 +224,7 @@ def read_smartraveller_data():
     return travel_advice
 
 def read_triposo_data():
-    descriptions = pd.read_csv("country_descriptions_cleaned_2.csv")
+    descriptions = pd.read_csv("data/country_descriptions_cleaned_2.csv")
 
     return descriptions
 

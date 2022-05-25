@@ -36,7 +36,7 @@ world_map.update_layout(
 )
 
 # read in place photos url
-with open("place_photos_url.json") as f:
+with open("data/place_photos_url.json") as f:
     urls = json.load(f)
 
 # region list
