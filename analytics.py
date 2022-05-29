@@ -13,7 +13,7 @@ def generate_country_df(countries_data: pd.DataFrame,
                         country: str,
                         regions: List[str],
                         interests: List[str]) -> pd.DataFrame:
-    """Generates a Pandas DataFrame containing information about a particular country, including its 5 nearest neighbours.
+    """Generates a Pandas DataFrame containing information about a particular country, including its 10 nearest neighbours.
 
     Args:
         countries_data (pd.DataFrame): DataFrame returned by integrate_all_data().
@@ -23,7 +23,7 @@ def generate_country_df(countries_data: pd.DataFrame,
             - Asia-Pacific
             - Americas
             - Europe and Africa
-        interests (List[str]): Interest(s) selected by user in UI. (These are weighted more in 5-NN.)
+        interests (List[str]): Interest(s) selected by user in UI. (These are weighted more in 10-NN.)
                                Interest options:
                                - covid
                                - infrastructure_quality_and_availability
@@ -38,8 +38,9 @@ def generate_country_df(countries_data: pd.DataFrame,
                                - wildlife
 
     Returns:
-        pandas.DataFrame: DataFrame containing information about a particular country, including its 5 nearest neighbours.
+        pandas.DataFrame: DataFrame containing information about a particular country, including its 10 nearest neighbours.
     """
+    # if user has not selected regions of interests, then we assume they would be fine with travelling to any region
     if len(regions) == 0:
         regions = ['Asia-Pacific', 'Americas', 'Europe and Africa']
 
@@ -57,7 +58,7 @@ def main():
     covid = read_live_covid_data()
     countries_data = integrate_all_data(covid)
     df = generate_country_df(countries_data, "Argentina", ['Americas'], [])
-    print(df['5NN'])
+    print(df['10NN'])
 
 if __name__ == "__main__":
     main()

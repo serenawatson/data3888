@@ -42,15 +42,6 @@ with open("data/place_photos_url.json") as f:
 # region list
 regions = ['Asia-Pacific', 'Americas', 'Europe and Africa']
 
-# attraction types
-# attraction_types = ['amusement_park', 'aquarium', 'art_gallery', 'bar', 'book_store', 'cafe',
-#                     'campground', 'casino', 'cemetery', 'church', 'city_hall', 'clothing_store',
-#                     'department_store', 'food', 'general_contractor', 'grocery_or_supermarket',
-#                     'health', 'hindu_temple', 'hospital', 'library', 'liquor_store', 'local_government_office',
-#                     'lodging', 'mosque', 'movie_theater', 'museum', 'natural_feature', 'night_club',
-#                     'park', 'parking', 'place_of_worship', 'restaurant', 'shopping_mall', 'spa',
-#                     'store', 'synagogue', 'transit_station', 'travel_agency', 'zoo']
-
 # factors
 factors = {'Covid': "covid",
            'Infrastructure Quality And Availability': "infrastructure_quality_and_availability",
@@ -521,9 +512,9 @@ def generate_info_panel(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12,
         advice_class, advice_summary = find_advice_class(advice_levels, advice)
 
         new_cases = countries_data.loc[countries_data['iso_code'] == destination_code, [
-            'new_cases_smoothed_per_million']].iloc[0].item()
+            'new_cases_smoothed_per_million']].iloc[-1].item()
         new_deaths = countries_data.loc[countries_data['iso_code'] == destination_code, [
-            'new_deaths_smoothed_per_million']].iloc[0].item()
+            'new_deaths_smoothed_per_million']].iloc[-1].item()
 
         iso_loc = read_iso_loc_data()
         destination_code = loc_to_iso_code(destination, iso_loc)

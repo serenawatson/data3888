@@ -15,6 +15,8 @@ from common import *
 
 random.seed(3888)
 
+# converts user interests (variable groups)
+# to actual DataFrame column names
 def convert_interests_to_cols(interests):
     cols = []
 
@@ -26,6 +28,9 @@ def convert_interests_to_cols(interests):
 
     return cols
 
+# returns feature weightings dict, with each
+# col that user is interested in weighted more 
+# than cols user is not interested in
 def generate_feature_weightings_dict(cols_of_interest):
     variable_groups = get_variable_groups()
 
@@ -41,6 +46,12 @@ def generate_feature_weightings_dict(cols_of_interest):
 
     return feature_weightings
 
+# prepares data for 10-NN by
+# - extracting continents corresponding to user-selected regions,
+# - computing medians of COVID columns,
+# - performing min-max scaling,
+# - performing feature weighting, and
+# - performing PCA, extracting 1st and 2nd PCs
 def prepare_data_for_nn(data, country, continents, weightings):
     # continents filtering
     data = data[(data["continent"].isin(continents)) | (data["location"] == country)]
@@ -48,6 +59,7 @@ def prepare_data_for_nn(data, country, continents, weightings):
     data_no_quant = list(set(data.columns).difference(set(data.select_dtypes(include=[np.number]).columns)))
     data_no_quant.remove("date")
 
+    # computing medians of COVID columns
     medians = data.groupby(["iso_code"]).median()
     medians = medians.fillna(data.median())
 
@@ -56,6 +68,7 @@ def prepare_data_for_nn(data, country, continents, weightings):
 
     iso_code = medians.index
 
+    # performing min-max scaling
     scaler = MinMaxScaler()
 
     medians_scaled = scaler.fit_transform(medians)
@@ -71,9 +84,11 @@ def prepare_data_for_nn(data, country, continents, weightings):
                                 columns = cols, 
                                 index = iso_code)
 
+    # performing feature weighting
     for col in medians_scaled.columns:
         medians_scaled[col] = medians_scaled[col].apply(lambda x: x * weightings[col])
 
+    # performing PCA, extracting 1st and 2nd PCs
     if len(medians_scaled.columns) > 2:
         pca = PCA(n_components=2)
         pc = pca.fit_transform(medians_scaled)
@@ -81,6 +96,8 @@ def prepare_data_for_nn(data, country, continents, weightings):
 
     return medians_scaled, medians, data[data_no_quant]
 
+# returns 10 most common neighbours across all neighbour sets
+# obtained by 10-NN models in ensemble
 def find_top_neighbours(country, location_neighbours_df, num_neighbours):
     d = {}
     lists = location_neighbours_df.loc[country].tolist()
@@ -96,12 +113,14 @@ def find_top_neighbours(country, location_neighbours_df, num_neighbours):
         top.append(k)
     return top
 
+# returns neighbour set produced by each 10-NN model in ensemble
 def generate_location_neighbours_df(country, medians_scaled, num_neighbours, dist_metrics):
     iso_location = read_iso_loc_data()
 
     location_neighbours = {}
 
     for metric in dist_metrics:
+        # performing 10-NN on processed data, using distance metric "metric"
         nbrs = NearestNeighbors(metric = metric, 
                                 n_neighbors = num_neighbours + 1, 
                                 algorithm='auto').fit(medians_scaled)
@@ -129,6 +148,8 @@ def generate_location_neighbours_df(country, medians_scaled, num_neighbours, dis
 
     return location_neighbours_df
 
+# returns DataFrame containing all data for the specified country, 
+# including 10 nearest neighbours as computed by ensemble 10-NN
 def generate_final_df_w_nn(country, medians_scaled, medians, data_no_quant, num_neighbours = 10,
                            dist_metrics = ['euclidean', 'manhattan', 'chebyshev', 
                                            'cosine', 'cityblock', 'braycurtis', 'canberra',

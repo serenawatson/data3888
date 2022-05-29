@@ -7,6 +7,8 @@ from typing import List, Dict
 from analytics_helper_clustering import *
 from common import *
 
+random.seed(3888)
+
 def generate_cluster(countries_data: pd.DataFrame, 
                 interested: Dict[str, bool], 
                 regions: List[str]) -> List[str]:
@@ -36,6 +38,7 @@ def generate_cluster(countries_data: pd.DataFrame,
     Returns:
         List[str]: List of countries recommended to the user.
     """
+    # if user has not selected regions of interests, then we assume they would be fine with travelling to any region
     if len(regions) == 0:
         regions = ['Asia-Pacific', 'Americas', 'Europe and Africa']
 
@@ -60,23 +63,6 @@ def get_country_data(countries_data: pd.DataFrame, country: str) -> pd.Series:
 
     return all_data.loc[loc_to_iso_code(country, iso_location)]
 
-def get_country_covid_data(covid: pd.DataFrame, country: str) -> pd.DataFrame:
-    """Gets COVID cases data for the specified country over the past 30 days.
-
-    Args:
-        covid (pd.DataFrame): DataFrame returned by read_live_covid_data().
-        country (str): Country name.
-
-    Returns:
-        pd.DataFrame: COVID cases data for the specified country over the past 30 days.
-    """
-    iso_location = read_iso_loc_data()
-    cases = covid[['iso_code', 'date', 'new_cases_smoothed_per_million']]
-    cases = cases.rename(columns={'new_cases_smoothed_per_million': 'daily_new_cases_smoothed_per_million'})
-    cases = cases.set_index('iso_code')
-    
-    return cases.loc[loc_to_iso_code(country, iso_location)]
-
 def main():
     # Example usage of generate_cluster() function above
     interested = {}
@@ -99,9 +85,6 @@ def main():
 
     # Example usage of get_country_data() function above
     print(get_country_data(countries_data, "United States"))
-
-    # Example usage of get_country_covid_data() function above
-    print(get_country_covid_data(covid, "United States"))
 
 if __name__ == "__main__":
     main()
