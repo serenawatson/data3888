@@ -112,7 +112,7 @@ dummy_divs_left = [
 
 app.layout = html.Div(className="block mx-4 my-4", children=[
     html.Div(id='location_title', style={'display': 'none'}),
-    # cache data
+    # cache data in session storage
     dcc.Store(id="store_left", storage_type="session"),
     dcc.Store(id="store_right", storage_type="session"),
     dcc.Store(id='countries', storage_type='session'),
