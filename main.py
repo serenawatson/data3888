@@ -72,7 +72,7 @@ interested["showstheatresandmusic"] = False
 interested["wellness"] = False
 interested["wildlife"] = False
 
-
+#destinations
 locations = ['Albania', 'Algeria', 'Argentina', 'Armenia', 'Austria',
              'Azerbaijan', 'Bahrain', 'Bangladesh', 'Belgium', 'Bolivia',
              'Botswana', 'Brazil', 'Bulgaria', 'Cambodia', 'Cameroon',
@@ -135,18 +135,21 @@ app.layout = html.Div(className="block mx-4 my-4", children=[
                                    landmarks, or you're just concerned about COVID cases; this application can give you multiple recommendations with relevant
                                     information.""", className="is-size-6 has-text-justified")
                          ]),
+                # destinations dropdown
                 html.Div(className='block', children=[
                     html.Label(
                         'Have you got a destination in mind?', className='has-text-weight-semibold is-size-6'),
                     dcc.Dropdown(locations, multi=False,
                                  id="location_select", placeholder="Choose, or leave blank to let us decide for you...")
                 ]),
+                # regions dropdown
                 html.Div(className='block', children=[
                     html.Label(
                         'What region(s) would you like to visit?', className='has-text-weight-semibold is-size-6'),
                     dcc.Dropdown(regions, multi=True,
                                  id="region_select")
                 ]),
+                # factors dropdown
                 html.Div(className='block', children=[
                     html.Div(className='block', children=[
                         html.Label(
@@ -154,6 +157,7 @@ app.layout = html.Div(className="block mx-4 my-4", children=[
                         dcc.Dropdown(list(factors.keys()),
                                      multi=True, id="factor_select")
                     ]),
+                    # interests dropdown
                     html.Div(className='block', children=[
                         html.Label(
                             'What interests you the most?', className='has-text-weight-semibold is-size-6'),
@@ -161,21 +165,25 @@ app.layout = html.Div(className="block mx-4 my-4", children=[
                                      multi=True, id="interest_select")
                     ])
                 ]),
+                # button "Go!"
                 html.Div(className='block', children=[
                     html.Button(
                         'Go!', className='button is-link is-light is-large is-fullwidth', id="submit", n_clicks=0)
                 ])
             ])
         ]),
+        #right panel of the dashboard
         html.Div(className='column is-two-thirds', children=[
             html.Div(id="right_panel", className='box is-fullheight', children=[
                 html.Div(className="block", children=[
+                    #world map
                     html.Div(className="block mb-4", children=[
                         dcc.Graph(figure=world_map, style={'width': '100%', 'height': '55vh'}, id="graph")])
                 ]),
                 html.Div(className="block", children=[
                     html.Div(className="tile is-ancestor is-vertical", children=[
                         html.Div(className="tile is-parent is-12", children=[
+                            #12 tiles for recommendations
                             html.Div(
                                 className="tile is-child is-2", children=[
                                     html.Div(className="block px-2", children=[
@@ -340,6 +348,7 @@ app.layout = html.Div(className="block mx-4 my-4", children=[
             ]),
         ])
     ]),
+    # footer
     html.Div(className="footer py-4 mx-0", children=[
         html.Div(className="content has-text-centered", children=[
             html.P("HolidayPlanning Inc. 2022")
@@ -359,7 +368,7 @@ def store_initial_input(submit_clicks, left, right):
     if triggered_id != 'submit':
         raise PreventUpdate
     return left, right
-
+# save chosen factors and interests
 @app.callback(
     Output('factor_store', 'data'),
     Output('interest_store', 'data'),
@@ -677,7 +686,7 @@ def update_map_with_colour(location, countries, back):
 
     return update_map_on_click(world_map, countries_data, countries, location)
 
-
+# function for the button of deleting advice tag
 @app.callback(
     [Output('advice_div', 'style'),
      Output('hide_advice_btn', 'style'),
@@ -716,7 +725,7 @@ def set_location_values(selected_location):
                                            == selected_location]["Region"].item()
         return [region_area]
 
-
+# function for implementing the cluster/NN alogorithm to return recommendations
 @app.callback(
     [Output('1', 'children'),
      Output('2', 'children'),
@@ -817,7 +826,7 @@ def get_recommended_countries(location: str, chosen_regions: list, submit: int, 
 
     return output_list
 
-
+# function for showing corresponding photos of recommendations
 @app.callback(
     [Output('p1', 'src'),
      Output('p2', 'src'),
