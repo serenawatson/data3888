@@ -112,7 +112,7 @@ dummy_divs_left = [
 
 app.layout = html.Div(className="block mx-4 my-4", children=[
     html.Div(id='location_title', style={'display': 'none'}),
-    # cache data
+    # cache data in session storage
     dcc.Store(id="store_left", storage_type="session"),
     dcc.Store(id="store_right", storage_type="session"),
     dcc.Store(id='countries', storage_type='session'),
@@ -355,7 +355,7 @@ app.layout = html.Div(className="block mx-4 my-4", children=[
         ])
     ])
 ])
-# save left and right panels on submit
+
 @app.callback(
     Output('store_left', 'data'),
     Output('store_right', 'data'),
@@ -364,10 +364,26 @@ app.layout = html.Div(className="block mx-4 my-4", children=[
     Input('right_panel', 'children')
 )
 def store_initial_input(submit_clicks, left, right):
+    """When submit is clicked, saves the destination (if selected),
+       factors, and, interests that the user has selected
+
+    Args:
+        submit_clicks (int): Number of times submit has been clicked. Used to triger the callback.
+        left (dict): Contents of the left-most box of the dashboard.
+        right (dict): Contents of the right-most box of the dashboard.
+
+    Raises:
+        PreventUpdate: If the submit button was not the last clicked element, do not store left and right.
+
+    Returns:
+        tuple[dict, dict]: Stores the contents of left and right into browser session storage.
+    """
     triggered_id = list(ctx.triggered_prop_ids.values())[0]
     if triggered_id != 'submit':
         raise PreventUpdate
     return left, right
+
+
 # save chosen factors and interests
 @app.callback(
     Output('factor_store', 'data'),
@@ -378,6 +394,22 @@ def store_initial_input(submit_clicks, left, right):
     State('submit', 'style')
 )
 def store_factors_and_interests(submit, factor, interest, submit_style):
+    """Stores the contents of the factor and interest dropdowns in the left panel after submit is clicked.
+       This is different from store initial input, which can replicate the entire layout of the website, 
+       while tis function only stores their selected preferences.
+
+    Args:
+        submit (int): _description_
+        factor (list[str]): _description_
+        interest (list[str]): _description_
+        submit_style (dict[str, str]): _description_
+
+    Raises:
+        PreventUpdate: If the submit button was not the last clicked element, do not store factor and interest.
+
+    Returns:
+        tuple[list[str], list[str]]: Returns lists of user selected factors and interests.
+    """
     triggered_id = list(ctx.triggered_prop_ids.values())[0]
     if triggered_id != 'submit':
         raise PreventUpdate
@@ -390,7 +422,7 @@ def store_factors_and_interests(submit, factor, interest, submit_style):
     return factor, interest
 
 
-# make info panel
+# hidden divs to prevent callback errors
 dummy_divs = [html.Button(id='submit', style={'display': 'none'}),
               html.Div(id='location_select', style={'display': 'none'}),
               html.Div(id='region_select', style={'display': 'none'}),
@@ -398,12 +430,21 @@ dummy_divs = [html.Button(id='submit', style={'display': 'none'}),
               html.Div(id='interest_select', style={'display': 'none'})
               ]
 
+# Summary advice levels from SmartTraveller to use in info boxes
 advice_levels = ["Exercise normal safety precautions",
                  "Exercise a high degree of caution", "Reconsider your need to travel",
                  "Do not travel"]
 
-
 def find_advice_class(advice_levels, advice):
+    """Searches advice text for SmartTraveller (ST) advice level and then colour matches it to a CSS class
+
+    Args:
+        advice_levels (list[str]): Summary of advice levels from SmartTraveller to use in info boxe
+        advice (str): Block of advice text extracted from the SmartTraveller website to be searched
+
+    Returns:
+        list[str, str]: Returns CSS class and ST advice level.
+    """
     className_dict = {
         "Exercise normal safety precautions": "notification is-primary",
         "Exercise a high degree of caution": "notification is-warning",
@@ -414,11 +455,25 @@ def find_advice_class(advice_levels, advice):
         if bool(re.search(level.lower(), advice.lower())):
             return [className_dict[level], level]
 
-
+# get the factors and interests that comprise the categories in the selection dropdowns
 variable_groups = get_variable_groups()
 
-
 def generate_factor_interest_scores(type, user_list, iso_code, variable_groups, df):
+    """Calculates a average score for each user selected factor or interest;
+       using each individual variable group in the aggregated user category.
+
+    Args:
+        type (dict[str, str]): Map of dropdown text to variable group key. 
+                               (Dictionaries are called factors and interests)
+        user_list (list[str]): User selected factor(s) or interest(s).
+        iso_code (str): ISO code of the destination in question.
+        variable_groups (dict[str, list[str]]): Factor or interest dictionary. 
+                                                Comprised of the individual Triposo API categories that make up a factor.
+        df (pandas.DataFrame): Main shared information containing all aggregated data.
+
+    Returns:
+        tuple[list[str], list[float]]: Returns plain english name of factor/interest and associated average score.
+    """
     names = []
     values = []
     if not user_list is None:
@@ -435,6 +490,18 @@ def generate_factor_interest_scores(type, user_list, iso_code, variable_groups, 
 
 
 def get_tag_colours(values):
+    """ Colours score bubbles based on score value. 
+        0-3: Red
+        3-6: Yellow
+        6-8: Grass Green
+        8-10: Turquoise
+
+    Args:
+        values (list[float]): Average scores of user selected factors / interests.
+
+    Returns:
+        list[str]: Returns CSS classes for the corresponding score by index.
+    """
     colours = []
     for value in values:
         if 0 <= float(value) < 3:
@@ -484,6 +551,24 @@ def get_tag_colours(values):
 def generate_info_panel(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12,
                         d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12,
                         store_left, store_right, factor_store, interest_store):
+    """Replaces factor selection panel on the left with destination specific information:
+       SmartTraveller warnings, destination description, covid statistics, average scores for user selected items
+
+    Args:
+        a1-a12 (int): Number of clicks on destination portrait 1-12
+        d1-d12 (str): Destination name of destinations 1-12.
+        store_left (dict): Cached left panel. Can restore all HTML and CSS to the left.
+        store_right (dict): Cached right panel. Can restore all HTML and CSS to the right.
+        factor_store (list[str]): User selected factors (concerns).
+        interest_store (list[str]): User selected interests.
+
+    Raises:
+        PreventUpdate: If destinations haven't been assigned a country name yet, i.e. the application is in starting state, 
+                       do not attempt to write the left or write panel.
+
+    Returns:
+        tuple[dict, dict, list[str]]: Updated left panel, stored right panel (to prevent callback overwrite), destination names (prevent overwrite)
+    """
 
     destination_dict = {
         'a1': d1,
@@ -652,7 +737,7 @@ def generate_info_panel(a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12,
 
     return left, right, [d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12]
 
-
+# call back to set up highlight of chosen country in red on the world map
 @app.callback(
     Output('graph', 'figure'),
     Input(component_id='location_title', component_property='children'),
@@ -681,6 +766,7 @@ def update_map_with_colour(location, countries, back):
     )
 
     if back is not None:
+        # edge case triggers callback
         if dict(back)['display'] == 'none':
             raise PreventUpdate
 
@@ -700,7 +786,7 @@ def hide_advice_div(n_clicks):
         raise PreventUpdate
     return [{'display': 'none'}] * 4
 
-
+# when back button is clicked, restore left panel
 @app.callback(
     Output('left_panel', 'children'),
     Input('back', 'n_clicks'),
@@ -712,9 +798,7 @@ def restore_stored_data(back_clicks, store_left):
 
     return store_left
 
-# auto fill regions
-
-
+# auto fill region when a destination is selected
 @app.callback(
     Output('region_select', 'value'),
     Input('location_select', 'value')
