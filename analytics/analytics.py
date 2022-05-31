@@ -52,13 +52,3 @@ def generate_country_df(countries_data: pd.DataFrame,
     medians_scaled, medians, data_no_quant = prepare_data_for_nn(countries_data, country, continents, weightings)
 
     return generate_final_df_w_nn(country, medians_scaled, medians, data_no_quant)
-
-def main():
-    # Example usage of function above
-    covid = read_live_covid_data()
-    countries_data = integrate_all_data(covid)
-    df = generate_country_df(countries_data, "Argentina", ['Americas'], [])
-    print(df['10NN'])
-
-if __name__ == "__main__":
-    main()

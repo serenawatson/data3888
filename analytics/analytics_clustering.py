@@ -62,29 +62,3 @@ def get_country_data(countries_data: pd.DataFrame, country: str) -> pd.Series:
     all_data = pd.DataFrame(combine_medians_w_qualitative_cols(countries_data, medians))
 
     return all_data.loc[loc_to_iso_code(country, iso_location)]
-
-def main():
-    # Example usage of generate_cluster() function above
-    interested = {}
-
-    interested["covid"] = False
-    interested["infrastructure_quality_and_availability"] = True
-    interested["health_and_safety"] = False
-    interested["cost"] = False
-    interested["fun"] = False
-    interested["nature"] = True
-    interested["food"] = False
-    interested["museums"] = False
-    interested["showstheatresandmusic"] = False
-    interested["wellness"] = False
-    interested["wildlife"] = False
-
-    covid = read_live_covid_data()
-    countries_data = integrate_all_data(covid)
-    print(generate_cluster(countries_data, interested, ['Europe and Africa', 'Asia-Pacific']))
-
-    # Example usage of get_country_data() function above
-    print(get_country_data(countries_data, "United States"))
-
-if __name__ == "__main__":
-    main()
