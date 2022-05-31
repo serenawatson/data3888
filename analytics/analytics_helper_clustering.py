@@ -13,7 +13,7 @@ from sklearn.metrics import silhouette_score
 from sklearn.preprocessing import MinMaxScaler
 from statistics import mean
 
-from common import *
+from analytics.common import *
 
 random.seed(3888)
 

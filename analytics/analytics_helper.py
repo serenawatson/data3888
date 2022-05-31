@@ -11,7 +11,7 @@ from sklearn.decomposition import PCA
 from sklearn.neighbors import NearestNeighbors
 from sklearn.preprocessing import MinMaxScaler
 
-from common import *
+from analytics.common import *
 
 random.seed(3888)
 

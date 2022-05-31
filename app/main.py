@@ -1,3 +1,7 @@
+import sys
+
+sys.path.append(".")
+
 import re
 import textwrap
 from dash import Dash, html, dcc, State, ctx
@@ -6,9 +10,9 @@ from dash_extensions.enrich import Output, DashProxy, Input, MultiplexerTransfor
 from numpy import empty, mean, array, arange
 import plotly.graph_objects as go
 import pandas as pd
-from common import *
-from analytics import *
-from analytics_clustering import *
+from analytics.common import *
+from analytics.analytics import *
+from analytics.analytics_clustering import *
 from mapping import *
 import json
 import re

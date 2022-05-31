@@ -4,8 +4,8 @@ import random
 from datetime import datetime
 from typing import List, Dict
 
-from analytics_helper_clustering import *
-from common import *
+from analytics.analytics_helper_clustering import *
+from analytics.common import *
 
 random.seed(3888)
 
