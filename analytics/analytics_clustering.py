@@ -17,7 +17,7 @@ def generate_cluster(countries_data: pd.DataFrame,
 
     Args:
         countries_data (pd.DataFrame): DataFrame returned by integrate_all_data().
-        interested (Dict[str, bool]): Keys = variable group names (see list below). Values = True if user is interested in that variable group, False otherwise. Example shown in main() function in this code file.
+        interested (Dict[str, bool]): Keys = variable group names (see list below). Values = True if user is interested in that variable group, False otherwise.
             Variable group names:
             - covid
             - infrastructure_quality_and_availability
