@@ -1,5 +1,7 @@
 # DATA3888 COVID C4
 
+Link to our GitHub repo: https://github.com/serenawatson/data3888
+
 ## Report
 
 A HTML version of our report is available at `Report.html`.
