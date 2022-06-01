@@ -1,5 +1,13 @@
 # DATA3888 COVID C4
 
+## Report
+
+A HTML version of our report is available at `Report.html`.
+
+If you would like to run the Jupyter Notebook itself, it is available at `Report.ipynb`. The corresponding requirements file is at `requirements.txt`.
+
+## App
+
 To run our Plotly dash app, use the following command (for this command to work you must be in the `data3888` directory):
 
 `python3 app/main.py`
